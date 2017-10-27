@@ -10,16 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.metacube.helpdesk.dto.LoginDTO;
+import com.metacube.helpdesk.dao.LoginDAO;
 import com.metacube.helpdesk.modal.LogIn;
 
 
-@Repository
+@Repository("loginDAO")
 @Transactional
-public class LoginDAOImpl {
+public class LoginDAOImpl implements LoginDAO {
     
     @Autowired
     private SessionFactory sessionFactory;
+    
+    @Override
     public LogIn get(String username){
         Session session = this.sessionFactory.getCurrentSession();
      // Criteria query

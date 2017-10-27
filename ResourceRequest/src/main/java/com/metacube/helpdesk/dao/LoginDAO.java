@@ -1,12 +1,11 @@
 package com.metacube.helpdesk.dao;
 
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
-import com.metacube.helpdesk.dto.LoginDTO;
+import org.springframework.stereotype.Repository;
+import com.metacube.helpdesk.modal.LogIn;
 @Repository
 public interface LoginDAO {
     
-    LoginDTO get(String loginId);
+    LogIn get(String loginId);
     
 }

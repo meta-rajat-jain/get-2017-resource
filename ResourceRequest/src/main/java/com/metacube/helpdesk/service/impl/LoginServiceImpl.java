@@ -5,14 +5,10 @@ import java.security.NoSuchProviderException;
 import java.util.Date;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
-
-import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.metacube.helpdesk.dao.LoginDAO;
-import com.metacube.helpdesk.dao.impl.LoginDAOImpl;
+
 import com.metacube.helpdesk.dto.LoginDTO;
 import com.metacube.helpdesk.modal.LogIn;
 import com.metacube.helpdesk.service.LoginService;
@@ -21,19 +17,13 @@ import com.metacube.helpdesk.utility.Response;
 import com.metacube.helpdesk.utility.SimpleMD5;
 
 
-@Service
+@Service("loginService")
 public class LoginServiceImpl implements LoginService{
 
     @Resource
-    LoginDAOImpl loginDAOImpl;
+    LoginDAO loginDAO;
     
-    public LoginDAOImpl getLoginDAOImpl() {
-        return loginDAOImpl;
-    }
-
-    public void setLoginDAOImpl(LoginDAOImpl loginDAOImpl) {
-        this.loginDAOImpl = loginDAOImpl;
-    }
+    
 
     @Override
     public Response loginAuthentication(String loginId,String password) {
@@ -41,7 +31,7 @@ public class LoginServiceImpl implements LoginService{
         String authorisationToken=null;
         String message;
         
-        LoginDTO loginDTO = modelToDto(loginDAOImpl.get(loginId));
+        LoginDTO loginDTO = modelToDto(loginDAO.get(loginId));
         
         if (loginDTO!=null) {
             if(loginDTO.getUsername().equals(loginId) &&

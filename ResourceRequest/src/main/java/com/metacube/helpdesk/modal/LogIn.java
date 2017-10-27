@@ -62,8 +62,7 @@ public class LogIn {
     }
 
     public LogIn(String userName, String password, String authorisationToken) {
-        super();
-        this.username = username;
+        this.username = userName;
         this.password = password;
         this.authorisationToken = authorisationToken;
     }
