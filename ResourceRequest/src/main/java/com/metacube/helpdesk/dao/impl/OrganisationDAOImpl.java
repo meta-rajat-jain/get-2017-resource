@@ -1,6 +1,8 @@
 package com.metacube.helpdesk.dao.impl;
 
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.metacube.helpdesk.dao.OrganisationDAO;
-import com.metacube.helpdesk.model.LogIn;
+import com.metacube.helpdesk.dto.OrganisationDTO;
 import com.metacube.helpdesk.model.Organisation;
 import com.metacube.helpdesk.utility.Status;
 
@@ -45,6 +47,15 @@ public class OrganisationDAOImpl implements OrganisationDAO {
      Restrictions.eq("domain",domain));
      Organisation organisation = (Organisation) cr.uniqueResult();
      return organisation;
+    }
+
+    @Override
+    public List<Organisation> getAll() {
+        Session session = this.sessionFactory.getCurrentSession();
+        // Criteria query
+        Criteria cr = session.createCriteria(Organisation.class);
+        List<Organisation> organisation = cr.list();
+        return organisation;
     }
 
 }

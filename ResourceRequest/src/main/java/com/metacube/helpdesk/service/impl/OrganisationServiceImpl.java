@@ -2,6 +2,8 @@ package com.metacube.helpdesk.service.impl;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -13,6 +15,7 @@ import com.metacube.helpdesk.dao.OrganisationDAO;
 import com.metacube.helpdesk.dto.OrganisationDTO;
 import com.metacube.helpdesk.model.LogIn;
 import com.metacube.helpdesk.model.Organisation;
+import com.metacube.helpdesk.service.LoginService;
 import com.metacube.helpdesk.service.OrganisationService;
 import com.metacube.helpdesk.utility.MessageConstants;
 import com.metacube.helpdesk.utility.Response;
@@ -26,6 +29,9 @@ public class OrganisationServiceImpl implements OrganisationService {
     
     @Resource
     OrganisationDAO organisationDAO;
+    
+    @Resource
+    LoginService loginService;
     
     @Override
     public Response create(OrganisationDTO organisationDTO){
@@ -64,10 +70,37 @@ public class OrganisationServiceImpl implements OrganisationService {
             status = 0;
            message = MessageConstants.ACCOUNT_NOT_CREATED;
         }
-        
-        
-      
-        
         return new Response(status,authorisationToken,message);
+    }
+
+    @Override
+    public List<OrganisationDTO> getAllOrganisation() {
+        List<Organisation> orgList = organisationDAO.getAll();
+        List<OrganisationDTO> orgDTOList = new ArrayList<OrganisationDTO>();
+        for(Organisation org : orgList) {
+            orgDTOList.add(modelToDTO(org));
+        }
+        return orgDTOList;  
+    }
+
+    private OrganisationDTO modelToDTO(Organisation organisation) {
+        // TODO Auto-generated method stub
+        OrganisationDTO organisationDTO=new OrganisationDTO();
+        organisationDTO.setContactNumber(organisation.getContactNumber());
+        organisationDTO.setDomain(organisation.getDomain());
+        organisationDTO.setName(organisation.getOrgName());
+        organisationDTO.setLogin(organisation.getUsername());
+        
+        return organisationDTO;
+    }
+    
+    private Organisation dtoToModel(OrganisationDTO organisationDTO) {
+        Organisation organisation=new Organisation();
+        organisation.setContactNumber(organisationDTO.getContactNumber());
+        organisation.setDomain(organisationDTO.getDomain());
+        organisation.setOrgName(organisationDTO.getName());
+        organisation.setUsername(loginDAO.get((organisationDTO.getLogin())
+                .getUsername()));
+        return organisation;
     }
 }

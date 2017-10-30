@@ -37,7 +37,12 @@ public class LoginServiceImpl implements LoginService {
             if(loginDTO.getUsername().equals(loginId) &&
                     loginDTO.getPassword().equals((password)))
             {
-                String uniqueID = loginId + password + new Date().toString();
+                String uniqueID = null;
+                try {
+                    uniqueID = loginId + SimpleMD5.hashingWithConstantSalt(password) + new Date().toString();
+                } catch (NoSuchAlgorithmException | NoSuchProviderException e1) {
+                    e1.printStackTrace();
+                }
                 try {
                     authorisationToken = SimpleMD5.hashing(uniqueID);
                 } catch (NoSuchAlgorithmException e) {
@@ -91,5 +96,31 @@ public class LoginServiceImpl implements LoginService {
         loginDto.setAuthorisationToken(login.getAuthorisationToken());
 
         return loginDto;
+    }
+    
+    @Override
+    public Response verifyExternalLogin(String userName) {
+        String authorisationToken = null;
+        int status=0;
+        String message  = null;
+        LogIn loginObject = loginDAO.get(userName);
+        
+        if(loginObject != null) {
+            // perform hashing and allow login     
+            try {
+                String uuid = loginObject.getUsername()+
+                        SimpleMD5.hashingWithConstantSalt(loginObject.getPassword())+new Date().toString();
+                authorisationToken = SimpleMD5.hashing(uuid);
+                status = 1;
+                message = MessageConstants.LOGIN_SUCCESSFUL;
+            } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+                e.printStackTrace();
+            }
+        } else {
+            status = 0;
+            authorisationToken = null;
+            message = MessageConstants.UNAUTHORISED_USER;
+        }
+        return new Response(status,authorisationToken,message);
     }
 }

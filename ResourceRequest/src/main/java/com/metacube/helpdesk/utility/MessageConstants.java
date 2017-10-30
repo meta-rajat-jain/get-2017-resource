@@ -1,14 +1,13 @@
 package com.metacube.helpdesk.utility;
 
-/**
- * Created by GRV on 6/9/2016.
- */
+
 public class MessageConstants {
         public static final String USERNAME_ALREADY_EXIST = "Username is already existing";
         public static final String EMAIL_ADDRESS_ALREADY_EXIST = "Email address is already existing";
         public static final String PLEASE_ENTER_USERNAME = "Username cannot be blank.";
         public static final String LOGIN_SUCCESSFUL = "Succesfully Logged IN";
         public static final String AUTHENTICATION_ERROR = "Authentication Error : Please try Again";
+        public static final String UNAUTHORISED_USER = "You are not authorised to view this content - Possible cause : Email/username does not belong to your organisation";
         public static final String PLEASE_ENTER_PASSWORD = "Password cannot be blank.";
         public static final String PLEASE_ENTER_EMAIL = "E-mail cannot be blank.";
         public static final String INVALID_USER = "Invalid User";
