@@ -1,4 +1,6 @@
-package com.metacube.helpdesk.modal;
+package com.metacube.helpdesk.model;
+
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,14 +11,19 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="LogIn")
-public class LogIn {
+public class LogIn implements Serializable {
 	
-	@Id
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    @Id
 	@Column(name="logInId")
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	private int logInId;
 	
-	@Column(name="username")
+	@Column(name="username",unique=true, nullable=false)
 	private String username;
 	
 	@Column(name="password")

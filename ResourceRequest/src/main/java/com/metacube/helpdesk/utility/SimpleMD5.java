@@ -22,6 +22,17 @@ public class SimpleMD5
         return regeneratedPassowrdToVerify;
     }
 
+    
+    public static String hashingWithConstantSalt(String args) throws NoSuchAlgorithmException, NoSuchProviderException
+    {
+        String passwordToHash = args;
+        byte[] salt = {2,3,0,7,2,0,0,4,0,6,0,4,0,2,1,2};
+
+        String securePassword = getSecurePassword(passwordToHash, salt);
+        System.out.println(securePassword); //Prints 83ee5baeea20b6c21635e4ea67847f66
+
+        return securePassword;
+    }
     private static String getSecurePassword(String passwordToHash, byte[] salt)
     {
         String generatedPassword = null;

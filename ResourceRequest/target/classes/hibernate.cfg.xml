@@ -21,7 +21,7 @@
          false
       </property>
       
-      
+      <mapping class="com.metacube.helpdesk.model.LogIn"/>
      
       
    </session-factory>

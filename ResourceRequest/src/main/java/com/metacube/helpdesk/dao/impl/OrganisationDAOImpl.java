@@ -1,7 +1,6 @@
 package com.metacube.helpdesk.dao.impl;
 
 
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,44 +9,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.metacube.helpdesk.dao.LoginDAO;
+import com.metacube.helpdesk.dao.OrganisationDAO;
 import com.metacube.helpdesk.model.LogIn;
+import com.metacube.helpdesk.model.Organisation;
 import com.metacube.helpdesk.utility.Status;
 
-
-@Repository("loginDAO")
+@Repository("organisationDAO")
 @Transactional
-public class LoginDAOImpl implements LoginDAO {
+public class OrganisationDAOImpl implements OrganisationDAO {
     
     @Autowired
     private SessionFactory sessionFactory;
     
     @Override
-    public LogIn get(String username){
-        Session session = this.sessionFactory.getCurrentSession();
-     // Criteria query
-     Criteria cr = session.createCriteria(LogIn.class).add(
-     Restrictions.eq("username",username));
-     LogIn login = (LogIn) cr.uniqueResult();
-     return login;
-    }
-
-    @Override
-    public Status create(LogIn login) {
-       
+    public Status create(Organisation organisation) {
         Status result = Status.Success;
         try {
             Session session = this.sessionFactory.getCurrentSession();
-            Criteria cr = session.createCriteria(LogIn.class);
+            Criteria cr = session.createCriteria(Organisation.class);
              
-            session.save(login);
+            session.save(organisation);
             
-    
+
         } catch (Exception e) {
-           e.printStackTrace();
             result = Status.Error_Occured;
         }
-return result;
+    return result;
     }
     
+    @Override
+    public Organisation get(String domain){
+        Session session = this.sessionFactory.getCurrentSession();
+     // Criteria query
+     Criteria cr = session.createCriteria(Organisation.class).add(
+     Restrictions.eq("domain",domain));
+     Organisation organisation = (Organisation) cr.uniqueResult();
+     return organisation;
+    }
+
 }

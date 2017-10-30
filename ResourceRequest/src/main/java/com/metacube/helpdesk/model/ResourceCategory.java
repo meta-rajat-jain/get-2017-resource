@@ -1,4 +1,6 @@
-package com.metacube.helpdesk.modal;
+package com.metacube.helpdesk.model;
+
+import java.io.Serializable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -6,22 +8,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="ResourceCategory")
-public class ResourceCategory {
+public class ResourceCategory implements Serializable {
 	
-	@Id
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    @Id
 	@Column(name="categoryId")
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	private int categoryId;
 	
-	@Column(name="categoryName")
+	@Column(name="categoryName", nullable = false)
 	private String categoryName;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="parentCategory")
 	private ResourceCategory parentCategory;
 
 	public int getCategoryId() {
