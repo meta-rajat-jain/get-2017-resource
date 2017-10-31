@@ -11,6 +11,8 @@
 		<spring.version>4.2.0.RELEASE</spring.version>
 		<hibernate.version>4.3.10.Final</hibernate.version>
 		<mysql.version>5.1.10</mysql.version>
+		<log4j.version>1.2.17</log4j.version>
+		<jcl.slf4j.version>1.7.12</jcl.slf4j.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -58,6 +60,13 @@
 		</dependency>
 		
 		<dependency>
+	<groupId>org.slf4j</groupId>
+	<artifactId>jcl-over-slf4j</artifactId>
+	<version>${jcl.slf4j.version}</version>
+</dependency>
+		
+		
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
@@ -77,12 +86,7 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.2.3</version>
 		</dependency>
-		<dependency>
-    <groupId>javassist</groupId>
-    <artifactId>javassist</artifactId>
-    <version>3.12.1.GA</version>
-</dependency>
-
+		
 	</dependencies>
 	<build>
 

@@ -11,4 +11,5 @@ public interface LoginDAO {
     
     LogIn get(String loginId);
     Status create(LogIn login);
+    void update(String username,String authorisationToken);
 }

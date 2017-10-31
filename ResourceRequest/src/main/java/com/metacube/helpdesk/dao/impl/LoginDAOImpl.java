@@ -49,5 +49,14 @@ public class LoginDAOImpl implements LoginDAO {
         }
 return result;
     }
+
+    @Override
+    public void update(String username,String authorisationToken) {
+        Session session = this.sessionFactory.getCurrentSession();
+        LogIn login = get(username);
+        login.setAuthorisationToken(authorisationToken);
+        session.update(login);
+        
+    }
     
 }

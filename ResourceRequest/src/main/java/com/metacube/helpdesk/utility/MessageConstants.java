@@ -11,7 +11,7 @@ public class MessageConstants {
         public static final String PLEASE_ENTER_PASSWORD = "Password cannot be blank.";
         public static final String PLEASE_ENTER_EMAIL = "E-mail cannot be blank.";
         public static final String INVALID_USER = "Invalid User";
-        public static final String INVALID_USERNAME = "Invalid UserName";
+        public static final String INVALID_USERNAME = "User with this username not exist";
         public static final String INVALID_CREDENTIALS = "Invalid Credentials";
         public static final String YOU_HAVENT_REGISTERED = "Please try again, you haven't registered yet due to bad netwrok";
         public static final String USERNAME_PASSWORD_CANNT_BE_EMPTY = "UserName and Password cann't be empty";

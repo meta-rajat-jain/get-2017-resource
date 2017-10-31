@@ -15,21 +15,21 @@ public class EmployeeDTO implements Serializable{
     private String designation;
     private String status;
     private String orgDomain;
-    private LoginDTO loginDetails;
+    private LoginDTO login;
 
     public EmployeeDTO() {
 
     }
 
     public EmployeeDTO(String name, String contactNumber, String designation,
-            String status, String orgDomain, LoginDTO loginDetails) {
+            String status, String orgDomain, LoginDTO login) {
 
         this.name = name;
         this.contactNumber = contactNumber;
         this.designation = designation;
         this.status = status;
         this.orgDomain = orgDomain;
-        this.loginDetails = loginDetails;
+        this.login = login;
     }
 
     public String getName() {
@@ -72,12 +72,12 @@ public class EmployeeDTO implements Serializable{
         this.orgDomain = orgDomain;
     }
 
-    public LoginDTO getLoginDetails() {
-        return loginDetails;
+    public LoginDTO getLogin() {
+        return login;
     }
 
-    public void setLoginDetails(LoginDTO loginDetails) {
-        this.loginDetails = loginDetails;
+    public void setLogin(LoginDTO login) {
+        this.login = login;
     }
 
 }

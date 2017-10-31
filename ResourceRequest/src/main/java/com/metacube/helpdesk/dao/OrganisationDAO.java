@@ -10,6 +10,8 @@ import com.metacube.helpdesk.utility.Status;
 
 public interface OrganisationDAO {
     Status create(Organisation organisation);
-    Organisation get(String domain);
+    Organisation getByDomain(String domain);
     List<Organisation> getAll();
+    List<String> getAllOrganisationDomains();
+    Organisation getByName(String orgName);
 }

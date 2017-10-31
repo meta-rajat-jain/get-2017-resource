@@ -1,16 +1,14 @@
-package com.metacube.helpdesk.service;
+package com.metacube.helpdesk.facade;
 
 import java.util.List;
 
 import com.metacube.helpdesk.dto.OrganisationDTO;
 import com.metacube.helpdesk.utility.Response;
 
-public interface OrganisationService {
-
+public interface OrganisationFacade {
     Response create(OrganisationDTO organisationDTO);
 
     List<OrganisationDTO> getAllOrganisation();
     
     List<String> getAllOrganisationDomains();
-
 }
