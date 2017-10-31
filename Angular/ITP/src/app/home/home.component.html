@@ -1,0 +1,204 @@
+
+<header>
+	<div class="layer1 ">
+		<div class="container">
+			<div class="row">
+				<button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target="#navbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<div class="logo col-xs-12 col-sm-11 col-md-11 col-lg-11">
+					<h1>IT RESOURCE REQUEST</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+<nav class="navbar navbar-default">
+	<div class="container">
+		<div class="row">
+
+			<ul class="nav  nav-tabs">
+				<li class="active">
+					<a href="#section1" data-toggle="tab" class="panel-tab">Home</a>
+				</li>
+				<li>
+					<a href="#section2" data-toggle="tab" class="panel-tab">How We Work</a>
+				</li>
+				<li>
+					<a href="#section3" data-toggle="tab" class="panel-tab">About us</a>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-7  col-xs-12 col-sm-12 col-md-7">
+			<div class="tab-content">
+				<div class="tab-pane in active" id="section1" >
+
+					<h1>Home</h1>
+					
+					<div class="jumbotron">
+					<span id="typed" ></span>
+				</div>
+				</div>
+				<div class="tab-pane" id="section2">
+					<h1>How we work</h1>
+					<p>Try to scroll this section and look at the navigation list while scrolling!</p>
+				</div>
+				<div class="tab-pane" id="section3">
+					<h1>About us</h1>
+					<p>Try to scroll this section and look at the navigation list while scrolling!</p>
+				</div>
+			</div>
+
+
+
+		</div>
+
+
+		<div class="col-lg-5 col-xs-12 col-sm-12 col-md-5">
+
+			<section>
+				<div id="container_demo">
+
+					<div id="wrapper">
+
+						<form id="side-1" class="flip" [formGroup]="reactiveForm">
+							<div id="log" class="center">
+								<h1>Log in</h1>
+								
+									<label for="username" class="uname"> Your email or username </label>
+									<input #username name="username" formControlName="username" required="required" type="text" placeholder="myusername or mymail@mail.com"
+									/>
+									<div class="alert" *ngIf="!reactiveForm.controls['username'].valid && reactiveForm.controls['username'].touched">"Incorrectly specified email"</div>
+
+									<br>
+									<br>
+									<label for="password" class="youpasswd"> Your password </label>
+									<input #password name="password" formControlName="password" required="required" type="password" placeholder="eg. X8df!90EO"
+									/>
+									<div class="alert" *ngIf="!reactiveForm.controls['password'].valid && reactiveForm.controls['password'].touched">"Password must have at least a single digit"</div>
+								
+									<br><br><br>
+									<span class="buttons"><button class="loginBtn btn btn-primary loginButton" (click)="login(username.value , password.value)">Login </button>
+										
+										<button class="loginBtn loginBtn--google"(click)="onSignIn()">
+											<i class="fa fa-google-plus fa-fw"></i> Login
+										  </button>
+
+
+								</span>
+									
+								<br>
+								<br>
+								<p class="toggler pull-right">
+									Not a member yet ?
+									<button id="signup" click-stop-propagation (click)="flip1()">Join us</button>
+								</p>
+
+							</div>
+						</form>
+
+						<form id="side-2" class="flip" [formGroup]="reactiveForm">
+							<div id="sign" style="height:auto;">
+								<h1>Sign Up</h1>
+								<p>
+									<label for="type" class="type"> Register as </label>
+									<span style="display:flex">
+										<input type="radio" value="Organisation" checked="checked" name="generation" (click)="displayForm('organisation')">Organisation
+										<input type="radio" value="Employee"  name="generation" (click)="displayForm('employee')">Employee
+									</span>
+								</p>
+								<div id="employee" style="display:none">
+									
+										<label for="usernameEmp" class="uname"> Your Name </label>
+										<input #usernameEmp name="usernameEmp" formControlName="empName" required="required" type="text" placeholder="myusername " />
+										<h6 class="alert" *ngIf="!reactiveForm.controls['empName'].valid && reactiveForm.controls['empName'].touched">Invalid Enter</h6>
+									
+								
+										<label for="emailId" class="emailId"> Your Email </label>
+										<input #emailIdEmp name="emailIdEmp" required="required" formControlName="empEmail" type="text" placeholder=" mymail" (change)="checkOrganisation(emailIdEmp.value)"/>
+										<h6 class="alert" *ngIf="!reactiveForm.controls['empEmail'].valid && reactiveForm.controls['empEmail'].touched ">"Incorrectly specified email"</h6>
+										<p class="domain_message" *ngIf="domainTitle">{{domainTitle}}</p>
+										
+									
+									
+										<label for="passwordEmp" class="youpasswd"> Your password </label>
+										<input #passwordEmp name="passwordEmp"formControlName="empPassword" required="required" type="password" placeholder="eg. X8df!90EO" />
+										<h6 class="alert" *ngIf="!reactiveForm.controls['empPassword'].valid && reactiveForm.controls['empPassword'].touched">"Password must have at least a single digit"</h6>
+									
+
+									
+										<label for="contactno" class="contactNumber"> Contact Number </label>
+										<input #contactnoEmp name="contactnoEmp" required="required" formControlName="empContact" type="text" placeholder="eg. 8888-888888" />
+										<h6 class="alert" *ngIf="!reactiveForm.controls['empContact'].valid && reactiveForm.controls['empContact'].touched">"Please fill a valid contact number"</h6>
+									
+									<br>
+									<span>
+
+										<button id="login" class="btn btn-primary  " click-stop-propagation (click)="flip()">Back</button>
+										<button class="btn btn-primary " (click)="signUpEmp(usernameEmp.value,passwordEmp.value,emailIdEmp.value,contactnoEmp.value)">Sign Up</button>
+
+
+
+									</span>
+								</div>
+
+
+								<div id="organisation">
+									
+										<label for="usernameOrg" class="uname"> Your Organsation Name </label>
+										<input #usernameOrg name="usernameOrg" formControlName="orgName" required="required" type="text" placeholder="myusername " />
+										<h6 class="alert" *ngIf="!reactiveForm.controls['orgName'].valid && reactiveForm.controls['orgName'].touched">{{Title}}</h6>
+									
+									
+										<label for="emailId" class="emailId"> Your Email </label>
+										<input #emailIdOrg name="emailIdOrg" formControlName="orgEmail" required="required" type="text" placeholder=" mymail@mail.com" />
+										<h6 class="alert" *ngIf="!reactiveForm.controls['orgEmail'].valid && reactiveForm.controls['orgEmail'].touched">"Incorrectly specified email"</h6>
+									
+										<label for="passwordOrg" class="youpasswd"> Your password </label>
+										<input #passwordOrg name="passwordOrg" formControlName="orgPassword" required="required" type="password" placeholder="eg. X8df!90EO" />
+										<h6 class="alert" *ngIf="!reactiveForm.controls['orgPassword'].valid && reactiveForm.controls['orgPassword'].touched">"Password must have at least a single digit"</h6>
+								
+										<label for="domainname" class="domainName"> DomainName </label>
+										<input #domainname name="domainname" formControlName="orgDomainName" required="required" type="text" placeholder="mail.com" />
+										<h6 class="alert" *ngIf="!reactiveForm.controls['orgDomainName'].valid && reactiveForm.controls['orgDomainName'].touched">"Incorrectly specified domain"</h6>
+								
+										<label for="contactno" class="contactNumber"> Contact Number </label>
+										<input #contactnoOrg name="contactnoOrg" formControlName="orgContactNo" required="required" type="text" placeholder="eg. 8888-888888" />
+										<h6 class="alert" *ngIf="!reactiveForm.controls['orgContactNo'].valid && reactiveForm.controls['orgContactNo'].touched">"Please fill a valid contact number"</h6>
+								
+									<br>
+									<span>
+
+										<button id="login" class="btn btn-primary  " click-stop-propagation (click)="flip()">Back</button>
+										<button class="btn btn-primary " (click)="signUpOrganisation(usernameOrg.value,emailIdOrg.value,domainname.value, passwordOrg.value,contactnoOrg.value)">sign Up</button>
+
+
+
+									</span>
+								</div>
+
+
+							</div>
+						</form>
+					</div>
+
+				</div>
+			</section>
+
+
+		</div>
+	</div>
+</div>
+<footer style="  margin-top: 165px;">
+	<div class="container">
+		<p>&copy; 2017 All rights reserved.</p>
+	</div>
+</footer>
