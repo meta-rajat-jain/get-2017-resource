@@ -10,6 +10,7 @@ public interface LoginService {
     LoginResponse loginAuthentication(String loginId, String password);
     LoginDTO modelToDto(LogIn login);
     LogIn dtoToModel(LoginDTO loginDetails);
-    Response verifyExternalLogin(String userName);
-
+    LoginResponse verifyExternalLogin(String userName);
+    Boolean authorizeRequest(String authorizationToken,String userName);
+    
 }

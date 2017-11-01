@@ -118,7 +118,15 @@ public class OrganisationServiceImpl implements OrganisationService {
         }
         return new Response(status,authorisationToken,message);
     }
-
+    
+    @Override
+    public  Organisation getOrganisationFromUserName(String userName){
+        String[] orgDomainFromUsername = userName
+                .split("@");
+        System.out.println(orgDomainFromUsername[0]+"kh"+orgDomainFromUsername[1]);
+        return organisationDAO.getByDomain(orgDomainFromUsername[1]);
+    }
+    
     @Override
     public List<OrganisationDTO> getAllOrganisation() {
         List<Organisation> orgList = organisationDAO.getAll();

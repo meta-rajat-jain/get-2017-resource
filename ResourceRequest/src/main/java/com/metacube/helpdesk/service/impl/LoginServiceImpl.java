@@ -129,10 +129,11 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public Response verifyExternalLogin(String userName) {
+    public LoginResponse verifyExternalLogin(String userName) {
         String authorisationToken = null;
         int status = 0;
         String message = null;
+        String employeeType =null;
         LogIn loginObject = loginDAO.get(userName);
 
         if (loginObject != null) {
@@ -144,6 +145,11 @@ public class LoginServiceImpl implements LoginService {
                 authorisationToken = SimpleMD5.hashing(uuid);
                 status = 1;
                 message = MessageConstants.LOGIN_SUCCESSFUL;
+                Employee emp = employeeDAO.get(loginDAO.get(userName)); 
+                if(emp!=null) {
+                    employeeType = emp.getDesignation();
+                }
+                
             } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
                 e.printStackTrace();
             }
@@ -152,6 +158,24 @@ public class LoginServiceImpl implements LoginService {
             authorisationToken = null;
             message = MessageConstants.UNAUTHORISED_USER;
         }
-        return new Response(status, authorisationToken, message);
+        return new LoginResponse(new Response(status, authorisationToken, message),employeeType);
+    }
+
+    @Override
+    public Boolean authorizeRequest(String authorizationToken, String userName) {
+        Boolean flag=false;
+        // TODO Auto-generated method stub
+        LogIn loggedUser=loginDAO.get(userName);
+        /*
+         * if there is no user in database with that username
+         */
+        if(loggedUser==null){
+            return flag;
+        }
+        //to check if user is authorized user or not 
+        if(loggedUser.getAuthorisationToken().equals(authorizationToken)){
+            flag=true;
+        }
+        return flag;
     }
 }

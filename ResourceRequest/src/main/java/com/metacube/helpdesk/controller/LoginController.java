@@ -3,11 +3,13 @@ import java.util.List;
 
 
 
+
 import javax.annotation.Resource;
 
 import com.metacube.helpdesk.utility.LoginResponse;
 import com.metacube.helpdesk.utility.MessageConstants;
 import com.metacube.helpdesk.utility.Response;
+
 
 
 
@@ -36,6 +38,7 @@ import com.metacube.helpdesk.service.OrganisationService;
 @Controller
 @RequestMapping(value = "/auth")
 public class LoginController {
+    
     @Resource
     LoginService loginService;
     
@@ -83,8 +86,8 @@ public class LoginController {
     
     //for requests of external login
     @RequestMapping(value="/verifyUser", method = RequestMethod.GET)
-    public @ResponseBody Response verifyUserName(@RequestParam("userName") String userName) {
-        return loginService.verifyExternalLogin(userName);
+    public @ResponseBody LoginResponse verifyUserName(@RequestParam("username") String username) {
+        return loginService.verifyExternalLogin(username);
     }
     
     
@@ -96,22 +99,5 @@ public class LoginController {
     @RequestMapping(value="/getOrganisationDomains", method = RequestMethod.GET)
     public @ResponseBody List<String> getAllOrgsDomains() {
         return organisationService.getAllOrganisationDomains();
-    }
-    
-    @RequestMapping(value="/getAllManagers", method = RequestMethod.GET)
-    public @ResponseBody List<EmployeeDTO> getAllManagers() {
-        return employeeService.getAllManagers();
-    }
-    
-    @RequestMapping(value="/getAllEmployees", method = RequestMethod.GET)
-    public @ResponseBody List<EmployeeDTO> getAllEmployees() {
-        return employeeService.getAllEmployees();
-    }
-    
-    @ExceptionHandler({org.springframework.http.converter.HttpMessageNotReadableException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public Response resolveException() {
-        return new Response(3, null,MessageConstants.REQUIRED_DATA_NOT_SPECIFIED);
     }
 }

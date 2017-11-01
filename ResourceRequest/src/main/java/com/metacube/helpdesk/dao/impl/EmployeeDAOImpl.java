@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.metacube.helpdesk.dao.EmployeeDAO;
 import com.metacube.helpdesk.model.Employee;
 import com.metacube.helpdesk.model.LogIn;
+import com.metacube.helpdesk.model.Organisation;
+import com.metacube.helpdesk.utility.Response;
 import com.metacube.helpdesk.utility.Status;
 
 @Repository("employeeDAO")
@@ -32,27 +34,28 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         Employee employee = (Employee) cr.uniqueResult();
         return employee;
     }
-    
+
     @Override
-    public List<Employee> getAllManagers() {
+    public List<Employee> getAllManagers(Organisation organisation) {
         Session session = this.sessionFactory.getCurrentSession();
         // Criteria query
-        Criteria cr = session.createCriteria(Employee.class).add(
-                Restrictions.eq("designation", "Manager"));
+        Criteria cr = session.createCriteria(Employee.class)
+                .add(Restrictions.eq("designation", "Manager"))
+                .add(Restrictions.eq("organisation", organisation));
 
         List<Employee> allManagers = cr.list();
         return allManagers;
     }
-    
+
     @Override
-    public List<Employee> getAllEmployees() {
+    public List<Employee> getAllEmployees(Organisation organisation) {
         Session session = this.sessionFactory.getCurrentSession();
         // Criteria query
-        Criteria cr = session.createCriteria(Employee.class);
+        Criteria cr = session.createCriteria(Employee.class).add(
+                Restrictions.eq("organisation", organisation));
         List<Employee> allEmployees = cr.list();
         return allEmployees;
     }
-    
 
     @Override
     public Status create(Employee employee) {
@@ -80,6 +83,16 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         } catch (Exception e) {
             result = Status.Error_Occured;
         }
+        return result;
+    }
+
+    @Override
+    public Status addManager(String authorisationToken, String username, Employee manager) {
+        Status result = Status.Success;
+        Session session = this.sessionFactory.getCurrentSession();
+        
+       manager.setDesignation("Manager");
+        session.update(manager);
         return result;
     }
 

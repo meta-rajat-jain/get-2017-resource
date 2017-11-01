@@ -68,6 +68,7 @@ public class OrganisationDAOImpl implements OrganisationDAO {
         List<Organisation> organisation = cr.list();
         return organisation;
     }
+    
 
     @Override
     public List<String> getAllOrganisationDomains() {

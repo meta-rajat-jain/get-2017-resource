@@ -8,7 +8,9 @@ import com.metacube.helpdesk.utility.Response;
 public interface EmployeeService {
     Response create(EmployeeDTO employee);
 
-    List<EmployeeDTO> getAllManagers();
+    List<EmployeeDTO> getAllManagers(String authorisationToken, String userName);
 
-    List<EmployeeDTO> getAllEmployees(); 
+    List<EmployeeDTO> getAllEmployees(String authorisationToken, String userName);
+
+    Response addManager(String authorisationToken, String username,String managerUsername); 
 }

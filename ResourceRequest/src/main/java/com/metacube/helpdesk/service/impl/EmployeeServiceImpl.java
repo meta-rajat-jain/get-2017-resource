@@ -18,14 +18,17 @@ import com.metacube.helpdesk.dao.OrganisationDAO;
 import com.metacube.helpdesk.dto.EmployeeDTO;
 import com.metacube.helpdesk.model.Employee;
 import com.metacube.helpdesk.model.LogIn;
+import com.metacube.helpdesk.model.Organisation;
 import com.metacube.helpdesk.service.EmployeeService;
 import com.metacube.helpdesk.service.LoginService;
+import com.metacube.helpdesk.service.OrganisationService;
 import com.metacube.helpdesk.utility.Constants;
 import com.metacube.helpdesk.utility.MessageConstants;
 import com.metacube.helpdesk.utility.Response;
 import com.metacube.helpdesk.utility.SimpleMD5;
 import com.metacube.helpdesk.utility.Status;
 import com.metacube.helpdesk.utility.Validation;
+
 
 @Service("employeeService")
 public class EmployeeServiceImpl implements EmployeeService {
@@ -42,6 +45,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Resource
     LoginService loginService;
 
+    @Resource
+    OrganisationService organisationService;
+    
     public Response create(EmployeeDTO employeeDTO) {
         int statusCode = 0;
         String message = "";
@@ -162,24 +168,53 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeDTO> getAllManagers() {
-        // TODO Auto-generated method stub
-        List<EmployeeDTO> allManagersDTO=new ArrayList<EmployeeDTO>() ;
-        List<Employee> allManagers=employeeDAO.getAllManagers();
-        for(Employee manager:allManagers){
-            allManagersDTO.add( modelToDto(manager));
+    public List<EmployeeDTO> getAllManagers(String authorisationToken,
+            String userName) {
+        List<EmployeeDTO> allManagersDTO = new ArrayList<EmployeeDTO>();
+        if (loginService.authorizeRequest(authorisationToken, userName)) {
+            /*
+             * to get organisation from username
+             */
+            Organisation organisation=organisationService.getOrganisationFromUserName(userName);
+            List<Employee> allManagers = employeeDAO.getAllManagers(organisation);
+            for (Employee manager : allManagers) {
+                allManagersDTO.add(modelToDto(manager));
+            }
         }
-        return allManagersDTO; 
+        return allManagersDTO;
     }
     
     @Override
-    public List<EmployeeDTO> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees(String authorisationToken,
+            String userName) {
         // TODO Auto-generated method stub
         List<EmployeeDTO> allEmployeesDTO=new ArrayList<EmployeeDTO>() ;
-        List<Employee> allemployees=employeeDAO.getAllEmployees();
-        for(Employee employee:allemployees){
-            allEmployeesDTO.add( modelToDto(employee));
-        }
+        if (loginService.authorizeRequest(authorisationToken, userName)) {
+            /*
+             * to get organisation from username
+             */
+            Organisation organisation=organisationService.getOrganisationFromUserName(userName);
+            List<Employee> allemployees=employeeDAO.getAllEmployees(organisation);
+            for(Employee employee:allemployees){
+                allEmployeesDTO.add( modelToDto(employee));
+            }
+            }
+        
         return allEmployeesDTO; 
+    }
+
+    @Override
+    public Response addManager(String authorisationTokenFromLogin, String username,String managerUsername) {
+        // TODO Auto-generated method stub
+        if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
+            LogIn managerLogInObject= loginDAO.get(managerUsername);
+            if(managerLogInObject!=null){
+                if(employeeDAO.addManager(authorisationTokenFromLogin,username,employeeDAO.get(managerLogInObject)).equals(Status.Success)){
+                   return new Response(1,authorisationTokenFromLogin,"Manager Added Successfully"); 
+                }
+            }
+          return new Response(2,authorisationTokenFromLogin,"User with this username does not exist");
+        }
+       return new Response(0,null,MessageConstants.UNAUTHORISED_USER);
     }
 }
