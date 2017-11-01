@@ -1,22 +1,30 @@
 package com.metacube.helpdesk.controller;
 import java.util.List;
 
+
+
 import javax.annotation.Resource;
 
+import com.metacube.helpdesk.utility.LoginResponse;
+import com.metacube.helpdesk.utility.MessageConstants;
 import com.metacube.helpdesk.utility.Response;
+
+
+
+
 
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.metacube.helpdesk.dto.EmployeeDTO;
 import com.metacube.helpdesk.dto.LoginDTO;
@@ -37,29 +45,6 @@ public class LoginController {
     @Resource
     OrganisationService organisationService;
     
-    /*@RequestMapping(value = "/login", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> greeting(
-            @RequestBody LoginDTO loginDTO) {
-        System.out.println("loginDTO"
-                );
-        try{
-            System.out.println(loginDTO
-                    );
-        if (loginDTO == null) {
-            return new ResponseEntity<Response>(new Response(0, null,
-                    "Empty data"), HttpStatus.BANDWIDTH_LIMIT_EXCEEDED);
-        } else {
-            Response obj = loginService.loginAuthentication(
-                    loginDTO.getUsername(), loginDTO.getPassword());
-            return new ResponseEntity<Response>(obj, HttpStatus.OK);
-        }
-        }catch(HttpMessageNotReadableException hmmre  ){
-            System.out.println("loginDTO in catch"
-                    );
-            return new ResponseEntity<Response>(new Response(0, null,
-                    "Empty data"), HttpStatus.BANDWIDTH_LIMIT_EXCEEDED);
-        }
-    }*/
     /**
      * performing login functionality (calls facade login method)
      * @param loginDTO defines the login credentials
@@ -68,16 +53,12 @@ public class LoginController {
      *         or not
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> logIn(
+    public @ResponseBody LoginResponse logIn(
             @RequestBody LoginDTO loginDTO) {
-        if (loginDTO == null) {
-            return new ResponseEntity<Response>(new Response(0, null,
-                    "Request format incorrect"), HttpStatus.NOT_ACCEPTABLE);
-        } else {
-            Response obj = loginService.loginAuthentication(
+        
+            LoginResponse obj = loginService.loginAuthentication(
                     loginDTO.getUsername(), loginDTO.getPassword());
-            return new ResponseEntity<Response>(obj, HttpStatus.OK);
-        }
+            return obj;
 
     }
     
@@ -115,5 +96,22 @@ public class LoginController {
     @RequestMapping(value="/getOrganisationDomains", method = RequestMethod.GET)
     public @ResponseBody List<String> getAllOrgsDomains() {
         return organisationService.getAllOrganisationDomains();
-    }   
+    }
+    
+    @RequestMapping(value="/getAllManagers", method = RequestMethod.GET)
+    public @ResponseBody List<EmployeeDTO> getAllManagers() {
+        return employeeService.getAllManagers();
+    }
+    
+    @RequestMapping(value="/getAllEmployees", method = RequestMethod.GET)
+    public @ResponseBody List<EmployeeDTO> getAllEmployees() {
+        return employeeService.getAllEmployees();
+    }
+    
+    @ExceptionHandler({org.springframework.http.converter.HttpMessageNotReadableException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public Response resolveException() {
+        return new Response(3, null,MessageConstants.REQUIRED_DATA_NOT_SPECIFIED);
+    }
 }

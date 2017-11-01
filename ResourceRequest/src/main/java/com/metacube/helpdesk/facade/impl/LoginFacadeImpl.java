@@ -1,12 +1,8 @@
 package com.metacube.helpdesk.facade.impl;
 
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Component;
-
-import com.metacube.helpdesk.dto.LoginDTO;
 import com.metacube.helpdesk.facade.LoginFacade;
-import com.metacube.helpdesk.model.LogIn;
 import com.metacube.helpdesk.service.LoginService;
 import com.metacube.helpdesk.utility.Response;
 

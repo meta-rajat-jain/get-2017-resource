@@ -2,6 +2,7 @@ package com.metacube.helpdesk.utility;
 
 
 public class Response {
+    //enum
     private int statusCode;
     private String authorisationToken;
     private String message;

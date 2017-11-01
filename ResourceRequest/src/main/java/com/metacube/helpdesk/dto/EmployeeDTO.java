@@ -2,14 +2,10 @@ package com.metacube.helpdesk.dto;
 
 import java.io.Serializable;
 
+public class EmployeeDTO implements Serializable {
 
-
-public class EmployeeDTO implements Serializable{
-
-   
     private static final long serialVersionUID = 1463103389931391431L;
-    
-    
+
     private String name;
     private String contactNumber;
     private String designation;

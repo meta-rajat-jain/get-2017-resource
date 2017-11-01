@@ -47,6 +47,8 @@ public class OrganisationServiceImpl implements OrganisationService {
         if (Validation.isNull(organisationDTO.getName())
                 || Validation.isNull(organisationDTO.getLogin())
                 || Validation.isNull(organisationDTO.getContactNumber())
+                || Validation.isNull(organisationDTO.getLogin().getUsername())
+                || Validation.isNull(organisationDTO.getLogin().getPassword())
                 || Validation.isNull(organisationDTO.getDomain())
                 || Validation.isEmpty(organisationDTO.getName())
                 || Validation.isEmpty(organisationDTO.getContactNumber())

@@ -2,6 +2,11 @@ package com.metacube.helpdesk.service.impl;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import javax.annotation.Resource;
 
@@ -51,6 +56,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         if (Validation.isNull(employeeDTO.getName())
                 || Validation.isNull(employeeDTO.getLogin())
+                || Validation.isNull(employeeDTO.getLogin().getUsername())
+                || Validation.isNull(employeeDTO.getLogin().getPassword())
                 || Validation.isNull(employeeDTO.getContactNumber())
                 || Validation.isNull(employeeDTO.getOrgDomain())
                 || Validation.isEmpty(employeeDTO.getName())
@@ -60,8 +67,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                     "Please fill all required fields");
         }
 
-        if (!Validation.validateInput(employeeDTO.getLogin()
-                .getUsername(), Constants.EMAILREGEX)) {
+        if (!Validation.validateInput(employeeDTO.getLogin().getUsername(),
+                Constants.EMAILREGEX)) {
             return new Response(statusCode, authorisationToken,
                     "Incorrect format of email");
         }
@@ -71,10 +78,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             return new Response(statusCode, authorisationToken,
                     "Incorrect format of contact number");
         }
-        
+
         if (organisationDAO.getByDomain(employeeDTO.getOrgDomain()) == null) {
-            return new Response(2, authorisationToken,
-                    "Domain not exist");
+            return new Response(2, authorisationToken, "Domain not exist");
         }
 
         if (loginDAO.get(employeeDTO.getLogin().getUsername()) != null) {
@@ -91,10 +97,13 @@ public class EmployeeServiceImpl implements EmployeeService {
             e.printStackTrace();
         }
         logIn.setAuthorisationToken(null);
-        String[] orgDomainFromUsername = employeeDTO.getLogin().getUsername().split("@");
-        
-        if(!orgDomainFromUsername[1].equals(employeeDTO.getOrgDomain())) {
-            return new Response(2, authorisationToken,
+        String[] orgDomainFromUsername = employeeDTO.getLogin().getUsername()
+                .split("@");
+
+        if (!orgDomainFromUsername[1].equals(employeeDTO.getOrgDomain())) {
+            return new Response(
+                    2,
+                    authorisationToken,
                     "This username can't belong to the specified organisation - Format:yourlogin@orgdomain");
         }
         Status addFlag = loginDAO.create(logIn);
@@ -119,9 +128,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new Response(statusCode, null, message);
     }
 
-    
-    
-    
     protected Employee dtoToModel(EmployeeDTO employeeDTO) {
         if (employeeDTO == null) {
             return null;
@@ -130,7 +136,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setEmployeeName(employeeDTO.getName());
         employee.setContactNumber(employeeDTO.getContactNumber());
         employee.setDesignation(employeeDTO.getDesignation());
-        employee.setOrganisation(organisationDAO.getByDomain(employeeDTO.getOrgDomain()));
+        employee.setOrganisation(organisationDAO.getByDomain(employeeDTO
+                .getOrgDomain()));
         employee.setStatus(employeeDTO.getStatus());
         employee.setUsername(loginDAO.get((employeeDTO.getLogin())
                 .getUsername()));
@@ -149,9 +156,30 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeDTO.setStatus(employee.getStatus());
         employeeDTO.setOrgDomain(employee.getOrganisation().getDomain());
         // doubtful case
-        employeeDTO.setLogin(loginService.modelToDto(employee
-                .getUsername()));
+        employeeDTO.setLogin(loginService.modelToDto(employee.getUsername()));
 
         return employeeDTO;
+    }
+
+    @Override
+    public List<EmployeeDTO> getAllManagers() {
+        // TODO Auto-generated method stub
+        List<EmployeeDTO> allManagersDTO=new ArrayList<EmployeeDTO>() ;
+        List<Employee> allManagers=employeeDAO.getAllManagers();
+        for(Employee manager:allManagers){
+            allManagersDTO.add( modelToDto(manager));
+        }
+        return allManagersDTO; 
+    }
+    
+    @Override
+    public List<EmployeeDTO> getAllEmployees() {
+        // TODO Auto-generated method stub
+        List<EmployeeDTO> allEmployeesDTO=new ArrayList<EmployeeDTO>() ;
+        List<Employee> allemployees=employeeDAO.getAllEmployees();
+        for(Employee employee:allemployees){
+            allEmployeesDTO.add( modelToDto(employee));
+        }
+        return allEmployeesDTO; 
     }
 }

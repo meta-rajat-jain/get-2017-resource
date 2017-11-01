@@ -1,22 +1,14 @@
 package com.metacube.helpdesk.utility;
 
 import java.io.Serializable;
-
-
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
-
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.id.IdentifierGenerator;
 import org.springframework.stereotype.Component;
+
 @Component
 public class OrgIdGenerator implements IdentifierGenerator {
 	public int generateCustId() {
