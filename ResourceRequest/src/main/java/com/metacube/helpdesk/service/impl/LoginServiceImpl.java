@@ -162,10 +162,10 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public Boolean authorizeRequest(String authorizationToken, String userName) {
+    public Boolean authorizeRequest(String authorizationToken, String username) {
         Boolean flag=false;
         // TODO Auto-generated method stub
-        LogIn loggedUser=loginDAO.get(userName);
+        LogIn loggedUser=loginDAO.get(username);
         /*
          * if there is no user in database with that username
          */
@@ -177,5 +177,13 @@ public class LoginServiceImpl implements LoginService {
             flag=true;
         }
         return flag;
+    }
+
+    @Override
+    public Response logOut(String authorisationToken, String username) {
+        if(authorizeRequest(authorisationToken, username)){
+            return loginDAO.destroyAuthorisationToken(authorisationToken,  username);
+        }
+        return new Response(0, authorisationToken,MessageConstants.UNAUTHORISED_USER);
     }
 }

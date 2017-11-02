@@ -4,6 +4,8 @@ import java.util.List;
 
 
 
+
+
 import javax.annotation.Resource;
 
 import com.metacube.helpdesk.utility.LoginResponse;
@@ -16,12 +18,16 @@ import com.metacube.helpdesk.utility.Response;
 
 
 
+
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,6 +68,15 @@ public class LoginController {
             LoginResponse obj = loginService.loginAuthentication(
                     loginDTO.getUsername(), loginDTO.getPassword());
             return obj;
+
+    }
+    
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public @ResponseBody Response logOut(
+            @RequestHeader(value = "authorisationToken") String authorisationToken,
+            @RequestHeader(value = "username") String username) {
+        
+            return loginService.logOut(authorisationToken,username);
 
     }
     

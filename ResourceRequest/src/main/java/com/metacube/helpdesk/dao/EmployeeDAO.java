@@ -22,8 +22,14 @@ public interface EmployeeDAO {
 
     Employee get(LogIn userName);
 
-    Status delete(LogIn userName);
+    
 
     Status addManager(String authorisationToken, String username,
             Employee manager);
+
+    Status deleteEmployee(Employee employee);
+
+    Employee getEmployee(LogIn login);
+
+    Object updateEmployee(Employee dtoToModel);
 }

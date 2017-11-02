@@ -170,18 +170,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeDTO> getAllManagers(String authorisationToken,
             String userName) {
-        List<EmployeeDTO> allManagersDTO = new ArrayList<EmployeeDTO>();
+        List<EmployeeDTO>  allManagersDTO;
+        System.out.println("authorisationToken "+ authorisationToken);
+        System.out.println("userName "+ userName);
         if (loginService.authorizeRequest(authorisationToken, userName)) {
             /*
              * to get organisation from username
              */
+            allManagersDTO = new ArrayList<EmployeeDTO>();
             Organisation organisation=organisationService.getOrganisationFromUserName(userName);
             List<Employee> allManagers = employeeDAO.getAllManagers(organisation);
             for (Employee manager : allManagers) {
                 allManagersDTO.add(modelToDto(manager));
             }
+            return allManagersDTO;
         }
-        return allManagersDTO;
+        return null;
     }
     
     @Override
@@ -216,5 +220,45 @@ public class EmployeeServiceImpl implements EmployeeService {
           return new Response(2,authorisationTokenFromLogin,"User with this username does not exist");
         }
        return new Response(0,null,MessageConstants.UNAUTHORISED_USER);
+    }
+    
+    /**
+     * 
+     */
+    @Override
+    public Response deleteEmployee(String authorisationTokenFromLogin, String username,
+            String employeeToBeDeleted) {
+        if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
+            LogIn employeeToBeDeletedObject= loginDAO.get(employeeToBeDeleted);
+            if(employeeToBeDeletedObject!=null){
+                if(employeeDAO.deleteEmployee(employeeDAO.get(employeeToBeDeletedObject)).equals(Status.Success)){
+                    return new Response(1,authorisationTokenFromLogin,"Employee Deleted Successfully"); 
+                 } 
+            }else{
+                return new Response(0,authorisationTokenFromLogin,"Employee to be  deleted not exist");  
+            }
+        }
+        return new Response(0,null,MessageConstants.UNAUTHORISED_USER);
+    }
+
+    @Override
+    public EmployeeDTO getEmployee(String username) {
+        
+        return modelToDto(employeeDAO.getEmployee(loginDAO.get(username)));
+    }
+
+    @Override
+    public Response updateEmployee(String authorisationTokenFromLogin, String username,
+            EmployeeDTO employeeToBeUpdated) {  
+        if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
+            
+                if(employeeDAO.updateEmployee(dtoToModel(employeeToBeUpdated)).equals(Status.Success)){
+                    return new Response(1,authorisationTokenFromLogin,"Employee Profile updated Successfully"); 
+                 } 
+            else{
+                return new Response(0,authorisationTokenFromLogin,"Employee to be  update not exist");  
+            }
+        }
+        return new Response(0,null,MessageConstants.UNAUTHORISED_USER);
     }
 }

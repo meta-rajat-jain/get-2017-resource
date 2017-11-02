@@ -29,6 +29,11 @@ public class AdminController {
     @Resource
     EmployeeService employeeService;
 
+    /**
+     * @param authorisationToken : Token for authorisation of admin of a particular organisation.
+     * @param username : username of admin of a particular organisation.
+     * @return List of all the managers of the particular organisation.
+     */
     @RequestMapping(value = "/getAllManagers", method = RequestMethod.GET)
     public @ResponseBody List<EmployeeDTO> getAllManagers(
             @RequestHeader(value = "authorisationToken") String authorisationToken,
@@ -36,6 +41,11 @@ public class AdminController {
         return employeeService.getAllManagers(authorisationToken, username);
     }
 
+    /**
+     * @param authorisationToken : Token for authorisation of user who is logged in.
+     * @param username : username of admin  who is logged in.
+     * @return List of all the employees of the particular organisation.
+     */
     @RequestMapping(value = "/getAllEmployees", method = RequestMethod.GET)
     public @ResponseBody List<EmployeeDTO> getAllEmployees(
             @RequestHeader(value = "authorisationToken") String authorisationToken,
@@ -43,11 +53,30 @@ public class AdminController {
         return employeeService.getAllEmployees(authorisationToken, username);
     }
     
+    /**
+     * @param authorisationToken : Token for authorisation of user who is logged in.
+     * @param username : username of admin  who is logged in.
+     * @return 
+     */
     @RequestMapping(value = "/addManager", method = RequestMethod.POST)
     public @ResponseBody Response addManager(
             @RequestHeader(value = "authorisationToken") String authorisationToken,
             @RequestHeader(value = "username") String username, @RequestBody EmployeeDTO manager) {
         return employeeService.addManager(authorisationToken,username, manager.getLogin().getUsername());
+    }
+       
+    @RequestMapping(value = "/deleteEmployee", method = RequestMethod.POST)
+    public @ResponseBody Response deleteEmployee(
+            @RequestHeader(value = "authorisationToken") String authorisationToken,
+            @RequestHeader(value = "username") String username, @RequestBody EmployeeDTO employeeToBeDeleted) {
+        return employeeService.deleteEmployee(authorisationToken,username, employeeToBeDeleted.getLogin().getUsername());
+    }
+    
+    @RequestMapping(value = "/updateEmployee", method = RequestMethod.POST)
+    public @ResponseBody Response updateEmployee(
+            @RequestHeader(value = "authorisationToken") String authorisationToken,
+            @RequestHeader(value = "username") String username, @RequestBody EmployeeDTO employeeToBeUpdated) {
+        return employeeService.updateEmployee(authorisationToken,username, employeeToBeUpdated);
     }
 
     @ExceptionHandler({ org.springframework.http.converter.HttpMessageNotReadableException.class })

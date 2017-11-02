@@ -12,5 +12,6 @@ public interface LoginService {
     LogIn dtoToModel(LoginDTO loginDetails);
     LoginResponse verifyExternalLogin(String userName);
     Boolean authorizeRequest(String authorizationToken,String userName);
+    Response logOut(String authorisationToken, String username);
     
 }
