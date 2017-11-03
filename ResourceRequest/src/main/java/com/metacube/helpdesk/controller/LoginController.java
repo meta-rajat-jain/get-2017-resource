@@ -6,11 +6,13 @@ import java.util.List;
 
 
 
+
 import javax.annotation.Resource;
 
 import com.metacube.helpdesk.utility.LoginResponse;
 import com.metacube.helpdesk.utility.MessageConstants;
 import com.metacube.helpdesk.utility.Response;
+
 
 
 
@@ -105,6 +107,12 @@ public class LoginController {
         return loginService.verifyExternalLogin(username);
     }
     
+    @RequestMapping(value = "/verifySignUp", method = RequestMethod.GET)
+    public @ResponseBody Response verificationSignUp(@RequestParam("username") String username) {
+             
+        return loginService.enableLogIn(username);
+        
+    }
     
     @RequestMapping(value="/getOrganisation", method = RequestMethod.GET)
     public @ResponseBody List<OrganisationDTO> getAllOrgs() {

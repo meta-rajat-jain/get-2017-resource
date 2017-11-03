@@ -13,5 +13,6 @@ public interface LoginService {
     LoginResponse verifyExternalLogin(String userName);
     Boolean authorizeRequest(String authorizationToken,String userName);
     Response logOut(String authorisationToken, String username);
+    Response enableLogIn(String username);
     
 }

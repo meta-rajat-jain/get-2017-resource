@@ -32,7 +32,19 @@ public class LogIn implements Serializable {
 	@Column(name="authorisationToken")
 	private String authorisationToken;
 	
-	public int getLogInId() {
+	@Column(name="enabled")
+    private Boolean enabled;
+	
+	
+	public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public int getLogInId() {
         return logInId;
     }
 
@@ -72,6 +84,14 @@ public class LogIn implements Serializable {
         this.username = userName;
         this.password = password;
         this.authorisationToken = authorisationToken;
+    }
+
+    public LogIn(String username, String password, String authorisationToken,
+            Boolean enabled) {
+        this.username = username;
+        this.password = password;
+        this.authorisationToken = authorisationToken;
+        this.enabled = enabled;
     }
 
     public String getUsername() {

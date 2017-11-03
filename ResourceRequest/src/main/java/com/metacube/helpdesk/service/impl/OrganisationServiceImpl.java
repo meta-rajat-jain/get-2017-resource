@@ -97,6 +97,7 @@ public class OrganisationServiceImpl implements OrganisationService {
              e.printStackTrace();
          }
         logIn.setAuthorisationToken(null);
+        logIn.setEnabled(true);
         
         Status addFlag = loginDAO.create(logIn);
         

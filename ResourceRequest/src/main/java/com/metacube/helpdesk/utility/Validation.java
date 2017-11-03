@@ -28,4 +28,11 @@ public class Validation {
         matcher=pattern.matcher(dataToBeCheck);
         return matcher.matches(); 
     }
+    
+    public static boolean validateHeaders(String headerOne,String headerTwo){
+        if(Validation.isNull(headerOne)||Validation.isNull(headerTwo)||Validation.isEmpty(headerOne)||Validation.isEmpty(headerTwo)){
+            return false;
+        }
+        return true;
+    }
 }

@@ -15,4 +15,5 @@ public interface LoginDAO {
     void update(String username,String authorisationToken);
     Response destroyAuthorisationToken(String authorisationToken,
             String username);
+    Response update(String username);
 }

@@ -70,5 +70,14 @@ return result;
         session.update(login);
         return new Response(1,null,MessageConstants.SUCCESSFULLY_LOGGEDOUT);
     }
+
+    @Override
+    public Response update(String username) {
+        Session session = this.sessionFactory.getCurrentSession();
+        LogIn login = get(username);
+        login.setEnabled(true);
+        session.update(login);
+        return new Response(1,null,MessageConstants.REGISTER_SUCCESSFULLY);
+    }
     
 }

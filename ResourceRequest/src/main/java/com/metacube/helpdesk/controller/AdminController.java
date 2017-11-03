@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.metacube.helpdesk.dto.EmployeeDTO;
 import com.metacube.helpdesk.service.EmployeeService;
+
+
 import com.metacube.helpdesk.utility.MessageConstants;
 import com.metacube.helpdesk.utility.Response;
 
@@ -28,6 +32,8 @@ public class AdminController {
 
     @Resource
     EmployeeService employeeService;
+    
+    
 
     /**
      * @param authorisationToken : Token for authorisation of admin of a particular organisation.
@@ -52,6 +58,8 @@ public class AdminController {
             @RequestHeader(value = "username") String username) {
         return employeeService.getAllEmployees(authorisationToken, username);
     }
+    
+   
     
     /**
      * @param authorisationToken : Token for authorisation of user who is logged in.
@@ -86,4 +94,6 @@ public class AdminController {
         return new Response(3, null,
                 MessageConstants.REQUIRED_DATA_NOT_SPECIFIED);
     }
+    
+   
 }

@@ -14,6 +14,23 @@ public class LoginDTO implements Serializable{
     private String username;
     private String password;
     private String authorisationToken;
+    private boolean enabled;
+
+    public LoginDTO(String username, String password,
+            String authorisationToken, boolean enabled) {
+        this.username = username;
+        this.password = password;
+        this.authorisationToken = authorisationToken;
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public LoginDTO() {
 

@@ -10,6 +10,7 @@ import java.util.ListIterator;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.metacube.helpdesk.dao.EmployeeDAO;
@@ -23,6 +24,7 @@ import com.metacube.helpdesk.service.EmployeeService;
 import com.metacube.helpdesk.service.LoginService;
 import com.metacube.helpdesk.service.OrganisationService;
 import com.metacube.helpdesk.utility.Constants;
+import com.metacube.helpdesk.utility.MailSend;
 import com.metacube.helpdesk.utility.MessageConstants;
 import com.metacube.helpdesk.utility.Response;
 import com.metacube.helpdesk.utility.SimpleMD5;
@@ -47,6 +49,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Resource
     OrganisationService organisationService;
+    
+    @Autowired
+    MailSend mailSend;
     
     public Response create(EmployeeDTO employeeDTO) {
         int statusCode = 0;
@@ -103,6 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             e.printStackTrace();
         }
         logIn.setAuthorisationToken(null);
+        logIn.setEnabled(false);
         String[] orgDomainFromUsername = employeeDTO.getLogin().getUsername()
                 .split("@");
 
@@ -116,6 +122,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         System.out.println("login creation flag " + addFlag);
         if (addFlag.equals(Status.Success)) {
             employee = dtoToModel(employeeDTO);
+           
         } else {
             statusCode = 0;
             message = MessageConstants.ACCOUNT_NOT_CREATED;
@@ -124,7 +131,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         if (addFlag.equals(Status.Success)) {
             statusCode = 1;
-            message = MessageConstants.ACCOUNT_CREATED;
+            message = "Verification mail has been sent to your account";
+            mailSend.sendMail(Constants.DEFAULT_MAIL_SENDER, employeeDTO
+                    .getLogin().getUsername(), Constants.VERIFICATION_SUBJECT,
+                    Constants.VERIFICATION_MESSAGE
+                            + employeeDTO.getLogin().getUsername());
 
         } else {
             statusCode = 0;
@@ -191,7 +202,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeDTO> getAllEmployees(String authorisationToken,
             String userName) {
-        // TODO Auto-generated method stub
         List<EmployeeDTO> allEmployeesDTO=new ArrayList<EmployeeDTO>() ;
         if (loginService.authorizeRequest(authorisationToken, userName)) {
             /*
@@ -209,7 +219,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Response addManager(String authorisationTokenFromLogin, String username,String managerUsername) {
-        // TODO Auto-generated method stub
+        if(!Validation.validateHeaders(authorisationTokenFromLogin, username)){
+            return new Response(0,null,"One or more header is missing");
+        }
         if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
             LogIn managerLogInObject= loginDAO.get(managerUsername);
             if(managerLogInObject!=null){
@@ -228,6 +240,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Response deleteEmployee(String authorisationTokenFromLogin, String username,
             String employeeToBeDeleted) {
+        if(!Validation.validateHeaders(authorisationTokenFromLogin, username)){
+            return new Response(0,null,"One or more header is missing");
+        }
         if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
             LogIn employeeToBeDeletedObject= loginDAO.get(employeeToBeDeleted);
             if(employeeToBeDeletedObject!=null){
@@ -242,14 +257,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDTO getEmployee(String username) {
-        
+    public EmployeeDTO getEmployee(String username) {        
         return modelToDto(employeeDAO.getEmployee(loginDAO.get(username)));
     }
 
     @Override
     public Response updateEmployee(String authorisationTokenFromLogin, String username,
             EmployeeDTO employeeToBeUpdated) {  
+        if(!Validation.validateHeaders(authorisationTokenFromLogin, username)){
+            return new Response(0,null,"One or more header is missing");
+        }
         if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
             
                 if(employeeDAO.updateEmployee(dtoToModel(employeeToBeUpdated)).equals(Status.Success)){

@@ -49,8 +49,12 @@ public class LoginServiceImpl implements LoginService {
         }
 
         LoginDTO loginDTO = modelToDto(loginDAO.get(loginId));
-
+        
+        
         if (loginDTO != null) {
+            if(!loginDTO.isEnabled()){
+                return new LoginResponse(new Response(status, authorisationToken, "Please first Verify your account"),employeeType);
+            }
             try {
                 if (loginDTO.getUsername().equals(loginId)
                         && loginDTO.getPassword().equals(
@@ -111,7 +115,7 @@ public class LoginServiceImpl implements LoginService {
         login.setUsername(loginDto.getUsername());
         login.setPassword(loginDto.getPassword());
         login.setAuthorisationToken(loginDto.getAuthorisationToken());
-
+        login.setEnabled(loginDto.isEnabled());
         return login;
     }
 
@@ -124,7 +128,7 @@ public class LoginServiceImpl implements LoginService {
         loginDto.setUsername(login.getUsername());
         loginDto.setPassword(login.getPassword());
         loginDto.setAuthorisationToken(login.getAuthorisationToken());
-
+        loginDto.setEnabled(login.getEnabled());
         return loginDto;
     }
 
@@ -173,7 +177,7 @@ public class LoginServiceImpl implements LoginService {
             return flag;
         }
         //to check if user is authorized user or not 
-        if(loggedUser.getAuthorisationToken().equals(authorizationToken)){
+        if(authorizationToken.equals(loggedUser.getAuthorisationToken())){
             flag=true;
         }
         return flag;
@@ -185,5 +189,10 @@ public class LoginServiceImpl implements LoginService {
             return loginDAO.destroyAuthorisationToken(authorisationToken,  username);
         }
         return new Response(0, authorisationToken,MessageConstants.UNAUTHORISED_USER);
+    }
+
+    @Override
+    public Response enableLogIn(String username) { 
+       return loginDAO.update(username);
     }
 }
