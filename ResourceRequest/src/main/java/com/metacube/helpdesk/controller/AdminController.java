@@ -33,7 +33,6 @@ public class AdminController {
     @Resource
     EmployeeService employeeService;
     
-    
 
     /**
      * @param authorisationToken : Token for authorisation of admin of a particular organisation.
@@ -71,6 +70,13 @@ public class AdminController {
             @RequestHeader(value = "authorisationToken") String authorisationToken,
             @RequestHeader(value = "username") String username, @RequestBody EmployeeDTO manager) {
         return employeeService.addManager(authorisationToken,username, manager.getLogin().getUsername());
+    }
+    
+    @RequestMapping(value = "/getEmployee", method = RequestMethod.POST)
+    public @ResponseBody EmployeeDTO getEmployee(
+            @RequestHeader(value = "authorisationToken") String authorisationToken,
+            @RequestHeader(value = "username") String username, @RequestBody EmployeeDTO employeeUsername) {
+        return employeeService.getEmployeeByUsername(authorisationToken,username, employeeUsername.getLogin().getUsername());
     }
        
     @RequestMapping(value = "/deleteEmployee", method = RequestMethod.POST)

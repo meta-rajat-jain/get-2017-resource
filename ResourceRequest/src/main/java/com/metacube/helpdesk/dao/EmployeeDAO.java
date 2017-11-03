@@ -20,8 +20,7 @@ public interface EmployeeDAO {
     
     List<Employee> getAllManagers(Organisation organisation);
 
-    Employee get(LogIn userName);
-
+   
     
 
     Status addManager(String authorisationToken, String username,

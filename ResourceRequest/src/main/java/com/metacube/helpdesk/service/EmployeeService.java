@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.metacube.helpdesk.dto.EmployeeDTO;
 import com.metacube.helpdesk.model.Employee;
+import com.metacube.helpdesk.model.LogIn;
 import com.metacube.helpdesk.model.Organisation;
 import com.metacube.helpdesk.utility.Response;
 
@@ -23,4 +24,9 @@ public interface EmployeeService {
 
     Response updateEmployee(String authorisationToken, String username,
             EmployeeDTO employeeToBeUpdated);
+
+    Employee get(LogIn logIn);
+
+    EmployeeDTO getEmployeeByUsername(String authorisationToken,
+            String username, String employeeUsername);
 }

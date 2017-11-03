@@ -182,8 +182,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDTO> getAllManagers(String authorisationToken,
             String userName) {
         List<EmployeeDTO>  allManagersDTO;
-        System.out.println("authorisationToken "+ authorisationToken);
-        System.out.println("userName "+ userName);
+        
         if (loginService.authorizeRequest(authorisationToken, userName)) {
             /*
              * to get organisation from username
@@ -225,7 +224,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
             LogIn managerLogInObject= loginDAO.get(managerUsername);
             if(managerLogInObject!=null){
-                if(employeeDAO.addManager(authorisationTokenFromLogin,username,employeeDAO.get(managerLogInObject)).equals(Status.Success)){
+                if(employeeDAO.addManager(authorisationTokenFromLogin,username,employeeDAO.getEmployee(managerLogInObject)).equals(Status.Success)){
                    return new Response(1,authorisationTokenFromLogin,"Manager Added Successfully"); 
                 }
             }
@@ -246,7 +245,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
             LogIn employeeToBeDeletedObject= loginDAO.get(employeeToBeDeleted);
             if(employeeToBeDeletedObject!=null){
-                if(employeeDAO.deleteEmployee(employeeDAO.get(employeeToBeDeletedObject)).equals(Status.Success)){
+                if(employeeDAO.deleteEmployee(employeeDAO.getEmployee(employeeToBeDeletedObject)).equals(Status.Success)){
                     return new Response(1,authorisationTokenFromLogin,"Employee Deleted Successfully"); 
                  } 
             }else{
@@ -277,5 +276,22 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
         }
         return new Response(0,null,MessageConstants.UNAUTHORISED_USER);
+    }
+
+    @Override
+    public Employee get(LogIn logIn) { 
+        return employeeDAO.getEmployee(logIn);
+    }
+
+    @Override
+    public EmployeeDTO getEmployeeByUsername(String authorisationTokenFromLogin,
+            String username, String employeeUsername) {
+        if(!Validation.validateHeaders(authorisationTokenFromLogin, username)){
+            return null;
+        }
+        if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
+            return getEmployee( username);
+        }
+        return null;
     }
 }

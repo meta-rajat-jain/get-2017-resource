@@ -78,7 +78,7 @@ public class LoginServiceImpl implements LoginService {
                         loginDAO.update(loginId, authorisationToken);
                         status = 1;
                         message = MessageConstants.LOGIN_SUCCESSFUL;
-                        Employee emp = employeeDAO.get(loginDAO.get(loginId)); 
+                        Employee emp = employeeDAO.getEmployee(loginDAO.get(loginId)); 
                          if(emp!=null) {
                              employeeType = emp.getDesignation();
                          }
@@ -149,7 +149,7 @@ public class LoginServiceImpl implements LoginService {
                 authorisationToken = SimpleMD5.hashing(uuid);
                 status = 1;
                 message = MessageConstants.LOGIN_SUCCESSFUL;
-                Employee emp = employeeDAO.get(loginDAO.get(userName)); 
+                Employee emp = employeeDAO.getEmployee(loginDAO.get(userName)); 
                 if(emp!=null) {
                     employeeType = emp.getDesignation();
                 }

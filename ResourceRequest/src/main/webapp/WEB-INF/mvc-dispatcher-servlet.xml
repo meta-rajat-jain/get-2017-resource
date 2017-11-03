@@ -1,78 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:tx="http://www.springframework.org/schema/tx" 
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx.xsd
         ">
 
-    <mvc:annotation-driven />
-    <context:component-scan base-package="com.metacube.helpdesk" />
+	<mvc:annotation-driven />
+	<context:component-scan base-package="com.metacube.helpdesk" />
 
-     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/resource_request"/>
-        <property name="username" value="root" />
-        <property name="password" value="root"/>
- 
-
-	</bean>    
-
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-
-    
-    <mvc:annotation-driven>
-    <mvc:message-converters>
-        <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
-        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
-    </mvc:message-converters>
-</mvc:annotation-driven>
-
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" >
-        <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan">
-            <list>
-                <value>com.metacube.helpdesk.model</value>
-            </list>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-                <prop key="hibernate.show_sql">false</prop>
-                <prop key="hibernate.format_sql">false</prop>
-                     <prop key="hibernate.hbm2ddl.auto">update</prop>
-            </props>
-        </property>
-           
-    </bean>
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://172.16.33.111:3306/resource_request" />
+		<property name="username" value="root" />
+		<property name="password" value="naina" />
 
 
-    <bean id="transactionManager"  class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-	
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">  
-  <property name="host" value="smtp.gmail.com" />  
-    <property name="username" value="itresourcerequest@gmail.com" />  
-    <property name="password" value="badrequest" />  
-    <property name="javaMailProperties">  
-       <props>  
-              <prop key="mail.smtp.auth">true</prop>  
-              <prop key="mail.smtp.socketFactory.port">465</prop>  
-              <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>  
-              <prop key="mail.smtp.port">465</prop>  
-        </props>  
-    </property>  
-</bean>  
-<bean id="mailSend" class="com.metacube.helpdesk.utility.MailSend">  
-    <property name="mailSender" ref="mailSender" />  
-</bean> 
+	</bean>
 
-    <mvc:default-servlet-handler />
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>com.metacube.helpdesk.model</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+
+	</bean>
+
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="username" value="itresourcerequest@gmail.com" />
+		<property name="password" value="badrequest" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.socketFactory.port">465</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.port">465</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="mailSend" class="com.metacube.helpdesk.utility.MailSend">
+		<property name="mailSender" ref="mailSender" />
+	</bean>
+
+	<mvc:default-servlet-handler />
 
 </beans>

@@ -38,7 +38,7 @@ public class Team implements Serializable {
     private Organisation organisation;
     
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="teamHead",nullable=false)
+    @JoinColumn(name="teamHead")
     private Employee teamHead;
     
 

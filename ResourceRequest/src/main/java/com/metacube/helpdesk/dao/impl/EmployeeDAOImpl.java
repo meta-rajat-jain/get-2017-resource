@@ -34,16 +34,7 @@ public class EmployeeDAOImpl  extends GenericDAO implements EmployeeDAO {
      * Description : Method to get employee details on the basis of its login information.
      * @return Employee object corresponding to username.
      */
-    @Override
-    public Employee get(LogIn userName) {
-        Session session = this.sessionFactory.getCurrentSession();
-        // Criteria query
-        Criteria cr = session.createCriteria(this.getModelClass()).add(
-                Restrictions.eq("username", userName));
-
-        Employee employee = (Employee) cr.uniqueResult();
-        return employee;
-    }
+ 
     
     /**
      * @param Organisation object corresponding to which managers are required.
@@ -159,7 +150,7 @@ public class EmployeeDAOImpl  extends GenericDAO implements EmployeeDAO {
         Status result = Status.Success;
         try {
             Session session = this.sessionFactory.getCurrentSession();
-            employee.setEmployeeId(get(employee.getUsername()).getEmployeeId());
+            employee.setEmployeeId(getEmployee(employee.getUsername()).getEmployeeId());
             session.update(employee);
         } catch (Exception e) {
             result = Status.Error_Occured;
