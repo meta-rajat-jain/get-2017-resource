@@ -1,7 +1,10 @@
 package com.metacube.helpdesk.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -11,10 +14,11 @@ import com.metacube.helpdesk.dao.EmployeeDAO;
 import com.metacube.helpdesk.dao.LoginDAO;
 import com.metacube.helpdesk.dao.OrganisationDAO;
 import com.metacube.helpdesk.dao.TeamDAO;
-import com.metacube.helpdesk.dto.EmployeeDTO;
+import com.metacube.helpdesk.dto.EmpTeamDTO;
 import com.metacube.helpdesk.dto.TeamDTO;
 import com.metacube.helpdesk.model.Employee;
 import com.metacube.helpdesk.model.Team;
+import com.metacube.helpdesk.service.EmployeeService;
 import com.metacube.helpdesk.service.LoginService;
 import com.metacube.helpdesk.service.TeamService;
 import com.metacube.helpdesk.utility.MessageConstants;
@@ -38,6 +42,10 @@ public class TeamServiceImpl implements TeamService {
     
     @Resource
     LoginService loginService;
+    
+    @Resource
+    EmployeeService employeeService;
+
 
       
     protected Team dtoToModel(TeamDTO teamDTO) {
@@ -47,13 +55,17 @@ public class TeamServiceImpl implements TeamService {
         Team team=new Team();
         System.out.println(team.getTeamId());
         System.out.println("A");
+        //team.setTeamId(getTeamByName(teamDTO.getTeamName()).getTeamId());
         team.setOrganisation(organisationDAO.getByDomain(teamDTO.getOrgDomain()));
-        System.out.println("B");
         team.setTeamHead(employeeDAO.getEmployee(loginDAO.get(teamDTO.getTeamHeadUsername())));
         team.setTeamName(teamDTO.getTeamName());
         return team;
     }
     
+    public Team getTeamByName(String teamName) {
+        return teamDAO.getTeamByName(teamName);
+    }
+
     protected TeamDTO modelToDTO(Team team){
         if (team == null) {
             return null;
@@ -67,7 +79,7 @@ public class TeamServiceImpl implements TeamService {
         teamDTO.setTeamName(team.getTeamName());
         return teamDTO;       
     }
-
+/*
     @Override
     public List<TeamDTO> getAllTeamsUnderHead(String authorisationToken, String username) {
         List<TeamDTO>  allTeamsDTO;
@@ -87,25 +99,67 @@ public class TeamServiceImpl implements TeamService {
            return allTeamsDTO; 
         }
         return null;
-    }
+    }*/
     
     @Override
     public Response createTeam(String authorisationTokenFromLogin, String username,TeamDTO teamDTO) {
         if(!Validation.validateHeaders(authorisationTokenFromLogin, username)){
             return new Response(0,null,"One or more header is missing");
         }
-        if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
+        if(loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
             
-            if(teamDAO.createTeam(dtoToModel(teamDTO)).equals(Status.Success)){
-                System.out.println("fdhklfj");
+            if(teamDTO.getTeamHeadUsername() == null  )
+                teamDTO.setTeamHeadUsername(username);
+            if(teamDAO.createTeam(dtoToModel(teamDTO)).equals(Status.Success)){               
                 return new Response(1,authorisationTokenFromLogin,"Team Successfully Created");
             }else{
-                return new Response(0,authorisationTokenFromLogin,"Team Creation Failed");
+                return new Response(0,authorisationTokenFromLogin,"Team Creation Failed : Probable reason Team with this name Already Exists ");
             }     
         }
         return new Response(0,authorisationTokenFromLogin,MessageConstants.UNAUTHORISED_USER);
     }
+    
+    /**
+     * Used to create team on creation of any manager automatically
+     */
+    @Override
+    public Status createTeam(String managerUsername) {
+        String[] splittedUsername = managerUsername.split("@");
+        TeamDTO teamDTO = new TeamDTO();
+        teamDTO.setTeamName("TEAM " + splittedUsername[0]);
+        teamDTO.setTeamHeadUsername(managerUsername);
+        teamDTO.setOrgDomain(splittedUsername[1]);
+        return teamDAO.createTeam(dtoToModel(teamDTO));
+    }
 
-  
+   @Override
+    public Response addEmployeeToTeam(String authorisationTokenFromLogin,
+            String username,EmpTeamDTO empTeamDTo) {
+        if(!Validation.validateHeaders(authorisationTokenFromLogin, username)){
+            return new Response(0,null,"One or more header is missing");
+        }
+        if(loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
+            
+            Employee employee=employeeDAO.getEmployee(loginService.dtoToModel(empTeamDTo.getEmployeeDTO().getLogin()));
+            Team team= dtoToModel(empTeamDTo.getTeamDTO());
+            Set<Team> listOfTeams = employee.getTeams();
+            listOfTeams.add(team);
+            employee.setTeams(listOfTeams);
+            if(teamDAO.addEmployeeToTeam(employee).equals(Status.Success)){
+                return new Response(1,authorisationTokenFromLogin,"Employee added successfully"); 
+            }else{
+                return new Response(0,null,"Employee cant be added"); 
+            }
+        }
+        return new Response(0,authorisationTokenFromLogin,MessageConstants.UNAUTHORISED_USER);
+    }
 
+@Override
+public List<TeamDTO> getAllTeamsUnderHead(String authorisationToken,
+        String username) {
+    // TODO Auto-generated method stub
+    return null;
+}
+
+    
 }

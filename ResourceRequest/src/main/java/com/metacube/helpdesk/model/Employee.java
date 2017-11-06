@@ -1,14 +1,19 @@
 package com.metacube.helpdesk.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -50,6 +55,35 @@ public class Employee implements Serializable {
     @ManyToOne
     @JoinColumn(name = "orgId", nullable = false)
     private Organisation organisation;
+    
+    @ManyToMany(fetch = FetchType.EAGER,cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "Employee_Team", 
+        joinColumns = { @JoinColumn(name = "employeeId") }, 
+        inverseJoinColumns = { @JoinColumn(name = "teamId") }
+    )
+    Set<Team> teams = new HashSet<Team>();
+
+    public Employee(String employeeName, String designation,
+            String contactNumber, String status, LogIn username,
+            Organisation organisation, Set<Team> teams) {
+     
+        this.employeeName = employeeName;
+        this.designation = designation;
+        this.contactNumber = contactNumber;
+        this.status = status;
+        this.username = username;
+        this.organisation = organisation;
+        this.teams = teams;
+    }
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
+    }
 
     public Employee() {
 

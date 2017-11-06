@@ -35,7 +35,7 @@ public class LoginServiceImpl implements LoginService {
         int status = 0;
         String authorisationToken = null;
         String message = null;
-        String employeeType = null;
+        String employeeType = "Organisation Admin";
 
         if (Validation.isNull(loginId) || Validation.isNull(password)
                 || Validation.isEmpty(loginId) || Validation.isEmpty(password)) {
@@ -137,7 +137,7 @@ public class LoginServiceImpl implements LoginService {
         String authorisationToken = null;
         int status = 0;
         String message = null;
-        String employeeType =null;
+        String employeeType ="Admin";
         LogIn loginObject = loginDAO.get(userName);
 
         if (loginObject != null) {

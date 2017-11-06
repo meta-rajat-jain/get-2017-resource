@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.metacube.helpdesk.dto.EmpTeamDTO;
 import com.metacube.helpdesk.dto.EmployeeDTO;
 import com.metacube.helpdesk.dto.TeamDTO;
 import com.metacube.helpdesk.service.EmployeeService;
@@ -40,4 +41,14 @@ public class ManagerController {
             @RequestBody TeamDTO teamDTO) {
         return teamService.createTeam(authorisationToken, username,teamDTO);
     }
+    
+    @RequestMapping(value = "/addEmployeeToTeam", method = RequestMethod.POST)
+    public @ResponseBody Response addEmployeeToTeam(
+            @RequestHeader(value = "authorisationToken") String authorisationToken,
+            @RequestHeader(value = "username") String username,
+            @RequestBody EmpTeamDTO empTeamDTo) {
+        return teamService.addEmployeeToTeam(authorisationToken, username,empTeamDTo);
+    }
+    
+    
 }

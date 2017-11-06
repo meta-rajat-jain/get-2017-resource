@@ -23,6 +23,7 @@ import com.metacube.helpdesk.model.Organisation;
 import com.metacube.helpdesk.service.EmployeeService;
 import com.metacube.helpdesk.service.LoginService;
 import com.metacube.helpdesk.service.OrganisationService;
+import com.metacube.helpdesk.service.TeamService;
 import com.metacube.helpdesk.utility.Constants;
 import com.metacube.helpdesk.utility.MailSend;
 import com.metacube.helpdesk.utility.MessageConstants;
@@ -46,6 +47,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Resource
     LoginService loginService;
+    
+    @Resource
+    TeamService teamService;
 
     @Resource
     OrganisationService organisationService;
@@ -144,12 +148,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return new Response(statusCode, null, message);
     }
-
-    protected Employee dtoToModel(EmployeeDTO employeeDTO) {
+    
+    @Override
+    public Employee dtoToModel(EmployeeDTO employeeDTO) {
         if (employeeDTO == null) {
             return null;
         }
         Employee employee = new Employee();
+        //employee.setEmployeeId(employeeDAO.getEmployee(loginService.dtoToModel(employeeDTO.getLogin())).getEmployeeId());
         employee.setEmployeeName(employeeDTO.getName());
         employee.setContactNumber(employeeDTO.getContactNumber());
         employee.setDesignation(employeeDTO.getDesignation());
@@ -161,8 +167,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employee;
     }
-
-    protected EmployeeDTO modelToDto(Employee employee) {
+    
+    @Override
+    public EmployeeDTO modelToDto(Employee employee) {
         if (employee == null) {
             return null;
         }
@@ -225,7 +232,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             LogIn managerLogInObject= loginDAO.get(managerUsername);
             if(managerLogInObject!=null){
                 if(employeeDAO.addManager(authorisationTokenFromLogin,username,employeeDAO.getEmployee(managerLogInObject)).equals(Status.Success)){
-                   return new Response(1,authorisationTokenFromLogin,"Manager Added Successfully"); 
+                    teamService.createTeam(managerUsername);
+                    return new Response(1,authorisationTokenFromLogin,"Manager Added Successfully");
+                   
                 }
             }
           return new Response(2,authorisationTokenFromLogin,"User with this username does not exist");

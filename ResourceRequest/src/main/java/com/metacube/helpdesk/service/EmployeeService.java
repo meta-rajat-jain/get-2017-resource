@@ -29,4 +29,8 @@ public interface EmployeeService {
 
     EmployeeDTO getEmployeeByUsername(String authorisationToken,
             String username, String employeeUsername);
+
+    Employee dtoToModel(EmployeeDTO employeeDTO);
+
+    EmployeeDTO modelToDto(Employee employee);
 }

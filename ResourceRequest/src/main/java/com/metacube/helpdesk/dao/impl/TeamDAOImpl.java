@@ -5,6 +5,8 @@ import java.util.List;
 
 
 
+
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.metacube.helpdesk.dao.TeamDAO;
 import com.metacube.helpdesk.model.Employee;
-import com.metacube.helpdesk.model.EmployeeAssociatedTeam;
+
 import com.metacube.helpdesk.model.Organisation;
 import com.metacube.helpdesk.model.Team;
 import com.metacube.helpdesk.utility.Response;
@@ -27,18 +29,18 @@ public class TeamDAOImpl implements TeamDAO {
     @Autowired
     private SessionFactory sessionFactory;
     
-    @Override
+  /*  @Override
     public List<Team> getAllTeamsByHeadList(List<Employee> employeeList) {
         Session session = this.sessionFactory.getCurrentSession();
      // Criteria query
         Criteria cr = session.createCriteria(Team.class).add(Restrictions.in("teamHead", employeeList));              
         List<Team> allTeams = cr.list();
         return allTeams;
-    }
+    }*/
 
   
     
-    @Override
+    /*@Override
     public List<Employee> getAllEmployeesInTeam(List<Team> teamsUnderHead) {
         Session session = this.sessionFactory.getCurrentSession();
         // Criteria query
@@ -46,7 +48,7 @@ public class TeamDAOImpl implements TeamDAO {
            List<Employee> allEmployeesUnderTeam = cr.list();
            return allEmployeesUnderTeam;
     }
-
+*/
     @Override
     public List<Team> getTeamForHead(Employee employee) {
         Session session = this.sessionFactory.getCurrentSession();
@@ -75,5 +77,43 @@ public class TeamDAOImpl implements TeamDAO {
         }
         return result;
     }
+
+
+
+    @Override
+    public Status addEmployeeToTeam(Employee employee) {
+        Status result = Status.Success;
+        try {
+            Session session = this.sessionFactory.getCurrentSession();
+            Criteria cr = session.createCriteria(Employee.class);
+           
+            session.update(employee);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = Status.Error_Occured;
+        }
+        return result;
+    }
+
+
+
+    @Override
+    public Team getTeamByName(String teamName) {
+        try {
+            Session session = this.sessionFactory.getCurrentSession();
+            Criteria cr = session.createCriteria(Team.class).add(Restrictions.eq("teamName",teamName ));
+           Team team = (Team) cr.uniqueResult();
+           return team;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+   
 
 }

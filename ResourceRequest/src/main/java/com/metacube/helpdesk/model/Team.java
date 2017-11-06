@@ -2,6 +2,10 @@ package com.metacube.helpdesk.model;
 
 import java.io.Serializable;
 
+
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +13,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+
 
 @Entity
 @Table(name="Team")
@@ -30,17 +37,27 @@ public class Team implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int teamId;
     
-    @Column(name="teamName", nullable = false)
+    @Column(name="teamName", nullable = false,unique=true)
     private String teamName;
     
     @ManyToOne
-    @JoinColumn(name="orgId",nullable=false)
+    @JoinColumn(name="orgId")
     private Organisation organisation;
     
     @ManyToOne
     @JoinColumn(name="teamHead")
     private Employee teamHead;
     
+    @ManyToMany(mappedBy = "teams")
+    private Set<Employee> employees = new HashSet<>();
+
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+    }
 
     public Team() {
 
