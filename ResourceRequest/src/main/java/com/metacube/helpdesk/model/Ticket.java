@@ -29,11 +29,11 @@ public class Ticket implements Serializable {
     private int ticketNo;
 
     // doubtful case ( two joins on same column)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "requester", nullable = false)
     private Employee requester;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "requestedFor", nullable = false)
     private Employee requestedFor;
 
@@ -55,7 +55,7 @@ public class Ticket implements Serializable {
     @Column(name = "comment")
     private String comment;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "requestedResource", nullable = false)
     private Resource requestedResource;
 

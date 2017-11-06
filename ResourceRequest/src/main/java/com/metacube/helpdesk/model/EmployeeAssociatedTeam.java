@@ -20,12 +20,12 @@ public class EmployeeAssociatedTeam implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="employeeId",nullable=false)
     private Employee employeeId;
     
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="teamId",nullable=false)
     private Team teamId;
 

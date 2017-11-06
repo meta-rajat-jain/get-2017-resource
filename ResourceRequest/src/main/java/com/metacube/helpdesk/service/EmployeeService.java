@@ -20,7 +20,7 @@ public interface EmployeeService {
 
     Response deleteEmployee(String authorisationToken, String username,
             String employeeToBeDeleted); 
-    EmployeeDTO getEmployee(String username);
+    
 
     Response updateEmployee(String authorisationToken, String username,
             EmployeeDTO employeeToBeUpdated);

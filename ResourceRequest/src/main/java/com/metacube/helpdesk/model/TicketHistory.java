@@ -27,7 +27,7 @@ public class TicketHistory implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id; 
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="ticketNo",nullable=false)
     private Ticket ticket;
     
@@ -45,7 +45,7 @@ public class TicketHistory implements Serializable {
     @Column(name="dateOfUpdate",nullable=false)
     private Date dateOfUpdate;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="updatedBy",nullable=false)
     private Employee updatedBy;
     

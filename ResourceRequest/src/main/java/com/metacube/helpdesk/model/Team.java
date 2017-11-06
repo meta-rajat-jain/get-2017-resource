@@ -33,11 +33,11 @@ public class Team implements Serializable {
     @Column(name="teamName", nullable = false)
     private String teamName;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="orgId",nullable=false)
     private Organisation organisation;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="teamHead")
     private Employee teamHead;
     

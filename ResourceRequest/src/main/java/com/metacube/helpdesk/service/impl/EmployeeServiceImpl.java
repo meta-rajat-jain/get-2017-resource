@@ -255,10 +255,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new Response(0,null,MessageConstants.UNAUTHORISED_USER);
     }
 
-    @Override
-    public EmployeeDTO getEmployee(String username) {        
-        return modelToDto(employeeDAO.getEmployee(loginDAO.get(username)));
-    }
+   
 
     @Override
     public Response updateEmployee(String authorisationTokenFromLogin, String username,
@@ -290,7 +287,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             return null;
         }
         if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
-            return getEmployee( username);
+            return modelToDto(employeeDAO.getEmployee(loginDAO.get(employeeUsername)));
         }
         return null;
     }

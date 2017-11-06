@@ -35,7 +35,7 @@ public class HelpDeskResponse implements Serializable {
     @Column(name="comment")
     private String comment;
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name="ticketNo",unique=true,nullable=false)
     private Ticket ticket;
 

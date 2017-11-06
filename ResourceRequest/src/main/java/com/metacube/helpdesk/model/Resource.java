@@ -29,7 +29,7 @@ public class Resource implements Serializable {
     @Column(name="resourceName", nullable = false)
     private String resourceName;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="resourceCategory",nullable=false)
     private ResourceCategory resourceCategory;
     
