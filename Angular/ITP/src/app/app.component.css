@@ -1,0 +1,23 @@
+.layer1{
+    background-color: #52767d;
+    color: white;
+    padding:20px;
+    
+  }
+  
+  .layer1 .container button{
+    background-color:#F0677C;
+    border:1px solid black;
+  }
+  
+  .layer1 .container .navbar-toggle .icon-bar{
+    background-color: white;
+  }
+
+
+footer{
+	padding: 10px;
+	color: white;
+  background: #52767d;
+  height:  inherit auto;
+}

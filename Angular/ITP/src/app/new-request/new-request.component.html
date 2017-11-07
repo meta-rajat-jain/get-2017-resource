@@ -1,0 +1,47 @@
+<section>
+  <div id="container_demo">
+
+    <div id="wrapper" style="height:auto">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <form [formGroup]="reactiveForm">
+          <div id="requestForm">
+            <h1>New Employee</h1>
+
+            <label for="Title" class="title"> {{Title}} </label>
+
+            <label for="requester" class="uname"> Requested By : </label>{{username}}
+            
+            <label for="requestedFor" class="requestedFor"> Requested For </label>
+            <input #requestedFor name="requestedFor" required="required" formControlName="requestedFor" type="text" placeholder=" mymail"/>
+            <h6 class="alert" *ngIf="!reactiveForm.controls['requestedFor'].valid && reactiveForm.controls['requestedFor'].touched ">"Incorrectly specified email"</h6>
+
+            <label for="priority" class="priority" >Priority</label>
+            <select>
+                <option value="volvo" [value]="priority">Volvo</option>
+                <option value="saab" [value]="priority">Saab</option>
+                <option value="mercedes" [value]="priority">Mercedes</option>
+                <option value="audi" [value]="priority">Audi</option>
+              </select>
+
+              <label for="ResourceRequested" class="ResourceRequested">Resources</label>
+              <select>
+                <option *ngFor="let resource of resources" [value]="resource">{{ResourceType}}</option>
+                </select>
+            <br>
+            <span>
+
+                <label for="comment" class="comment">Comment </label>
+                <textarea #comment  rows="4" cols="50"></textarea>
+               
+                <label for="location" class="location"> Your location </label>
+                <textarea #location  rows="4" cols="50"></textarea>
+                <button id="button" class="btn btn-primary " (click)="Request(requestedFor.value,priority.value,resource.value,comment.value,location.value)">Register</button>
+
+            </span>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>

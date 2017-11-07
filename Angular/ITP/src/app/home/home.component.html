@@ -1,20 +1,5 @@
+<body>
 
-<header>
-	<div class="layer1 ">
-		<div class="container">
-			<div class="row">
-				<button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target="#navbar">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<div class="logo col-xs-12 col-sm-11 col-md-11 col-lg-11">
-					<h1>IT RESOURCE REQUEST</h1>
-				</div>
-			</div>
-		</div>
-	</div>
-</header>
 <nav class="navbar navbar-default">
 	<div class="container">
 		<div class="row">
@@ -36,7 +21,7 @@
 </nav>
 
 <div class="container-fluid">
-	<div class="row">
+	<div class="row" >
 		<div class="col-lg-7  col-xs-12 col-sm-12 col-md-7">
 			<div class="tab-content">
 				<div class="tab-pane in active" id="section1" >
@@ -62,7 +47,7 @@
 		</div>
 
 
-		<div class="col-lg-5 col-xs-12 col-sm-12 col-md-5">
+		<div class="col-lg-5 col-xs-12 col-sm-12 col-md-5" >
 
 			<section>
 				<div id="container_demo">
@@ -83,10 +68,10 @@
 									<label for="password" class="youpasswd"> Your password </label>
 									<input #password name="password" formControlName="password" required="required" type="password" placeholder="eg. X8df!90EO"
 									/>
-									<div class="alert" *ngIf="!reactiveForm.controls['password'].valid && reactiveForm.controls['password'].touched">"Password must have at least a single digit"</div>
+									<div class="alert" *ngIf="!reactiveForm.controls['password'].valid && reactiveForm.controls['password'].touched">"Password must have at least a eight digit"</div>
 								
 									<br><br><br>
-									<span class="buttons"><button class="loginBtn btn btn-primary loginButton" (click)="login(username.value , password.value)">Login </button>
+									<span class="buttons"><button class="loginBtn btn btn-primary loginButton" (click)="login(username.value , password.value)" >Login </button>
 										
 										<button class="loginBtn loginBtn--google"(click)="onSignIn()">
 											<i class="fa fa-google-plus fa-fw"></i> Login
@@ -94,9 +79,14 @@
 
 
 								</span>
-									
+								<br>
+
+									<p class="alert" style="color:red" *ngIf="errorMessage">{{errorMessage}}</p>
+								
+
 								<br>
 								<br>
+
 								<p class="toggler pull-right">
 									Not a member yet ?
 									<button id="signup" click-stop-propagation (click)="flip1()">Join us</button>
@@ -142,7 +132,7 @@
 									<br>
 									<span>
 
-										<button id="login" class="btn btn-primary  " click-stop-propagation (click)="flip()">Back</button>
+										<button id="login" class="btn btn-primary  " click-stop-propagation (click)="flip()">Login</button>
 										<button class="btn btn-primary " (click)="signUpEmp(usernameEmp.value,passwordEmp.value,emailIdEmp.value,contactnoEmp.value)">Sign Up</button>
 
 
@@ -177,7 +167,7 @@
 									<br>
 									<span>
 
-										<button id="login" class="btn btn-primary  " click-stop-propagation (click)="flip()">Back</button>
+										<button id="login" class="btn btn-primary  " click-stop-propagation (click)="flip()">Login</button>
 										<button class="btn btn-primary " (click)="signUpOrganisation(usernameOrg.value,emailIdOrg.value,domainname.value, passwordOrg.value,contactnoOrg.value)">sign Up</button>
 
 
@@ -197,8 +187,6 @@
 		</div>
 	</div>
 </div>
-<footer style="  margin-top: 165px;">
-	<div class="container">
-		<p>&copy; 2017 All rights reserved.</p>
-	</div>
-</footer>
+<div id="gutter"></div>
+
+</body>

@@ -1,6 +1,6 @@
 import { Login } from "./login";
 
-export class signUpEmployee {
+export class Employee {
     name:string;
     contactNumber:number;
     orgDomain:string;

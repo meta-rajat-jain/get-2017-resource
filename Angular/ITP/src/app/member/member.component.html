@@ -1,0 +1,217 @@
+
+<body class="dashboard" >
+    <nav class="navbar navbar-default">
+      <div class="container">
+       
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#section1">Request-Tab</a></li>
+          <li ><a data-toggle="tab" href="#section2">New Request</a></li>
+          <li class="pull-right">
+            <a   (click)="logOut()">Log Out</a>
+          </li>
+          <li class="pull-right">
+            <span class="glyphicon glyphicon-user img-circle user-image"></span>
+            <span><a href="#">{{username}}</a></span>
+          </li>
+        </ul>
+        
+      </div>
+    </nav>
+    <div class="tab-content">
+      <div class="tab-pane in active" id="section1">
+      
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="chart-wrapper">
+                <div class="chart-title">
+                 Recent Activity
+                </div>
+                <div class="chart-stage">
+                  <img data-src="holder.js/100%x650/white">
+                </div>
+                <div class="chart-notes">
+                  Notes about this chart
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-9">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="chart-wrapper">
+                    <div class="chart-title">
+                     Employee Info
+
+                    </div>
+                    <div class="chart-stage">
+                    <div class ="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <img class="img-responsive" src="assets/images/userIcon.png">
+                    </div>
+                    <div class ="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        User Information
+                    </div>
+                                          
+                    </div>
+                    <div class="chart-notes">
+                     
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="chart-wrapper">
+                    <div class="chart-title">
+                     Open
+                    </div>
+                    <div class="chart-stage">
+                      <img class="img-responsive" src="assets/images/open.png">
+                    </div>
+                    <div class="chart-notes">
+                      Opened Requests
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="chart-wrapper">
+                    <div class="chart-title">
+                      In-Progress
+                    </div>
+                    <div class="chart-stage">
+                      <img class="img-responsive" src="assets/images/Progress.png">
+                    </div>
+                    <div class="chart-notes">
+                      Requests in progress
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="chart-wrapper">
+                    <div class="chart-title">
+                      Need Additional Information
+                    </div>
+                    <div class="chart-stage">
+                      <img class="img-responsive" src="assets/images/needInformation.png">
+                    </div>
+                    <div class="chart-notes">
+                      Requests which require additional Information
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="chart-wrapper">
+                    <div class="chart-title">
+                     Requests Reopened
+                    </div>
+                    <div class="chart-stage">
+                      <img class="img-responsive" src="assets/images/reopened.png">
+                    </div>
+                    <div class="chart-notes">
+                     Requests which are reopened
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="chart-wrapper">
+                    <div class="chart-title">
+                      Approved requests
+                    </div>
+                    <div class="chart-stage">
+                      <img class="img-responsive" src="assets/images/approved.png">
+                    </div>
+                    <div class="chart-notes">
+                     Requests which are approvd
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="chart-wrapper">
+                    <div class="chart-title">
+                     Requests which are closed
+                    </div>
+                    <div class="chart-stage">
+                      <img class="img-responsive" src="assets/images/closed.png">
+                    </div>
+                    <div class="chart-notes">
+                     Closed requests
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+      
+      <div class="tab-pane" id="section2">
+
+          <div id="container_demo">
+              
+                  <div id="wrapper" style="height:auto">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <form [formGroup]="reactiveForm">
+                        <div id="requestForm">
+                          <h1>New Request</h1>
+              
+                          <label for="Title" class="title"> {{TicketNo}} </label>
+                          <br>
+                          <label for="requester" class="uname"> Requested By : </label>{{emailId}}
+                          <br>
+                          <label for="requestedFor" class="requestedFor"> Requested For </label>
+                          <input #requestedFor name="requestedFor" required="required" formControlName="requestedFor" type="text" placeholder=" mymail"/>
+                          <h6 class="alert" *ngIf="!reactiveForm.controls['requestedFor'].valid && reactiveForm.controls['requestedFor'].touched ">"Incorrectly specified email"</h6>
+              
+                          <label for="priority" class="priority" >Priority</label>
+                          <select>
+                              <option value="volvo" [value]="priority">Volvo</option>
+                              <option value="saab" [value]="priority">Saab</option>
+                              <option value="mercedes" [value]="priority">Mercedes</option>
+                              <option value="audi" [value]="priority">Audi</option>
+                            </select>
+              
+                            <label for="ResourceRequested" class="ResourceRequested">Resources</label>
+                            <select>
+                              <option *ngFor="let resource of resources" [value]="resource">{{ResourceType}}</option>
+                              </select>
+                          <br>
+                          <span>
+              
+                              <label for="comment" class="comment">Comment </label>
+                              <textarea #comment  rows="4" cols="50"></textarea>
+                             
+                              <label for="location" class="location"> Your location </label>
+                              <textarea #location  rows="4" cols="50"></textarea>
+                              <button id="button" class="btn btn-primary " (click)="Request(requestedFor.value,priority.value,resource.value,comment.value,location.value)">Register</button>
+              
+                          </span>
+                        </div>
+                      </form>
+              
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+
+
+
+      </div>
+      
+      
+      
+      
+      
+      
+      </div>
+      
+       
+      </body>
+     
+      

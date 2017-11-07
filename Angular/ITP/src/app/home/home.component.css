@@ -1,38 +1,16 @@
 body{
 	margin:0px;
 	padding:0px;
-	box-sizing:border-box;
+  box-sizing:border-box;
+  margin:0px;
+	padding:0px;
+  box-sizing:border-box;
+  background-color: #efecec;
 }
 
 a{
 	color:white;
 }
-
-.navbar-default{
-	background-color:#739fa5;
-  border: 0px;
-  border-radius:0px;
-}
-
-.navbar{
-  min-height:0px;
-}
-.nav-tabs{
-	color:white;
-	border-bottom:0px;
-}
-
-.navbar-default .navbar-nav>li>a{
-  color:white;
-}
-
-
-footer{
-	padding: 10px;
-	color: white;
-	background: #52767d;
-}
-
 
 .flip {
     backface-visibility: hidden;
@@ -153,7 +131,7 @@ input {
    width: 100%;	
    padding: 1px 12% 30px 10%;
    margin: 0 0 35px 0;
-   background: rgb(247, 247, 247);
+   background:none;
    border: 1px solid rgba(147, 184, 189,0.8);
   
    -moz-border-radius: 5px;
@@ -162,36 +140,17 @@ input {
 }
 
 #log,#sign{
-
+background-color: white;
    width:400px;
 }
 .nav-tabs>li>a {
 	border-radius:0px;
 	margin-right:0px;
 }
-body{
-	margin:0px;
-	padding:0px;
-	box-sizing:border-box;
-}
-.layer1{
-  background-color: #52767d;
-  color: white;
-  padding:20px;
-}
 
-.layer1 .container button{
-  background-color:#F0677C;
-  border:1px solid black;
-}
 
-.layer1 .container .navbar-toggle .icon-bar{
-  background-color: white;
-}
 
-a{
-	color:white;
-}
+
 
 .navbar-default{
   background-color:#739fa5 !important;
@@ -205,8 +164,7 @@ a{
 }
 .nav-tabs{
   color:white;
- 
-	border-bottom:0px;
+  border-bottom:0px;
 }
 
 .navbar-default .navbar-nav>li>a{
@@ -214,12 +172,7 @@ a{
 }
 
 
-footer{
-	padding: 10px;
-	color: white;
-  background: #52767d;
-  height:  inherit auto;
-}
+
 
 .flip {
     backface-visibility: hidden;
@@ -259,6 +212,7 @@ a.hiddenanchor{
    display: none;
 }
 /** The wrapper that will contain our two forms **/
+
 #wrapper{
 
    right: 0px;
@@ -358,6 +312,10 @@ input {
 		    height: 550px;
 }
 
+#log[_ngcontent-c0], #sign[_ngcontent-c0]{
+  background: white;
+}
+
 #log,#sign{
    z-index: 22;
    width:400px;
@@ -414,4 +372,12 @@ input {
 }
 .buttons{
   margin-left: 80px;
+}
+
+.jumbotron{
+  background-color: #efecec;
+}
+#gutter{
+  background:#efecec;
+  height: 175px;
 }

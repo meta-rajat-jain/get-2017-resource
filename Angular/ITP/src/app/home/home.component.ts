@@ -1,12 +1,13 @@
-import { Component, OnInit, HostListener, Directive } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
-import { Authentication } from './Authentication';
 import { HomeService } from './home.service';
-import { AuthenticatedHeader } from './authenticatedHeader';
 import { FormBuilder, FormGroup, Validators,FormControl } from '@angular/forms';
 import Typed from 'typed.js';
 import { AuthService, SocialUser } from 'angular4-social-login';
 import { GoogleLoginProvider } from 'angular4-social-login';
+import { Authentication } from '../Model/Authentication';
+import { AuthenticatedHeader } from '../Model/authenticatedHeader';
+import { ResponseObject } from '../Model/responseObject';
 
 declare var $:any;
 
@@ -20,6 +21,7 @@ declare var $:any;
 
   export class HomeComponent implements OnInit {
     home:HomeComponent;
+    responseObject:ResponseObject;
     private user: SocialUser;
     private loggedIn: boolean;
     authenticationObject:Authentication;
@@ -30,21 +32,22 @@ declare var $:any;
     selectedDomain:string;
     checkDomainNames:string[];
     domainTitle:string;
+    errorMessage:string;
     constructor(private log:HomeService, private router:Router,private fb: FormBuilder,private authService: AuthService) { 
       this.reactiveForm = this.fb.group({
         'username' : [null,Validators.compose([Validators.required,Validators.email])],
         'password' : [null, Validators.required],
 
-        'empName'  : [null,Validators.compose([Validators.required,Validators.minLength(1),Validators.pattern('^[a-zA-Z]{3,30}$')])],
+        'empName'  : [null,Validators.compose([Validators.required,Validators.minLength(1),Validators.pattern('[A-Za-z]+ *[A-Za-z ]+$')])],
         'empEmail'  : [null,Validators.compose([Validators.required,Validators.minLength(1)])],
         'empPassword'  : [null,Validators.compose([Validators.required,Validators.minLength(8)])],
         'empContact'  : [null,Validators.compose([Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[7-9][0-9]{9}$')])],
 
         'orgContactNo'  : [null,Validators.compose([Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[7-9][0-9]{9}$')])],
-        'orgName'  : [null,Validators.compose([Validators.required,Validators.pattern('^[a-zA-Z]{2,30}$')])],
-        'orgEmail'  :  [null,Validators.compose([Validators.required,Validators.minLength(1),Validators.email])],
-        'orgPassword'  : [null,Validators.compose([Validators.required,Validators.minLength(8)])],
-        'orgDomainName'  :  [null,Validators.compose([Validators.required,Validators.minLength(1),Validators.pattern('^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,6}$')])]
+        'orgName'  :      [null,Validators.compose([Validators.required,Validators.pattern('[A-Za-z]+ *[A-Za-z ]+$')])],
+        'orgEmail'  :     [null,Validators.compose([Validators.required,Validators.minLength(1),Validators.email])],
+        'orgPassword'  :  [null,Validators.compose([Validators.required,Validators.minLength(8)])],
+        'orgDomainName'  :[null,Validators.compose([Validators.required,Validators.minLength(1),Validators.pattern('^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,6}$')])]
       
       });
      
@@ -67,41 +70,63 @@ declare var $:any;
     });
     this.authService.authState.subscribe((user) => {
       this.user = user;
-      console.log(user);
+     
       this.loggedIn = (user != null);
       if(user!=null){
-        console.log("in if" + user.email);
+     
         this.signInWithGoogle(user);
       }
       });
      this.log.getOrganisation();
       }
 
-
       login(username:string,password:string){
         
                 console.log("in username" + username);
         
                 this.log.authenticate(username,password).then(response => {
-                  this.authenticationObject = response;
-                  console.log(this.authenticationObject.statusCode);
+
+                  this.responseObject = response;
+                
                   let authenticationHeader:AuthenticatedHeader ={
                     username:username,
-                    authenticationToken:this.authenticationObject.authorisationToken
+                    authorisationToken:this.responseObject.response.authorisationToken
                     
                   }
-                  if(this.authenticationObject.statusCode==1) {
-                        this.log.saveUser(authenticationHeader);
-                        console.log(authenticationHeader + "in compo");
-                        console.log(authenticationHeader.authenticationToken);
-                        console.log(this.authenticationObject.authorisationToken);
-                        console.log(this.log.getUsername());
-                        console.log("in lo" + localStorage.getItem('authenticationObject'));
-                      this.router.navigate(['/dashboard']);
-                    }else {
-                    
+                  localStorage.setItem('employeeType',this.responseObject.employeeType);
+                  if(this.responseObject.response.statusCode==1) {
+                    this.log.saveUser(authenticationHeader);
+                    console.log(authenticationHeader + "in compo");
+                    console.log(authenticationHeader.authorisationToken);
+                    console.log("type" + this.responseObject.employeeType);
+                    console.log(this.log.getAuthenticationObject());
+                    console.log("in lo" + localStorage.getItem('authenticationObject'));
+                    console.log(this.responseObject.employeeType);
+                    if(this.responseObject.employeeType == 'Team Member'){
+                      this.router.navigate(['/memberDashboard']);
+                    }
+                    else if(this.responseObject.employeeType == 'Team Lead'){
+                      this.router.navigate(['/teamLeadDashboard']);
+                    }
+                    else if(this.responseObject.employeeType == 'Manager'){
+                      this.router.navigate(['/managerDashboard']);
+                    }
+                    else if(this.responseObject.employeeType == 'Organisation Admin'){
+                      console.log("in admin");
+                      this.router.navigate(['/adminDashboard']);
+                    }
+                    else if(this.responseObject.employeeType.toString() == 'helpDesk'){
+                      this.router.navigate(['/helpDeskDashboard']);
+                    }
+                    else {
                       this.router.navigate(['/']);
                     }
+                this.errorMessage="Valid Credentials" + this.responseObject.response.message;
+                }else {
+                  this.errorMessage="Invalid Credentials" + this.responseObject.response.message;
+                  this.router.navigate(['/']);
+                }      
+             
                   
                 });
                
@@ -118,12 +143,28 @@ declare var $:any;
               
                       this.log.signUp(usernameEmp,passwordEmp,emailIdEmp,contactnoEmp,mySelect).then(response => {
                         this.authenticationObject = response;
+                        
                         console.log("status.code" + this.authenticationObject.statusCode);
                         let authenticationHeader:AuthenticatedHeader ={
                           username:usernameEmp,
-                          authenticationToken:this.authenticationObject.authorisationToken
+                          authorisationToken:this.authenticationObject.authorisationToken
                           
                         }          
+                        if(this.authenticationObject.statusCode==1) {
+                          this.log.saveUser(authenticationHeader);
+                          console.log(authenticationHeader + "in compo");
+                          console.log(authenticationHeader.authorisationToken);
+                          console.log(this.authenticationObject.authorisationToken);
+                          console.log(this.log.getAuthenticationObject());
+                          console.log("in lo" + localStorage.getItem('authenticationObject'));
+                   
+                        this.errorMessage="Valid Credentials" + this.authenticationObject.message;
+                        location.reload(true);
+                      }else {
+                        location.reload();
+                        this.errorMessage="Invalid Credentials" + this.authenticationObject.message;
+                        this.router.navigate(['/']);
+                      }    
                    
                       }); 
                   }
@@ -135,13 +176,29 @@ declare var $:any;
                     
                             this.log.signUpOrganisation(usernameOrg,emailIdOrg,domainname, passwordOrg,contactnoOrg).then(response => {
                               this.authenticationObject = response;
-                              console.log(this.authenticationObject.statusCode);
+                              console.log(this.responseObject.response.statusCode + this.responseObject.response.message);
                               let authenticationHeader:AuthenticatedHeader ={
                                 username:usernameOrg,
-                                authenticationToken:this.authenticationObject.authorisationToken
+                                authorisationToken:this.authenticationObject.authorisationToken
                                 
-                              }          
-                         
+                              }    
+                              if(this.authenticationObject.statusCode==1) {
+                                this.log.saveUser(authenticationHeader);
+                                console.log(authenticationHeader + "in compo");
+                                console.log(authenticationHeader.authorisationToken);
+                                console.log(this.authenticationObject.authorisationToken);
+                                console.log(this.log.getAuthenticationObject());
+                                console.log("in lo" + localStorage.getItem('authenticationObject'));
+                             
+                              this.errorMessage="Valid Credentials" + this.authenticationObject.message;
+                              
+                             
+                              location.reload(true);
+                            }else {
+                              this.errorMessage="Invalid Credentials" + this.authenticationObject.message;
+                              this.router.navigate(['/']);
+                            }  
+                            
                             }); 
                         }
       
@@ -153,22 +210,17 @@ declare var $:any;
 
                           signInWithGoogle(user:SocialUser):void{
                               console.log("Function is Called" + user.email);
+
                               this.log.authenticateGoogleUser(user).then( response => {
-                                this.authenticationObject = response;
-                                console.log("in google + profile status code" + this.authenticationObject.statusCode);
-                                console.log("in google + profile authentication object" + this.authenticationObject.authorisationToken + this.authenticationObject.message);
-                                let authenticationHeader:AuthenticatedHeader ={
+                                this.responseObject = response;
+
+                               let authenticationHeader:AuthenticatedHeader ={
                                   username:user.email,
-                                  authenticationToken:this.authenticationObject.authorisationToken
+                                  authorisationToken:this.responseObject.response.authorisationToken
                                   
                                 }
-                                if(this.authenticationObject.statusCode==1) {
-                                      this.log.saveUser(authenticationHeader);
-                                      console.log(authenticationHeader + "in google + account");
-                                      console.log(authenticationHeader.authenticationToken+ "in google + account");
-                                      console.log(this.authenticationObject.authorisationToken+ "in google + account");
-                                      console.log(this.log.getUsername()+ "in google + account");
-                                      console.log("in lo" + localStorage.getItem('authenticationObject')+ "in google + account");
+                                if(this.responseObject.response.statusCode == 1) {
+                                    this.log.saveUser(authenticationHeader);
                                     this.router.navigate(['/dashboard']);
                                   }else {
                                   
@@ -182,6 +234,7 @@ declare var $:any;
                           }
 
                           checkOrganisation(email:string):void{
+                           
                             this.checkDomainNames = this.log.getDomainNames();
                              let input = email.split("@");
                         
@@ -189,10 +242,11 @@ declare var $:any;
                             console.log(this.checkDomainNames);
                             for(let domain of this.checkDomainNames){
                               console.log("getting value of each domain:"  );
-                              console.log( domain);
+                              console.log( "domain name" + domain);
                               console.log(input[1] + "input[1]");
                               if(input[1] === domain){
                                 this.domainTitle ='';
+                                break;
                               }
                               else{
                                 this.domainTitle = 'Your Organisation is not registered with us';

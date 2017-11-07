@@ -1,0 +1,181 @@
+<nav class="navbar navbar-default">
+  <div class="container">
+   
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#section1">Managers</a></li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Employee
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a data-toggle="tab" href="#createEmployee">Create Employee</a></li>
+          <li><a data-toggle="tab" href="#editEmployee">Edit Employee Details</a></li>
+        </ul>
+      </li>
+      <li class="pull-right">
+        <a href="#section3"  (click)="logOut()">Log Out</a>
+      </li>
+      <li class="pull-right">
+        <span class="glyphicon glyphicon-user img-circle user-image"></span>
+        <span><a href="#">{{username}}</a></span>
+      </li>
+    </ul>
+    
+  </div>
+</nav>
+
+<div class="tab-content">
+  <div class="tab-pane in active" id="section1">
+    
+      <div class="main-content">
+        <div class="container">
+          <h2>Managers</h2>
+          <br>
+          <div class="row">
+         <!--   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ">
+            <div class="card card-outline-primary mb-3 text-center">
+                <div class="card-block">
+                  <h3 class="card-title">{{manager.name}}</h3>
+                <hr>  
+                  <span><b>{{manager.designation}}</b></span>
+                <hr>
+                <span><b>{{manager.login.username}}</b></span>
+                <hr>
+                <span><b>{{manager.contactNumber}}</b></span>
+                
+                </div>
+              </div>-->
+              <div class="col-sm-6 col-md-4 manager-list" *ngFor="let manager of managers">
+                  <div class="chart-wrapper">
+                    <div class="chart-title">
+                        {{manager.name}}
+                    </div>
+                    <div class="chart-stage">
+                      <div id="grid-1-1">
+                          {{manager.login.username}}
+                      </div>
+                    </div>
+                    <div class="chart-notes">
+                        {{manager.contactNumber}}
+                    </div>
+                  </div>
+                </div>
+
+                
+            
+          </div>
+        </div>
+      </div>
+  </div>
+ 
+    <div class="tab-pane"  id="createEmployee">
+        <section>
+            <div id="container_demo">
+              
+              <div id="wrapper" style="height:auto">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <form [formGroup]="reactiveForm">
+            <div id="sign" >
+              <h1>New Employee</h1>
+             
+              
+                
+                  <label for="usernameEmp" class="uname"> Your Name </label>
+                  <input #usernameEmp name="usernameEmp" formControlName="empName" required="required" type="text" placeholder="myusername " />
+                  <h6 class="alert" *ngIf="!reactiveForm.controls['empName'].valid && reactiveForm.controls['empName'].touched">Invalid Enter</h6>
+                
+              
+                  <label for="emailId" class="emailId"> Your Email </label>
+                  <input #emailIdEmp name="emailIdEmp" required="required" formControlName="empEmail" type="text" placeholder=" mymail" (change)="checkOrganisation(emailIdEmp.value)"/>
+                  <h6 class="alert" *ngIf="!reactiveForm.controls['empEmail'].valid && reactiveForm.controls['empEmail'].touched ">"Incorrectly specified email"</h6>
+                  <p class="domain_message" *ngIf="domainTitle">{{domainTitle}}</p>
+                  
+                
+                
+                  <label for="passwordEmp" class="youpasswd"> Your password </label>
+                  <input #passwordEmp name="passwordEmp"formControlName="empPassword" required="required" type="password" placeholder="eg. X8df!90EO" />
+                  <h6 class="alert" *ngIf="!reactiveForm.controls['empPassword'].valid && reactiveForm.controls['empPassword'].touched">"Password must have at least a single digit"</h6>
+                
+  
+                
+                  <label for="contactno" class="contactNumber"> Contact Number </label>
+                  <input #contactnoEmp name="contactnoEmp" required="required" formControlName="empContact" type="text" placeholder="eg. 8888-888888" />
+                  <h6 class="alert" *ngIf="!reactiveForm.controls['empContact'].valid && reactiveForm.controls['empContact'].touched">"Please fill a valid contact number"</h6>
+                
+                <br>
+                <span>
+  
+                
+                  <button id ="button" class="btn btn-primary " (click)="signUpEmp(usernameEmp.value,passwordEmp.value,emailIdEmp.value,contactnoEmp.value)">Register</button>
+  
+  
+  
+                </span>
+              </div>
+              </form>
+           
+					</div>
+          </div>
+				</div>
+			</section>
+  
+  
+
+   
+    
+  </div>
+  <div style="height:80px"></div>
+
+  <div class="tab-pane"  id="editEmployee">
+
+
+
+
+
+
+      <div class="table-responsive text-center">
+
+          Employee Search :  <input [(ngModel)]="searchText"  placeholder="Search Employee " >
+          <table class="table table-hover table-striped table-bordered">
+              <thead>
+                  <tr>
+                      <th class=" text-center">Employee Name</th>
+                      <th class=" text-center">Designation</th>
+                      <th class=" text-center">Employee Work Id</th>
+                      <th class=" text-center">Options</th>
+                  </tr>
+              </thead>
+              <tbody><tr *ngFor="let employee of employees| filter : searchText"  >
+                <td>{{employee.name}}</td>
+                <td>{{employee.designation}} </td>
+                <td>{{employee.login.username}}</td>
+                <td>
+                  <button class="btn btn-primary" (click)="editEmployeeDetail(employee)"><span class="glyphicon glyphicon-pencil "  ></span> Edit</button>
+                  <button class="delete btn btn-primary"(click)="deleteEmployee(employee); $event.stopPropagation()"><span class="glyphicon glyphicon-folder-close" > </span>Delete</button>
+                  <button class="btn btn-primary" (click)="getEmployeeDetail(employee)"><span class="glyphicon glyphicon-list-alt"></span>Details </button>
+                  <button class="btn btn-primary" (click)="addManager(employee)"><span class="glyphicon glyphicon-plus"></span>Promote to Manager</button>
+                </td>
+            </tr>
+        </tbody>
+      </table>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    
+        <div id="gutter"></div>
+
+  </div>
+  <div class="tab-pane"  id="removeEmployee">Section 3</div>
+  </div>
+
+
+  

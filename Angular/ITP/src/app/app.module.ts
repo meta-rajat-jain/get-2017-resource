@@ -9,7 +9,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SocialLoginModule, AuthServiceConfig } from "angular4-social-login";
 import { GoogleLoginProvider } from "angular4-social-login";
-import {GoogleSignInComponent} from 'angular-google-signin';
+import { GoogleSignInComponent} from 'angular-google-signin';
+import { AdminComponent } from './admin/admin.component';
+import { AdminService } from './admin/admin.service';
+import {OrderListModule} from 'primeng/primeng';
+import { FilterPipe } from './filter.pipe';
+import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
+import { EmployeeDetailService } from './employee-detail/employee-detail.service';
+import { ManagerComponent } from './manager/manager.component';
+import { MemberComponent } from './member/member.component';
+import { NewRequestComponent } from './new-request/new-request.component';
+import { TeamHeadComponent } from './team-head/team-head.component';
+import { RequestService } from './new-request/new-request.service';
+import { MemberService } from './member/member.service';
+import { ActivateGuard } from './router-guards/activateGuard';
+
 let config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
@@ -25,7 +39,14 @@ export function provideConfig() {
   declarations: [
     AppComponent,
     HomeComponent,
-    GoogleSignInComponent
+    GoogleSignInComponent,
+    AdminComponent,
+    FilterPipe,
+    EmployeeDetailComponent,
+    ManagerComponent,
+    MemberComponent,
+    NewRequestComponent,
+    TeamHeadComponent
   ],
   imports: [
     BrowserModule,
@@ -33,14 +54,15 @@ export function provideConfig() {
     HttpModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    SocialLoginModule
+    SocialLoginModule,
+    OrderListModule
     
   ],
-  providers: [HomeService,
+  providers: [HomeService,AdminService,EmployeeDetailService,MemberService,ActivateGuard,
     {
     provide: AuthServiceConfig,
     useFactory: provideConfig
     }],
-  bootstrap: [HomeComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
