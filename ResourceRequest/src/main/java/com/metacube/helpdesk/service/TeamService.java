@@ -6,6 +6,7 @@ import com.metacube.helpdesk.dto.EmpTeamDTO;
 import com.metacube.helpdesk.dto.EmployeeDTO;
 import com.metacube.helpdesk.dto.TeamDTO;
 import com.metacube.helpdesk.model.Employee;
+import com.metacube.helpdesk.model.Team;
 import com.metacube.helpdesk.utility.*;
 
 public interface TeamService {
@@ -20,11 +21,22 @@ public interface TeamService {
             TeamDTO teamDTO);
 
 
-    Status createTeam(String managerUsername);
+    Team createTeam(String managerUsername);
 
 
     Response addEmployeeToTeam(String authorisationToken, String username,
             EmpTeamDTO empTeamDTo);
+
+
+    Status addEmployeeToTeam(Employee employee, Team team);
+
+
+    List<EmployeeDTO> getEmployeesByTeamName(String authorisationToken,
+            String username, String teamName);
+
+
+    List<TeamDTO> getTeamsByEmployee(String authorisationToken,
+            String username, EmployeeDTO employeeDto);
 
 
   

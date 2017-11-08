@@ -34,6 +34,22 @@ public class ManagerController {
         return teamService.getAllTeamsUnderHead(authorisationToken, username);
     }
     
+    @RequestMapping(value = "/getEmployeesByTeamName", method = RequestMethod.POST)
+    public @ResponseBody List<EmployeeDTO> getEmployeesByTeamName(
+            @RequestHeader(value = "authorisationToken") String authorisationToken,
+            @RequestHeader(value = "username") String username,
+            @RequestBody TeamDTO team) {
+        return teamService.getEmployeesByTeamName(authorisationToken, username,team.getTeamName());
+    }
+    
+    @RequestMapping(value = "/getTeamsByEmployee", method = RequestMethod.POST)
+    public @ResponseBody List<TeamDTO> getTeamsByEmployee(
+            @RequestHeader(value = "authorisationToken") String authorisationToken,
+            @RequestHeader(value = "username") String username,
+            @RequestBody EmployeeDTO employeeDto) {
+        return teamService.getTeamsByEmployee(authorisationToken, username,employeeDto);
+    }
+    
     @RequestMapping(value = "/createTeam", method = RequestMethod.POST)
     public @ResponseBody Response createTeam(
             @RequestHeader(value = "authorisationToken") String authorisationToken,

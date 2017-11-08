@@ -32,7 +32,8 @@ public class ResourceCategory implements Serializable {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="parentCategory")
 	private ResourceCategory parentCategory;
-
+	
+	
 	public int getCategoryId() {
 		return this.categoryId;
 	}

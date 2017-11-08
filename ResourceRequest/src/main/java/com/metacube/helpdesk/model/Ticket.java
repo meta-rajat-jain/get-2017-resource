@@ -39,6 +39,34 @@ public class Ticket implements Serializable {
 
     @Column(name = "requestDate", nullable = false)
     private Date requestDate;
+    
+    @Column(name = "location")
+    private String location;
+
+    public Ticket(int ticketNo, Employee requester, Employee requestedFor,
+            Date requestDate, String location, String requestType,
+            String priority, String status, String comment,
+            ItResource requestedResource) {
+
+        this.ticketNo = ticketNo;
+        this.requester = requester;
+        this.requestedFor = requestedFor;
+        this.requestDate = requestDate;
+        this.location = location;
+        this.requestType = requestType;
+        this.priority = priority;
+        this.status = status;
+        this.comment = comment;
+        this.requestedResource = requestedResource;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     // to be made enum
     @Column(name = "requestType", nullable = false)
@@ -57,17 +85,17 @@ public class Ticket implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "requestedResource", nullable = false)
-    private Resource requestedResource;
+    private ItResource requestedResource;
 
     public Ticket() {
 
     }
 
-    public Resource getRequestedResource() {
+    public ItResource getRequestedResource() {
         return requestedResource;
     }
 
-    public void setRequestedResource(Resource requestedResource) {
+    public void setRequestedResource(ItResource requestedResource) {
         this.requestedResource = requestedResource;
     }
 
@@ -137,7 +165,7 @@ public class Ticket implements Serializable {
 
     public Ticket(Employee requester, Employee requestedFor, Date requestDate,
             String requestType, String priority, String status, String comment,
-            Resource requestedResource) {
+            ItResource requestedResource) {
 
         this.requester = requester;
         this.requestedFor = requestedFor;

@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -20,6 +21,7 @@ import com.metacube.helpdesk.dto.EmployeeDTO;
 import com.metacube.helpdesk.model.Employee;
 import com.metacube.helpdesk.model.LogIn;
 import com.metacube.helpdesk.model.Organisation;
+import com.metacube.helpdesk.model.Team;
 import com.metacube.helpdesk.service.EmployeeService;
 import com.metacube.helpdesk.service.LoginService;
 import com.metacube.helpdesk.service.OrganisationService;
@@ -232,7 +234,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             LogIn managerLogInObject= loginDAO.get(managerUsername);
             if(managerLogInObject!=null){
                 if(employeeDAO.addManager(authorisationTokenFromLogin,username,employeeDAO.getEmployee(managerLogInObject)).equals(Status.Success)){
-                    teamService.createTeam(managerUsername);
+                    Employee employee=employeeDAO.getEmployee(loginDAO.get(managerUsername));
+                    Team team=teamService.createTeam(managerUsername);
+                    teamService.addEmployeeToTeam(employee, team);
                     return new Response(1,authorisationTokenFromLogin,"Manager Added Successfully");
                    
                 }

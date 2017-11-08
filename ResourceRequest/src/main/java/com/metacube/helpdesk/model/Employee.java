@@ -18,6 +18,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name = "Employee")
 public class Employee implements Serializable {
@@ -44,6 +47,35 @@ public class Employee implements Serializable {
     @Column(name = "contactNumber", nullable = false)
     private String contactNumber;
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + employeeId;
+        result = prime * result
+                + ((username == null) ? 0 : username.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Employee other = (Employee) obj;
+        if (employeeId != other.employeeId)
+            return false;
+        if (username == null) {
+            if (other.username != null)
+                return false;
+        } else if (!username.equals(other.username))
+            return false;
+        return true;
+    }
+
     // defines status of the employee
     @Column(name = "status", nullable = false)
     private String status;
@@ -56,7 +88,8 @@ public class Employee implements Serializable {
     @JoinColumn(name = "orgId", nullable = false)
     private Organisation organisation;
     
-    @ManyToMany(fetch = FetchType.EAGER,cascade = { CascadeType.ALL })
+    
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "Employee_Team", 
         joinColumns = { @JoinColumn(name = "employeeId") }, 

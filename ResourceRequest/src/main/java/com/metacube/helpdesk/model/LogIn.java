@@ -18,6 +18,35 @@ public class LogIn implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + logInId;
+        result = prime * result
+                + ((username == null) ? 0 : username.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        LogIn other = (LogIn) obj;
+        if (logInId != other.logInId)
+            return false;
+        if (username == null) {
+            if (other.username != null)
+                return false;
+        } else if (!username.equals(other.username))
+            return false;
+        return true;
+    }
+
     @Id
 	@Column(name="logInId")
 	@GeneratedValue(strategy= GenerationType.AUTO)

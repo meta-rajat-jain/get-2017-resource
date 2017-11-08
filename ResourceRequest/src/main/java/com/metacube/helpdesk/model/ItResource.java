@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Resource")
-public class Resource implements Serializable {
+@Table(name="ItResource")
+public class ItResource implements Serializable {
     
     /**
      * 
@@ -33,11 +33,11 @@ public class Resource implements Serializable {
     @JoinColumn(name="resourceCategory",nullable=false)
     private ResourceCategory resourceCategory;
     
-    public Resource() {
+    public ItResource() {
     
     }
 
-    public Resource(String resourceName, ResourceCategory resourceCategory) {
+    public ItResource(String resourceName, ResourceCategory resourceCategory) {
       
         this.resourceName = resourceName;
         this.resourceCategory = resourceCategory;

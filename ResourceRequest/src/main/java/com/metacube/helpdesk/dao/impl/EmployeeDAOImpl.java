@@ -2,6 +2,7 @@ package com.metacube.helpdesk.dao.impl;
 
 import java.util.List;
 
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -48,7 +49,7 @@ public class EmployeeDAOImpl  extends GenericDAO implements EmployeeDAO {
         Criteria cr = session.createCriteria(Employee.class)
                 .add(Restrictions.eq("designation", "Manager"))
                 .add(Restrictions.eq("organisation", organisation)).add(
-                        Restrictions.eq("status", "active"));
+                        Restrictions.eq("status", "active")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
         List<Employee> allManagers = cr.list();
         return allManagers;
@@ -65,7 +66,7 @@ public class EmployeeDAOImpl  extends GenericDAO implements EmployeeDAO {
         // Criteria query
         Criteria cr = session.createCriteria(Employee.class).add(
                 Restrictions.eq("organisation", organisation)).add(
-                        Restrictions.eq("status", "active"));
+                        Restrictions.eq("status", "active")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);;
         List<Employee> allEmployees = cr.list();
         return allEmployees;
     }
@@ -139,9 +140,15 @@ public class EmployeeDAOImpl  extends GenericDAO implements EmployeeDAO {
     @Override
     public Status addManager(String authorisationToken, String username, Employee manager) {
         Status result = Status.Success;
+        try {
         Session session = this.sessionFactory.getCurrentSession();    
         manager.setDesignation("Manager");
         session.update(manager);
+        
+        }catch (Exception e) {
+            e.printStackTrace();
+            result = Status.Error_Occured;
+        }
         return result;
     }
 

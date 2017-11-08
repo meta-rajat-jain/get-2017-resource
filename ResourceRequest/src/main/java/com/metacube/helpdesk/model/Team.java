@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,7 +49,7 @@ public class Team implements Serializable {
     @JoinColumn(name="teamHead")
     private Employee teamHead;
     
-    @ManyToMany(mappedBy = "teams")
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "teams")
     private Set<Employee> employees = new HashSet<>();
 
     public Set<Employee> getEmployees() {
@@ -101,6 +102,34 @@ public class Team implements Serializable {
     public void setTeamHead(Employee teamHead) {
         this.teamHead = teamHead;
     }
-    
-    
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + teamId;
+        result = prime * result
+                + ((teamName == null) ? 0 : teamName.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Team other = (Team) obj;
+        if (teamId != other.teamId)
+            return false;
+        if (teamName == null) {
+            if (other.teamName != null)
+                return false;
+        } else if (!teamName.equals(other.teamName))
+            return false;
+        return true;
+    }
+
 }

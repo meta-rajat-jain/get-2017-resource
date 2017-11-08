@@ -7,6 +7,7 @@ import java.util.List;
 
 
 
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.metacube.helpdesk.dao.TeamDAO;
 import com.metacube.helpdesk.model.Employee;
-
 import com.metacube.helpdesk.model.Organisation;
 import com.metacube.helpdesk.model.Team;
 import com.metacube.helpdesk.utility.Response;
@@ -53,7 +53,7 @@ public class TeamDAOImpl implements TeamDAO {
     public List<Team> getTeamForHead(Employee employee) {
         Session session = this.sessionFactory.getCurrentSession();
         // Criteria query
-        Criteria cr = session.createCriteria(Team.class).add(Restrictions.eq("teamHead",employee ));              
+        Criteria cr = session.createCriteria(Team.class).add(Restrictions.eq("teamHead",employee )).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);              
         List<Team> teamList =  cr.list();
         return teamList;
     }
@@ -61,8 +61,8 @@ public class TeamDAOImpl implements TeamDAO {
 
 
     @Override
-    public Status createTeam(Team team) {
-        System.out.println("In DAO");
+    public Team createTeam(Team team) {
+      
         Status result = Status.Success;
         try {
             Session session = this.sessionFactory.getCurrentSession();
@@ -75,7 +75,7 @@ public class TeamDAOImpl implements TeamDAO {
             e.printStackTrace();
             result = Status.Error_Occured;
         }
-        return result;
+        return team;
     }
 
 
@@ -90,7 +90,6 @@ public class TeamDAOImpl implements TeamDAO {
             session.update(employee);
             
         } catch (Exception e) {
-            e.printStackTrace();
             result = Status.Error_Occured;
         }
         return result;
@@ -112,6 +111,38 @@ public class TeamDAOImpl implements TeamDAO {
         return null;
     }
 
+
+
+    @Override
+    public void ifEmployeeExistInTeam(String username, String teamHeadUsername) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+
+    @Override
+    public List<Team> getTeamsHeadedByAnEmployee(Employee employeeHead) {
+        try {
+            Session session = this.sessionFactory.getCurrentSession();
+            Criteria cr = session
+                    .createCriteria(Team.class)
+                    .add(Restrictions.eq("teamHead", employeeHead)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+                    
+            System.out.println(employeeHead.getUsername().getUsername());
+            System.out.println("List of teams under" + cr.list().size());
+            return cr.list();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return null;
+    }
+
+
+
+    
 
 
    

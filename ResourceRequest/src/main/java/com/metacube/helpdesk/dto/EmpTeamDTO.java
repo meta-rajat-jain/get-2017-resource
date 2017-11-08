@@ -33,9 +33,7 @@ public class EmpTeamDTO implements Serializable {
         this.employeeDTO = employeeDTO;
         this.teamDTO = teamDTO;
     }
-
     public EmpTeamDTO() {
 
     }
-
 }
