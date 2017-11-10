@@ -47,6 +47,7 @@
   
   a{
     color:white;
+    cursor: pointer;
   }
   a.hiddenanchor{
     display: none;
@@ -111,3 +112,131 @@
       background: white ;
       color: black;
     }
+ 
+    p{
+      color: red;
+    }
+
+.status{
+  color: #666;
+    }
+ 
+    #requestForm{
+      position: absolute;
+      top: 0px;
+      width: 100%;	
+      padding: 1px  50px 3%;
+      margin: 0 0 35px 0;
+      background: rgb(247, 247, 247);
+      border: 1px solid rgba(147, 184, 189,0.8);
+      
+      -moz-border-radius: 5px;
+           border-radius: 5px;
+    }
+    
+     #requestForm[_ngcontent-c0]{
+     background: white;
+    }
+    
+    #requestForm{
+      z-index: 22;
+      width:500px;
+    }
+    .nav-tabs>li>a {
+     border-radius:0px;
+     margin-right:0px;
+    }
+    
+     .alert {
+       padding: 15px;
+       border: white;
+     }
+     h6{
+       height: 0px;
+       margin-top: -10px;
+       margin-bottom: 0px;
+       color: red;
+     }
+    
+     #wrapper{
+      
+         right: 0px;
+         min-height: 560px;	
+         margin: 0px auto;	
+         position: relative;	
+    
+      }
+      
+      #wrapper a{
+         color: rgb(95, 155, 198);
+         text-decoration: underline;
+      }
+      
+      #wrapper h1{
+         font-size: 48px;
+         color: rgb(6, 106, 117);
+         padding: 2px 0 10px 0;
+         font-family: 'FranchiseRegular','Arial Narrow',Arial,sans-serif;
+         font-weight: bold;
+         text-align: center;
+         
+      }
+      
+      #wrapper h1{
+         background: -webkit-repeating-linear-gradient(-45deg, 
+         rgb(18, 83, 93) , 
+         rgb(18, 83, 93) 20px, 
+         rgb(64, 111, 118) 20px, 
+         rgb(64, 111, 118) 40px, 
+         rgb(18, 83, 93) 40px);
+         -webkit-text-fill-color: transparent;
+         -webkit-background-clip: text;
+      }
+      #wrapper h1:after{
+         content: ' ';
+         display: block;
+         width: 100%;
+         height: 2px;
+         margin-top: 10px;
+      }
+      
+      
+      #wrapper p:first-child{
+         margin: 0px;
+      }
+      #wrapper label{
+         color: rgb(64, 92, 96);
+         position: relative;
+      }
+      
+  
+      ::-webkit-input-placeholder  { 
+         color: rgb(190, 188, 188); 
+         font-style: italic;
+      }
+      input:-moz-placeholder,
+      textarea:-moz-placeholder{ 
+         color: rgb(190, 188, 188);
+         font-style: italic;
+      } 
+      input {
+       outline: none;
+       width: 50%;
+      
+      }
+      
+      /* all the input except submit and checkbox */
+      #wrapper input:not([type="checkbox"]){
+        width:92%;
+         margin-top: 4px;
+         padding: 10px 5px 10px 32px;	
+         border: 1px solid rgb(178, 178, 178);
+        
+         -webkit-box-sizing: content-box;
+           -moz-box-sizing : content-box;
+                box-sizing : content-box;
+         -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+                 border-radius: 3px;
+         
+      }

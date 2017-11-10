@@ -9,6 +9,8 @@ import { AuthenticatedHeader } from '../Model/authenticatedHeader';
 import { signUpOrganisation } from '../Model/signUpOrganisation';
 import { Employee } from '../Model/signEmp';
 import { ResponseObject } from '../Model/responseObject';
+import { Observable} from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class HomeService {
@@ -23,9 +25,11 @@ export class HomeService {
     private signUpOrganisationUrl = this.request + 'signup/organisation';
     private signInWithGoogleUrl=this.request + 'verifyUser';
     private getOrganisationUrl=this.request + 'getOrganisationDomains';
-    private checkUserUrl=this.request + 'demo';
+    private checkUserUrl=this.request + 'accessVerification';
     domainNames : string[] ;
-    constructor(private http: Http) {}
+    authorised:boolean;
+    responseObject:ResponseObject;
+    constructor(private http: Http,private router:Router) {}
 
 
 
@@ -64,15 +68,13 @@ export class HomeService {
         }
         
         getAuthenticationObject(): string {
-            console.log("for header" + JSON.parse(localStorage.getItem('authenticationObject')).authorisationToken + JSON.parse(localStorage.getItem('authenticationObject')).username);
-            console.log(typeof(JSON.parse(localStorage.getItem('authenticationObject')).authorisationToken));
             return localStorage.getItem('authenticationObject');
         }
         
 
 
         signUp(usernameEmp,passwordEmp,emailIdEmp,contactnoEmp,selectedDomain): Promise<Authentication>{
-
+            console.log("in selected doamin" + selectedDomain);
             let login:Login={
                 username:emailIdEmp ,
                 password:passwordEmp,
@@ -131,6 +133,87 @@ export class HomeService {
             .then(response => response.json() as ResponseObject)
             .catch(this.handleError);
         }
+        getUser():Observable<boolean>{
+           if(localStorage.getItem('authenticationObject')!=null){
+            let login:Login={
+                username:JSON.parse(this.getAuthenticationObject()).username,
+                password:"",
+                authorisationToken:JSON.parse(this.getAuthenticationObject()).authorisationToken
+                }
+            
+            return  this.http.post(this.checkUserUrl,login).map( response =>  {
+
+                this.responseObject = response.json();
+                console.log("empType" + this.responseObject.employeeType);
+                if(this.responseObject.employeeType=='Admin'){
+                   return  true;
+                }
+                
+                  console.log("in else");
+                   this.router.navigate(['']);
+                  
+                
+               
+            }) ;
+            }
+            else{
+                this.router.navigate(['']);
+             }
+        }
+        getManager():Observable<boolean>{
+            if(localStorage.getItem('authenticationObject')!=null){
+             let login:Login={
+                 username:JSON.parse(this.getAuthenticationObject()).username,
+                 password:"",
+                 authorisationToken:JSON.parse(this.getAuthenticationObject()).authorisationToken
+                 }
+             
+             return  this.http.post(this.checkUserUrl,login).map( response =>  {
+ 
+                 this.responseObject = response.json();
+                 console.log("empType" + this.responseObject.employeeType);
+                 if(this.responseObject.employeeType=='Manager'){
+                    return  true;
+                 }
+                 
+                   console.log("in else");
+                    this.router.navigate(['']);
+                   
+                 
+                
+             }) ;
+             }
+             else{
+                this.router.navigate(['']);
+             }
+         }
+         getMember():Observable<boolean>{
+            if(localStorage.getItem('authenticationObject')!=null){
+             let login:Login={
+                 username:JSON.parse(this.getAuthenticationObject()).username,
+                 password:"",
+                 authorisationToken:JSON.parse(this.getAuthenticationObject()).authorisationToken
+                 }
+             
+             return  this.http.post(this.checkUserUrl,login).map( response =>  {
+ 
+                 this.responseObject = response.json();
+                 console.log("empType" + this.responseObject.employeeType);
+                 if(this.responseObject.employeeType=='Member'){
+                    return  true;
+                 }
+                 
+                   console.log("in else");
+                    this.router.navigate(['']);
+                   
+                 
+                
+             }) ;
+             }
+             else{
+                this.router.navigate(['']);
+             }
+         }
         
         private handleError(error: any): Promise<any> {
             console.error('An error occurred', error); 

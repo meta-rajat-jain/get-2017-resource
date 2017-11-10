@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { RequestResource } from '../Model/request';
+
 import { RequestService } from './new-request.service';
 import { ActivatedRoute } from '@angular/router';
+import { Ticket } from '../Model/Ticket';
+import { RequestedResource } from '../Model/requestResource';
 
 @Component({
   selector: 'app-new-request',
@@ -27,15 +29,23 @@ export class NewRequestComponent implements OnInit {
     this.getUsername();
   }
   Request(requester,requestedFor,priority,resource,comment,location):void{
-  let request : RequestResource={
+    let requestedResource:RequestedResource={
+      resourceId:0,
+      resourceName:resource,
+      resourceCategoryName:''
+    }
+  let request : Ticket={
     ticketNo:0,
-    requestedBy:this.username,
-    requestFor:requestedFor,
+    requesterName:requester,
+    requestedFor:requestedFor,
     priority:priority,
-    resourceRequested:resource,
     comment:comment,
-    location:location
-  }  
+    requestedResource:requestedResource,
+    teamName: '',
+    location:location,
+    requestType:'',
+    status:''
+    }  
   console.log(request);
   this.requestService.makeRequest(request);
   }

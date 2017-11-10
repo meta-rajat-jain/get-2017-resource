@@ -379,5 +379,9 @@ input {
 }
 #gutter{
   background:#efecec;
-  height: 175px;
+  height: 185px;
+}
+
+.button-container{
+  margin-top: 3%;
 }

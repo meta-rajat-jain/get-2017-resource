@@ -23,6 +23,10 @@ import { TeamHeadComponent } from './team-head/team-head.component';
 import { RequestService } from './new-request/new-request.service';
 import { MemberService } from './member/member.service';
 import { ActivateGuard } from './router-guards/activateGuard';
+import { ManagerService } from './manager/manager.service';
+import { RequestsService } from './requests/requests.service';
+import { RequestsComponent } from './requests/requests.component';
+
 
 let config = new AuthServiceConfig([
   {
@@ -46,7 +50,9 @@ export function provideConfig() {
     ManagerComponent,
     MemberComponent,
     NewRequestComponent,
-    TeamHeadComponent
+    TeamHeadComponent,
+    RequestsComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -58,7 +64,7 @@ export function provideConfig() {
     OrderListModule
     
   ],
-  providers: [HomeService,AdminService,EmployeeDetailService,MemberService,ActivateGuard,
+  providers: [HomeService,AdminService,EmployeeDetailService,MemberService,ActivateGuard,ManagerService,RequestsService,
     {
     provide: AuthServiceConfig,
     useFactory: provideConfig

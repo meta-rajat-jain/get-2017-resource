@@ -17,14 +17,27 @@
 
             <label for="priority" class="priority" >Priority</label>
             <select>
-                <option value="volvo" [value]="priority">Volvo</option>
-                <option value="saab" [value]="priority">Saab</option>
-                <option value="mercedes" [value]="priority">Mercedes</option>
-                <option value="audi" [value]="priority">Audi</option>
+                <option value="Urgent" [value]="priority">Urgent</option>
+                <option value="High" [value]="priority">High</option>
+                <option value="Medium" [value]="priority">Medium</option>
+                <option value="Low" [value]="priority">Low</option>
               </select>
 
-              <label for="ResourceRequested" class="ResourceRequested">Resources</label>
+              <label for="requestType" class="requestType" >request type</label>
               <select>
+                  <option #requestType value="New" [value]="requestType">New</option>
+                  <option #requestType value="Maintence" [value]="requestType">Maintence</option>
+                </select>
+
+                <label for="resourceType" class="resourceType" >resource type</label>
+                <select (change)="resourceRequested(requestType.value,resourceType.value)">
+                    <option #resourceType value="Hardware Provisioning" [value]="resourceType">Hardware Provisioning</option>
+                    <option #resourceType value="Software Installation" [value]="resourceType">Software Installation</option>
+                    <option #resourceType value="Network Related" [value]="resourceType">Network Related</option>
+                  </select>
+
+              <label for="ResourceRequested" class="ResourceRequested">Resources</label>
+              <select *ngIf="requestType.value=='New'">
                 <option *ngFor="let resource of resources" [value]="resource">{{ResourceType}}</option>
                 </select>
             <br>

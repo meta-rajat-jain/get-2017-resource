@@ -1,4 +1,4 @@
-import { CanActivate } from "@angular/router";
+import { CanActivate, Router } from "@angular/router";
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { ResponseObject } from "../Model/responseObject";
@@ -10,47 +10,8 @@ export class ActivateGuardMember implements CanActivate {
 responseObject:ResponseObject;
 authorised:boolean;
 
-server: string = 'http://172.16.33.111:8080/';
-controller: string ='ResourceRequest/rest/auth/';
-request: string = this.server + this.controller;
-private checkUserUrl=this.request + 'demo';
-
-
-constructor(private homeService:HomeService,private http:Http) {}
+constructor(private homeService:HomeService,private http:Http,private router:Router) {}
 canActivate(){
-return this.isAuthorized();
+return this.homeService.getMember();
 }
-
-isAuthorized():boolean {
-  
-    this.getUser().then( response => {
-       console.log(response);
-        this.responseObject = response;
-        if(this.responseObject.employeeType=='Member' ){
-               this.authorised=true;
-        }
-        else{
-            this.authorised= false;
-        }
-        console.log(this.authorised);
-        
-    })
-  
-    console.log(this.authorised);
-    return this.authorised;
-}
-getUser():Promise<ResponseObject>{
-
-    let login:Login={
-        username:JSON.parse(this.homeService.getAuthenticationObject()).username,
-        password:"",
-        authorisationToken:JSON.parse(this.homeService.getAuthenticationObject()).authorisationToken
-        }
-  
-    return  this.http.post(this.checkUserUrl,login )
-    .toPromise()
-    .then(response =>{ console.log(response);  return  response.json() as ResponseObject})
-    ;
-}
-
 }

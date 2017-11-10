@@ -10,6 +10,9 @@ import { NewRequestComponent } from '../new-request/new-request.component';
 import { ActivateGuard } from '../router-guards/activateGuard';
 import { ActivateGuardManager } from '../router-guards/activateGuardManager';
 import { ActivateGuardMember } from '../router-guards/activateGuardMember';
+import { RequestsComponent } from '../requests/requests.component';
+
+
 
 
 
@@ -19,14 +22,12 @@ const routes: Routes = [
   { path: '', component:HomeComponent},
   { path: 'adminDashboard',  component: AdminComponent,canActivate:[ActivateGuard]},
   { path: 'employeeDetail/:username/:type', component: EmployeeDetailComponent },
-  
   { path: 'managerDashboard', component: ManagerComponent,canActivate:[ActivateGuardManager] },
-  { path: 'teamHeadDashboard', component: TeamHeadComponent,canActivate:[ActivateGuardMember] },
   { path: 'memberDashboard', component: MemberComponent,canActivate:[ActivateGuardMember]},
   { path: 'newRequest/:username', component: NewRequestComponent },
-  /*{ path: 'cart', component: Cart },
-  { path: 'checkout', component: Checkout },
-  { path: 'payment', component: PaymentComponent },
+  { path: 'requestDetail/:status/:type', component:RequestsComponent },
+ /* { path: 'needInformation/:ticket', component: NeedInformationComponent },
+{ path: 'payment', component: PaymentComponent },
   { path: 'order', component:OrderComponent},
   { path: 'orderDetail/:orderId', component:OrderDetailComponent}*/
 

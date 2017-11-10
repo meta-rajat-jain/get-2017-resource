@@ -71,7 +71,9 @@
 									<div class="alert" *ngIf="!reactiveForm.controls['password'].valid && reactiveForm.controls['password'].touched">"Password must have at least a eight digit"</div>
 								
 									<br><br><br>
-									<span class="buttons"><button class="loginBtn btn btn-primary loginButton" (click)="login(username.value , password.value)" >Login </button>
+
+									<span class="buttons">
+										<button class="loginBtn btn btn-primary loginButton" (click)="login(username.value , password.value)" >Login </button>
 										
 										<button class="loginBtn loginBtn--google"(click)="onSignIn()">
 											<i class="fa fa-google-plus fa-fw"></i> Login
@@ -113,8 +115,9 @@
 									
 								
 										<label for="emailId" class="emailId"> Your Email </label>
-										<input #emailIdEmp name="emailIdEmp" required="required" formControlName="empEmail" type="text" placeholder=" mymail" (change)="checkOrganisation(emailIdEmp.value)"/>
+										<input #emailIdEmp name="emailIdEmp" required="required" formControlName="empEmail" type="text" (change)='checkOrganisation(emailIdEmp.value)'placeholder=" mymail" />
 										<h6 class="alert" *ngIf="!reactiveForm.controls['empEmail'].valid && reactiveForm.controls['empEmail'].touched ">"Incorrectly specified email"</h6>
+										
 										<p class="domain_message" *ngIf="domainTitle">{{domainTitle}}</p>
 										
 									
@@ -130,14 +133,16 @@
 										<h6 class="alert" *ngIf="!reactiveForm.controls['empContact'].valid && reactiveForm.controls['empContact'].touched">"Please fill a valid contact number"</h6>
 									
 									<br>
+									<div class="button-container">
 									<span>
 
 										<button id="login" class="btn btn-primary  " click-stop-propagation (click)="flip()">Login</button>
 										<button class="btn btn-primary " (click)="signUpEmp(usernameEmp.value,passwordEmp.value,emailIdEmp.value,contactnoEmp.value)">Sign Up</button>
 
-
+										<p class="alert" style="color:red" *ngIf="errorMessage">{{errorMessage}}</p>
 
 									</span>
+								</div>
 								</div>
 
 
@@ -165,6 +170,7 @@
 										<h6 class="alert" *ngIf="!reactiveForm.controls['orgContactNo'].valid && reactiveForm.controls['orgContactNo'].touched">"Please fill a valid contact number"</h6>
 								
 									<br>
+									<div class="button-container">
 									<span>
 
 										<button id="login" class="btn btn-primary  " click-stop-propagation (click)="flip()">Login</button>
@@ -173,6 +179,7 @@
 
 
 									</span>
+								</div>
 								</div>
 
 
