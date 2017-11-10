@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.metacube.helpdesk.dao.OrganisationDAO;
-
+import com.metacube.helpdesk.model.LogIn;
 import com.metacube.helpdesk.model.Organisation;
 import com.metacube.helpdesk.utility.Status;
 
@@ -78,6 +78,16 @@ public class OrganisationDAOImpl implements OrganisationDAO {
         cr.setProjection(Projections.property("domain"));
         List<String> organisationDomains = cr.list();
         return organisationDomains;
+    }
+    
+    @Override
+    public Organisation getByLogin(LogIn login) {
+    Session session = this.sessionFactory.getCurrentSession();
+           // Criteria query
+           Criteria cr = session.createCriteria(Organisation.class).add(
+                   Restrictions.eq("username", login));
+           Organisation organisation =  (Organisation) cr.uniqueResult();
+           return organisation;
     }
 
 }

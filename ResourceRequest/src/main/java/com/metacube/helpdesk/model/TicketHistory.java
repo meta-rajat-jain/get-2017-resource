@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name="TicketHistory")
 public class TicketHistory implements Serializable {
@@ -32,40 +34,23 @@ public class TicketHistory implements Serializable {
     private Ticket ticket;
     
     //to be made enum
-    @Column(name="updatedPriority",nullable=false)
-    private String updatedPriority;
+    @Column(name="previousPriority",nullable=false)
+    private String previousPriority;
     
     //to be made enum
-    @Column(name="updatedStatus",nullable=false)
-    private String updatedStatus;
+    @Column(name="previousStatus",nullable=false)
+    private String previousStatus;
     
-    @Column(name="updatedComment")
-    private String updatedComment;
+    @Column(name="previousComment")
+    private String previousComment;
     
-    @Column(name="dateOfUpdate",nullable=false)
-    private Date dateOfUpdate;
+    @Type(type="date")
+    @Column(name="lastDateOfUpdate",nullable=false)
+    private Date lastDateOfUpdate;
     
     @ManyToOne
-    @JoinColumn(name="updatedBy",nullable=false)
-    private Employee updatedBy;
-    
-    
-
-    public TicketHistory() {
-       
-    }
-
-    public TicketHistory(Ticket ticket, String updatedPriority,
-            String updatedStatus, String updatedComment, Date dateOfUpdate,
-            Employee updatedBy) {
-      
-        this.ticket = ticket;
-        this.updatedPriority = updatedPriority;
-        this.updatedStatus = updatedStatus;
-        this.updatedComment = updatedComment;
-        this.dateOfUpdate = dateOfUpdate;
-        this.updatedBy = updatedBy;
-    }
+    @JoinColumn(name="lastUpdatedBy",nullable=false)
+    private Employee lastUpdatedBy;
 
     public int getId() {
         return id;
@@ -83,43 +68,74 @@ public class TicketHistory implements Serializable {
         this.ticket = ticket;
     }
 
-    public String getUpdatedPriority() {
-        return updatedPriority;
+    public String getPreviousPriority() {
+        return previousPriority;
     }
 
-    public void setUpdatedPriority(String updatedPriority) {
-        this.updatedPriority = updatedPriority;
+    public void setPreviousPriority(String previousPriority) {
+        this.previousPriority = previousPriority;
     }
 
-    public String getUpdatedStatus() {
-        return updatedStatus;
+    public String getPreviousStatus() {
+        return previousStatus;
     }
 
-    public void setUpdatedStatus(String updatedStatus) {
-        this.updatedStatus = updatedStatus;
+    public void setPreviousStatus(String previousStatus) {
+        this.previousStatus = previousStatus;
     }
 
-    public String getUpdatedComment() {
-        return updatedComment;
+    public String getPreviousComment() {
+        return previousComment;
     }
 
-    public void setUpdatedComment(String updatedComment) {
-        this.updatedComment = updatedComment;
+    public void setPreviousComment(String previousComment) {
+        this.previousComment = previousComment;
     }
 
-    public Date getDateOfUpdate() {
-        return dateOfUpdate;
+    public Date getLastDateOfUpdate() {
+        return lastDateOfUpdate;
     }
 
-    public void setDateOfUpdate(Date dateOfUpdate) {
-        this.dateOfUpdate = dateOfUpdate;
+    public void setLastDateOfUpdate(Date lastDateOfUpdate) {
+        this.lastDateOfUpdate = lastDateOfUpdate;
     }
 
-    public Employee getUpdatedBy() {
-        return updatedBy;
+    public Employee getLastUpdatedBy() {
+        return lastUpdatedBy;
     }
 
-    public void setUpdatedBy(Employee updatedBy) {
-        this.updatedBy = updatedBy;
-    }   
+    public void setLastUpdatedBy(Employee lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
+    }
+
+    public TicketHistory(int id, Ticket ticket, String previousPriority,
+            String previousStatus, String previousComment,
+            Date lastDateOfUpdate, Employee lastUpdatedBy) {
+        super();
+        this.id = id;
+        this.ticket = ticket;
+        this.previousPriority = previousPriority;
+        this.previousStatus = previousStatus;
+        this.previousComment = previousComment;
+        this.lastDateOfUpdate = lastDateOfUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+    }
+
+    public TicketHistory() {
+        super();
+    }
+
+    public TicketHistory(Ticket ticket, String previousPriority,
+            String previousStatus, String previousComment,
+            Date lastDateOfUpdate, Employee lastUpdatedBy) {
+        super();
+        this.ticket = ticket;
+        this.previousPriority = previousPriority;
+        this.previousStatus = previousStatus;
+        this.previousComment = previousComment;
+        this.lastDateOfUpdate = lastDateOfUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+    }
+    
+     
 }

@@ -12,7 +12,7 @@ import com.metacube.helpdesk.utility.Status;
 @Repository
 public interface TicketDAO {
 
-    Status saveTicket(Ticket ticket);
+   int saveTicket(Ticket ticket);
 
     List<Ticket> getTicketsGeneratedByEmployee(Employee employee);
 
@@ -24,5 +24,7 @@ public interface TicketDAO {
     Status deleteTicket(Ticket ticket);
 
     Status updateTicket(Ticket ticket);
+
+    Ticket getTicket(int ticketNo);
 
 }

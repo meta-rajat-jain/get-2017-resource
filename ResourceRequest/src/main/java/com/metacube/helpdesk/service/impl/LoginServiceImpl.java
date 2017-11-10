@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.metacube.helpdesk.dao.EmployeeDAO;
 import com.metacube.helpdesk.dao.LoginDAO;
+import com.metacube.helpdesk.dao.OrganisationDAO;
 import com.metacube.helpdesk.dto.LoginDTO;
 import com.metacube.helpdesk.model.Employee;
 import com.metacube.helpdesk.model.LogIn;
@@ -29,6 +30,9 @@ public class LoginServiceImpl implements LoginService {
     
     @Resource
     EmployeeDAO employeeDAO;
+    
+    @Resource
+    OrganisationDAO organisationDAO;
     
     @Override
     public LoginResponse loginAuthentication(String loginId, String password) {
@@ -189,6 +193,20 @@ public class LoginServiceImpl implements LoginService {
             return loginDAO.destroyAuthorisationToken(authorisationToken,  username);
         }
         return new Response(0, authorisationToken,MessageConstants.UNAUTHORISED_USER);
+    }
+    
+    @Override
+    public LoginResponse getLoginType(LoginDTO loginDTO) {
+        String accountType = "Invalid Account";
+        Employee emp = employeeDAO.getEmployee(dtoToModel(loginDTO));
+        if (emp != null) {
+            accountType = emp.getDesignation();
+        } else if (organisationDAO.getByLogin(dtoToModel(loginDTO)) != null) {
+            accountType = "Admin";
+        }
+        return new LoginResponse(new Response(1,
+                loginDTO.getAuthorisationToken(),
+                "Find associated account type string in response"), accountType);
     }
 
     @Override

@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import com.metacube.helpdesk.dao.EmployeeDAO;
 import com.metacube.helpdesk.dao.LoginDAO;
 import com.metacube.helpdesk.dao.OrganisationDAO;
+import com.metacube.helpdesk.dao.TeamDAO;
 import com.metacube.helpdesk.dto.EmployeeDTO;
+import com.metacube.helpdesk.dto.TeamDTO;
 import com.metacube.helpdesk.model.Employee;
 import com.metacube.helpdesk.model.LogIn;
 import com.metacube.helpdesk.model.Organisation;
@@ -52,6 +54,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     
     @Resource
     TeamService teamService;
+    
+    @Resource
+    TeamDAO teamDAO;
 
     @Resource
     OrganisationService organisationService;
@@ -277,8 +282,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             return new Response(0,null,"One or more header is missing");
         }
         if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
-            
-                if(employeeDAO.updateEmployee(dtoToModel(employeeToBeUpdated)).equals(Status.Success)){
+         int employeeId =employeeDAO.getEmployee(loginDAO.get(employeeToBeUpdated.getLogin().getUsername())).getEmployeeId();
+         Employee e = dtoToModel(employeeToBeUpdated);
+         e.setEmployeeId(employeeId);
+                if(employeeDAO.updateEmployee(e).equals(Status.Success)){
                     return new Response(1,authorisationTokenFromLogin,"Employee Profile updated Successfully"); 
                  } 
             else{
@@ -301,6 +308,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
             return modelToDto(employeeDAO.getEmployee(loginDAO.get(employeeUsername)));
+        }
+        return null;
+    }
+
+    @Override
+    public EmployeeDTO getEmployeeHead(String authorisationTokenFromLogin,
+            String username, String employeeUsername) {
+        if(!Validation.validateHeaders(authorisationTokenFromLogin, username)){
+            return null;
+        }
+        if (loginService.authorizeRequest(authorisationTokenFromLogin, username)) {
+            Employee employee=employeeDAO.getEmployee(loginDAO.get(employeeUsername));
+            Set<Team> teams=employee.getTeams();
         }
         return null;
     }

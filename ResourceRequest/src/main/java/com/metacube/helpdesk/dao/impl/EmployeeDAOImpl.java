@@ -157,7 +157,7 @@ public class EmployeeDAOImpl  extends GenericDAO implements EmployeeDAO {
         Status result = Status.Success;
         try {
             Session session = this.sessionFactory.getCurrentSession();
-            employee.setEmployeeId(getEmployee(employee.getUsername()).getEmployeeId());
+            //employee.setEmployeeId(getEmployee(employee.getUsername()).getEmployeeId());
             session.update(employee);
         } catch (Exception e) {
             result = Status.Error_Occured;

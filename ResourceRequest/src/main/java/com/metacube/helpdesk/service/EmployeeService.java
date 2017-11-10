@@ -3,6 +3,7 @@ package com.metacube.helpdesk.service;
 import java.util.List;
 
 import com.metacube.helpdesk.dto.EmployeeDTO;
+import com.metacube.helpdesk.dto.TeamDTO;
 import com.metacube.helpdesk.model.Employee;
 import com.metacube.helpdesk.model.LogIn;
 import com.metacube.helpdesk.model.Organisation;
@@ -33,4 +34,7 @@ public interface EmployeeService {
     Employee dtoToModel(EmployeeDTO employeeDTO);
 
     EmployeeDTO modelToDto(Employee employee);
+
+    EmployeeDTO getEmployeeHead(String authorisationToken, String username,
+            String employeeUsername);
 }

@@ -1,14 +1,16 @@
 package com.metacube.helpdesk.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.metacube.helpdesk.model.ItResource;
-
 
 public class TicketDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     private int ticketNo;
+
     private String requesterName;
     private String requestedFor;
     private String requestType;
@@ -17,6 +19,66 @@ public class TicketDTO implements Serializable {
     private String comment;
     private ItResource requestedResource;
     private String location;
+    private String lastUpdatedByUsername;
+    private Date lastDateOfUpdate;
+    private Date requestDate;
+    private String teamName;
+
+    public TicketDTO() {
+
+    }
+
+    public TicketDTO(int ticketNo, String requesterName, String requestedFor,
+            String requestType, String priority, String status, String comment,
+            ItResource requestedResource, String location,
+            String lastUpdatedByUsername, Date lastDateOfUpdate,
+            Date requestDate, String teamName) {
+        this.ticketNo = ticketNo;
+        this.requesterName = requesterName;
+        this.requestedFor = requestedFor;
+        this.requestType = requestType;
+        this.priority = priority;
+        this.status = status;
+        this.comment = comment;
+        this.requestedResource = requestedResource;
+        this.location = location;
+        this.lastUpdatedByUsername = lastUpdatedByUsername;
+        this.lastDateOfUpdate = lastDateOfUpdate;
+        this.requestDate = requestDate;
+        this.teamName = teamName;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public Date getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(Date requestDate) {
+        this.requestDate = requestDate;
+    }
+
+    public String getLastUpdatedByUsername() {
+        return lastUpdatedByUsername;
+    }
+
+    public void setLastUpdatedByUsername(String lastUpdatedByUsername) {
+        this.lastUpdatedByUsername = lastUpdatedByUsername;
+    }
+
+    public Date getLastDateOfUpdate() {
+        return lastDateOfUpdate;
+    }
+
+    public void setLastDateOfUpdate(Date lastDateOfUpdate) {
+        this.lastDateOfUpdate = lastDateOfUpdate;
+    }
 
     public String getLocation() {
         return location;
@@ -26,38 +88,12 @@ public class TicketDTO implements Serializable {
         this.location = location;
     }
 
-    public TicketDTO(int ticketNo, String requesterName, String requestedFor,
-            String requestType, String priority, String status, String comment,
-            ItResource requestedResource, String location) {
-        
-        this.ticketNo = ticketNo;
-        this.requesterName = requesterName;
-        this.requestedFor = requestedFor;
-        this.requestType = requestType;
-        this.priority = priority;
-        this.status = status;
-        this.comment = comment;
-        this.requestedResource = requestedResource;
-        this.location = location;
-    }
-    
-
-    public TicketDTO() {
-
+    public String getRequesterName() {
+        return requesterName;
     }
 
-    public TicketDTO(int ticketNo, String requesterName, String requestedFor,
-            String requestType, String priority, String status, String comment,
-            ItResource requestedResource) {
-
-        this.ticketNo = ticketNo;
+    public void setRequesterName(String requesterName) {
         this.requesterName = requesterName;
-        this.requestedFor = requestedFor;
-        this.requestType = requestType;
-        this.priority = priority;
-        this.status = status;
-        this.comment = comment;
-        this.requestedResource = requestedResource;
     }
 
     public int getTicketNo() {
@@ -66,14 +102,6 @@ public class TicketDTO implements Serializable {
 
     public void setTicketNo(int ticketNo) {
         this.ticketNo = ticketNo;
-    }
-
-    public String getRequesterName() {
-        return requesterName;
-    }
-
-    public void setRequesterName(String requesterName) {
-        this.requesterName = requesterName;
     }
 
     public String getRequestedFor() {

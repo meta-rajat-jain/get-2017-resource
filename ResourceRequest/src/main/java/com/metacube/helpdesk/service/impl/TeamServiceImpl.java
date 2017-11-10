@@ -275,7 +275,9 @@ public class TeamServiceImpl implements TeamService {
            Employee employee=employeeDAO.getEmployee(loginDAO.get(employeeDto.getLogin().getUsername())); 
            Set<Team> employeeTeams=employee.getTeams();
            for (Team team : employeeTeams) {
+               if(team.getTeamHead().getUsername().getUsername()!=employee.getUsername().getUsername()) {
                employeeTeamsDTO.add(modelToDTO(team));
+               }
            }
         }      
         return employeeTeamsDTO;

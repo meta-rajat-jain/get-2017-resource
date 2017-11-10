@@ -9,11 +9,15 @@ import java.util.List;
 
 
 
+
+import org.springframework.stereotype.Repository;
+
 import com.metacube.helpdesk.model.Employee;
 import com.metacube.helpdesk.model.Team;
 import com.metacube.helpdesk.utility.Response;
 import com.metacube.helpdesk.utility.Status;
 
+@Repository
 public interface TeamDAO {
 
 

@@ -14,5 +14,6 @@ public interface LoginService {
     Boolean authorizeRequest(String authorizationToken,String userName);
     Response logOut(String authorisationToken, String username);
     Response enableLogIn(String username);
+    LoginResponse getLoginType(LoginDTO loginDTO);
     
 }

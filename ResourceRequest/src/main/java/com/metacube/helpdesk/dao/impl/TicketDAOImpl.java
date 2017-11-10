@@ -2,7 +2,6 @@ package com.metacube.helpdesk.dao.impl;
 
 import java.util.Date;
 import java.util.List;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,7 +9,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.metacube.helpdesk.dao.GenericDAO;
 import com.metacube.helpdesk.dao.TicketDAO;
 import com.metacube.helpdesk.model.Employee;
@@ -29,17 +27,12 @@ public class TicketDAOImpl extends GenericDAO implements TicketDAO {
     }
     
     @Override
-    public Status saveTicket(Ticket ticket){
-        Status result = Status.Success;
-        try {
+    public int saveTicket(Ticket ticket){
+
             Session session = this.sessionFactory.getCurrentSession();
             Criteria cr = session.createCriteria(Ticket.class);
-            session.save(ticket);
+            return (int) session.save(ticket);
 
-        } catch (Exception e) {
-            result = Status.Error_Occured;
-        }
-        return result; 
     }
     
     @Override
@@ -47,7 +40,7 @@ public class TicketDAOImpl extends GenericDAO implements TicketDAO {
         Session session = this.sessionFactory.getCurrentSession();
         // Criteria query
         Criteria cr = session.createCriteria(Ticket.class)
-                .add(Restrictions.eq("requester", "employee"));
+                .add(Restrictions.eq("requester", employee)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<Ticket> allTicketsByEmployee = cr.list();
         return allTicketsByEmployee;
     }
@@ -58,7 +51,7 @@ public class TicketDAOImpl extends GenericDAO implements TicketDAO {
         // Criteria query
         Criteria cr = session.createCriteria(Ticket.class)
                 .add(Restrictions.eq("requester", employee))
-                .add(Restrictions.eq("status",status ));
+                .add(Restrictions.eq("status",status )).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<Ticket> allStatusBasedTicketsByEmployee = cr.list();
         return allStatusBasedTicketsByEmployee;
     }
@@ -68,7 +61,7 @@ public class TicketDAOImpl extends GenericDAO implements TicketDAO {
         Session session = this.sessionFactory.getCurrentSession();
         // Criteria query
         Criteria cr = session.createCriteria(Ticket.class)
-                .add(Restrictions.eq("requestDate", date));
+                .add(Restrictions.eq("requestDate", date)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<Ticket> allDateBasedTickets = cr.list();
         return allDateBasedTickets;
     }
@@ -96,6 +89,16 @@ public class TicketDAOImpl extends GenericDAO implements TicketDAO {
             result = Status.Error_Occured;
         }
         return result;
+    }
+
+    @Override
+    public Ticket getTicket(int ticketNo) {
+        Session session = this.sessionFactory.getCurrentSession();
+        // Criteria query
+        Criteria cr = session.createCriteria(Ticket.class).add(
+                Restrictions.eq("ticketNo", ticketNo));
+        Ticket ticket = (Ticket) cr.uniqueResult();
+        return  ticket;
     }
 
 }

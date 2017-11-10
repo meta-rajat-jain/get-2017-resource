@@ -73,6 +73,13 @@ public class LoginController {
 
     }
     
+    @RequestMapping(value="/accessVerification", method = RequestMethod.POST)
+    public @ResponseBody LoginResponse accessVerification(
+     @RequestBody LoginDTO loginDTO) {
+        return loginService.getLoginType(loginDTO);
+    }
+
+    
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public @ResponseBody Response logOut(
             @RequestHeader(value = "authorisationToken") String authorisationToken,
