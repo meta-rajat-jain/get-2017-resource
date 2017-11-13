@@ -209,7 +209,22 @@ declare var $:any;
                                 }
                                 if(this.responseObject.response.statusCode == 1) {
                                     this.log.saveUser(authenticationHeader);
-                                    this.router.navigate(['/dashboard']);
+                                    if(this.responseObject.employeeType == 'Team Member'){
+                                      this.router.navigate(['/memberDashboard']);
+                                    }
+                                    else if(this.responseObject.employeeType == 'Team Lead'){
+                                      this.router.navigate(['/teamLeadDashboard']);
+                                    }
+                                    else if(this.responseObject.employeeType == 'Manager'){
+                                      this.router.navigate(['/managerDashboard']);
+                                    }
+                                    else if(this.responseObject.employeeType == 'Organisation Admin'){
+                                       this.router.navigate(['/adminDashboard']);
+                                    }
+                                    else if(this.responseObject.employeeType.toString() == 'helpDesk'){
+                                      this.router.navigate(['/helpDeskDashboard']);
+                                    }
+                                   
                                   }else {
                                   
                                     this.router.navigate(['/']);

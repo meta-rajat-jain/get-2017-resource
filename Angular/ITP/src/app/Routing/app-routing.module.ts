@@ -11,6 +11,8 @@ import { ActivateGuard } from '../router-guards/activateGuard';
 import { ActivateGuardManager } from '../router-guards/activateGuardManager';
 import { ActivateGuardMember } from '../router-guards/activateGuardMember';
 import { RequestsComponent } from '../requests/requests.component';
+import { NeedInformationComponent } from '../need-information/need-information.component';
+import { TeamDetailComponent } from '../team-detail/team-detail.component';
 
 
 
@@ -26,9 +28,9 @@ const routes: Routes = [
   { path: 'memberDashboard', component: MemberComponent,canActivate:[ActivateGuardMember]},
   { path: 'newRequest/:username', component: NewRequestComponent },
   { path: 'requestDetail/:status/:type', component:RequestsComponent },
- /* { path: 'needInformation/:ticket', component: NeedInformationComponent },
-{ path: 'payment', component: PaymentComponent },
-  { path: 'order', component:OrderComponent},
+  { path: 'needInformation/:ticket', component: NeedInformationComponent },
+  { path: 'teamDetailComponent/:teamName/:operation', component: TeamDetailComponent },
+  /*{ path: 'order', component:OrderComponent},
   { path: 'orderDetail/:orderId', component:OrderDetailComponent}*/
 
 ];

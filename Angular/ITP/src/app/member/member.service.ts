@@ -9,6 +9,8 @@ import { Employee } from '../Model/signEmp';
 import { ResponseObject } from '../Model/responseObject';
 import { RequestedResource } from '../Model/requestResource';
 import { Ticket } from '../Model/Ticket';
+import { Login } from '../Model/login';
+import { Team } from '../Model/team';
 
 @Injectable()
 export class MemberService {
@@ -17,23 +19,25 @@ export class MemberService {
     controller: string = 'ResourceRequest/rest/';
     request: string = this.server + this.controller;
     private headers: Headers = new Headers();
-    private makeRequestUrl = this.request + 'admin/';
+    private makeRequestUrl = this.request + 'ticket/saveTicket';
     private logOutUrl = this.request + 'auth/logout';
     private getResourcesUrl = this.request + 'ticket/getAllCategoryBasedResources';
-    
+   
+
     constructor(private http: Http) {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('authorisationToken', JSON.parse(localStorage.getItem('authenticationObject')).authorisationToken);
         this.headers.append('username', JSON.parse(localStorage.getItem('authenticationObject')).username);
      }
 
-    makeRequest(username:string,requestedFor:string,priority:string,requestType:string,resourceType:string,resource:string,comment:string,location:string): Promise<Authentication> {
+    makeRequest(username:string,requestedFor:string,priority:string,requestType:string,resourceType:string,resource:RequestedResource,comment:string,location:string): Promise<Authentication> {
+        console.log(resource);
         let requestedResource:RequestedResource={
-            resourceId:0,
-            resourceName:resource,
-            resourceCategoryName:resourceType
+            resourceId:resource.resourceId,
+            resourceName:resource.resourceName,
+            resourceCategoryName:resource.resourceCategoryName
             }
-         let request : Ticket={
+            let request : Ticket={
           ticketNo:0,
           requesterName:username,
           requestedFor:requestedFor,
@@ -45,8 +49,8 @@ export class MemberService {
           requestType:requestType,
           status:'Open'
           }
-   
-        return this.http.post(this.makeRequestUrl,request, { headers: this.headers })
+          console.log(request);
+            return this.http.post(this.makeRequestUrl,request, { headers: this.headers })
             .toPromise()
             .then(response => response.json() as Authentication )
             .catch(this.handleError);
@@ -67,6 +71,12 @@ export class MemberService {
         .toPromise()
         .then(response => response.json() as RequestedResource[])
         .catch(this.handleError);
+    }
+
+    
+
+    getTeamsOfEmployee(){
+
     }
     private handleError(error: any): Promise<any> {
         console.error('An error occurred', error);

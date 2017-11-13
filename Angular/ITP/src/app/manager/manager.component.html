@@ -10,10 +10,10 @@
           <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a data-toggle="tab" href="#createTeam">Create New Team</a></li>
-            <li><a data-toggle="tab" href="#editTeam">Edit Existing Team</a></li>
+            <li><a data-toggle="tab" href="#editTeam" (click)="getTeamsUnderManager();">Edit Existing Team </a></li>
           </ul>
         </li>
-        <li ><a data-toggle="tab" href="#section2">New Request</a></li>
+        <li ><a data-toggle="tab" href="#section2" >New Request</a></li>
         <li class="pull-right">
           <a  (click)="logOut()">Log Out</a>
         </li>
@@ -121,9 +121,9 @@
                           <img class="img-responsive" src="assets/images/needInformation.png">
                         </div>
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                            <a class="status"  (click)="getRequestsInProgress('Manager')">My Request: {{InProgressCount}}</a>
+                            <a class="status"  (click)="getRequestsNeedInfo('Manager')">My Request: {{InProgressCount}}</a>
                           <hr>
-                          <a class="status" (click)="getRequestsInProgress('Team')"> Team Request: {{InProgressCount}} </a>
+                          <a class="status" (click)="getRequestsNeedInfo('Team')"> Team Request: {{InProgressCount}} </a>
                                  </div>
                   
                   </div>
@@ -221,7 +221,7 @@
           <h6 class="alert" *ngIf="!reactiveForm.controls['requestedFor'].valid && reactiveForm.controls['requestedFor'].touched ">"Incorrectly specified email"</h6>
 
           <label for="priority" class="priority" >Priority</label>
-          <select>
+          <select #priority>
               <option value="Urgent" [ngValue]="priority">Urgent</option>
               <option value="High" [ngValue]="priority">High</option>
               <option value="Medium" [ngValue]="priority">Medium</option>
@@ -244,9 +244,9 @@
                 </select>
 <br>
             <label for="ResourceRequested" class="ResourceRequested">Resources</label>
-            <select #resource *ngIf="requestType.value=='New'">
+            <select  *ngIf="requestType.value=='New'" #resource (change)="selectedResourceValue(resource.value)">
              
-              <option *ngFor="let res of resourceName" value="resource" [ngValue]="resource">{{res}}</option>
+              <option  *ngFor="let resource of resourceValues"  value="{{resource}}" [ngValue]="resource">{{resource.resourceName}}</option>
             
               </select>
           <br>
@@ -257,7 +257,7 @@
              
               <label for="location" class="location"> Your location </label>
               <textarea #location  rows="4" cols="50"></textarea>
-              <button id="button" class="btn btn-primary " (click)="Request(requestedFor.value,priority.value,resource.value,comment.value,location.value)">Register</button>
+              <button id="button" class="btn btn-primary " (click)="Request(requestedFor.value,priority.value,requestType.value,resourceType.value,resource.value,comment.value,location.value)">Register</button>
 
           </span>
         </div>
@@ -266,11 +266,33 @@
   </div>
 </div>
     </div>
-    <div class="tab-pane " id="editEmployee">
-      Edit Team
+    <div class="tab-pane " id="editTeam">
+     
+      <div class="container">
+      <div class="col-sm-6 col-md-4 manager-list" *ngFor="let team of teamsUnderManager| filter : searchText">
+        <div class="chart-wrapper">
+          <div class="chart-title">
+            {{team.teamName}}
+          </div>
+          <div class="chart-stage">
+            <div id="grid-1-1">
+              {{team.teamHeadUsername}}
+              
+            </div>
+          </div>
+          <div class="chart-notes">
+          
+            <button class="btn btn-default" data-toggle="tooltip"  title=" Add Team Member" (click)="manageTeam(team,'Add')"><span class="glyphicon glyphicon-plus "  ></span></button>
+              <button  class="btn btn-default" data-toggle="tooltip"  title=" View Details of the Team" (click)="manageTeam(team,'Detail')"><span class="glyphicon glyphicon-list-alt"></span></button>
+         
+          </div>
+          </div>
+        </div>
+      </div>
+         
+         
     </div>
     </div>
-    
      
     </body>
    

@@ -240,3 +240,44 @@
                  border-radius: 3px;
          
       }
+      .chart-wrapper {
+        background: #fff;
+        border: 1px solid #e2e2e2;
+        margin-bottom: 10px;
+      }
+     .chart-title {
+        border-bottom: 1px solid #d7d7d7;
+        text-align: center;
+        color:black;
+        background-color: #C8D9DB;
+        font-size: 20px;
+        font-weight: 200;
+        padding: 10px;
+      }
+    
+      
+       .chart-stage {
+        overflow: hidden;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+        background-color: #F4F7F8;;
+      }
+      
+      .chart-notes {
+        border-top: 1px solid #e2e2e2;
+        background-color: #F4F7F8;
+        text-align: center;
+        font-size: 12px;
+        padding:10px;
+      }
+      
+      .btn{
+        color: white;
+        background-color: #52767D;
+      }
+  
+      td{
+        text-align: center;
+      }
+  

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-import { URLSearchParams } from '@angular/http';
+import { URLSearchParams, RequestOptions } from '@angular/http';
 import { Authentication } from '../Model/Authentication';
 import { AuthenticatedHeader } from '../Model/authenticatedHeader';
 import { signUpOrganisation } from '../Model/signUpOrganisation';
 import { Employee } from '../Model/signEmp';
 import { ResponseObject } from '../Model/responseObject';
 import { Team } from '../Model/team';
+import { Login } from '../Model/login';
 
 @Injectable()
 export class ManagerService {
@@ -18,6 +19,7 @@ export class ManagerService {
     private headers: Headers = new Headers();
     private createTeamUrl = this.request + 'manager/createTeam';
     private logOutUrl = this.request + 'auth/logout';
+    private getTeamsUrl = this.request + 'manager/getAllTeams';
     authenticationHeader:AuthenticatedHeader;
     username:string;
     constructor(private http: Http) {
@@ -50,8 +52,29 @@ export class ManagerService {
             .then(response => response.json() as Authentication )
             .catch(this.handleError);
     }
+    getTeamsUnderManager(){
+        console.log("in get Teams"+JSON.parse(localStorage.getItem('authenticationObject')).username);
+        let login:Login={
+            username:JSON.parse(localStorage.getItem('authenticationObject')).username ,
+            password:'',
+            authorisationToken:''
+            }
+        let signEmp:Employee={
+            name:'',
+            contactNumber:0,
+            orgDomain:'',
+            designation:"",
+            status:"",
+            login:login
+            
+            }   
+           
+        return this.http.get(this.getTeamsUrl,{ headers: this.headers })
+        .toPromise()
+        .then(response => response.json() as Team[] )
+        .catch(this.handleError);
+    }
     
-
     private handleError(error: any): Promise<any> {
         console.error('An error occurred', error);
         return Promise.reject(error.message || error);

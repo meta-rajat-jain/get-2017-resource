@@ -49,8 +49,8 @@ init():void{
     this.requestsService.approveTicket(ticket).then(response => {console.log(response);});
   }
   needInfo(ticket:Ticket):void{
-    
-    this.router.navigate(['needInformation',ticket,this.type]);
+    console.log(this.type);
+    this.router.navigate(['needInformation',ticket]);
   }
   decline(ticket:Ticket):void{}
 
