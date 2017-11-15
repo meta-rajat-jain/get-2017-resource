@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticatedHeader } from '../Model/authenticatedHeader';
 import { ManagerService } from './manager.service';
@@ -9,11 +9,13 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MemberService } from '../member/member.service';
 import { RequestedResource } from '../Model/requestResource';
 import { Team } from '../Model/team';
+import { TicketStatusCount } from '../Model/ticketStatusCount';
+import {SelectItem} from 'primeng/primeng'
 
 @Component({
   selector: 'app-manager',
   templateUrl: './manager.component.html',
-  styleUrls: ['./manager.component.css']
+  styleUrls: ['./manager.component.css'],
 })
 export class ManagerComponent implements OnInit {
   username:string;
@@ -21,15 +23,29 @@ export class ManagerComponent implements OnInit {
   authentication:Authentication;
   employees:Employee[]=[];
   title:string;
-  openCount:number=1;
-  InProgressCount:number=2;
+  OpenCount:number;
+  InProgressCount:number;
+  ClosedCount:number;
+  NeedInfoCount:number;
+  ApprovedCount:number;
+
+  teamOpenCount:number;
+  teamInProgressCount:number;
+  teamClosedCount:number;
+  teamNeedInfoCount:number;
+  teamApprovedCount:number;
+
   status:string;
   reactiveForm: FormGroup;
-   resourceValues:RequestedResource[]=[];
-  resourceName:string[]=[];
-  selectedResource:RequestedResource;
+  resourceValues:RequestedResource[]=[];
+  resourceNames:string[]=[];
   teamsUnderManager:Team[]=[];
   teamsOfEmployee:Team[]=[];
+  selectedResource:RequestedResource;
+  ticketCount:TicketStatusCount[]=[];
+  ticketCountTeam:TicketStatusCount[]=[];
+  selectedTeam:Team;
+  loggedInUser:Employee;
   constructor(private managerService:ManagerService,private fb: FormBuilder, private router:Router,private adminService:AdminService,private memberService:MemberService) { }
 
   ngOnInit() {
@@ -37,12 +53,70 @@ export class ManagerComponent implements OnInit {
     console.log(this.authenticationHeader.username);
     let name = this.authenticationHeader.username.split('@');
     this.username = name[0];
-    this.reactiveForm = this.fb.group({
-      'requestedBy'  : [null,Validators.compose([Validators.required,Validators.minLength(1),Validators.pattern('[A-Za-z]+ *[A-Za-z ]+$')])],
-      'requestedFor'  : [null,Validators.compose([Validators.required,Validators.email])],
-      })
-  }
-
+    this.getCount();
+    this.getTeamCount();
+    this.memberService.getUserInformation().then(response=>{this.loggedInUser=response;});
+    }
+    getCount():void{
+      this.memberService.getCounts().then(response => {
+        this.ticketCount = response;
+        console.log(this.ticketCount);
+        console.log("length" );
+        console.log( this.ticketCount.length);
+        for(let ticket of this.ticketCount){
+          if(ticket.status == 'Open'){
+            console.log(ticket.count);
+            this.OpenCount= ticket.count;
+          }
+          else if(ticket.status == 'InProgress'){
+            console.log(ticket.count);
+            this.InProgressCount= ticket.count;
+          }
+          else if(ticket.status == 'Closed'){
+            console.log(ticket.count);
+            this.ClosedCount= ticket.count;
+          }
+          else if(ticket.status == 'NeedInfo'){
+            console.log(ticket.count);
+            this.NeedInfoCount= ticket.count;
+          }
+          else if(ticket.status == 'Approved'){
+            console.log(ticket.status + ticket.count);
+            this.ApprovedCount= ticket.count;
+          }
+        }
+      });
+    }
+    getTeamCount():void{
+      this.memberService.getTeamCounts().then(response => {
+        this.ticketCountTeam = response;
+        console.log(this.ticketCountTeam);
+        console.log("length" );
+        console.log( this.ticketCountTeam.length);
+        for(let ticket of this.ticketCountTeam){
+          if(ticket.status == 'Open'){
+            console.log(ticket.status + ticket.count);
+            this.teamOpenCount= ticket.count;
+          }
+          else if(ticket.status == 'InProgress'){
+            console.log(ticket.count);
+            this.teamInProgressCount= ticket.count;
+          }
+          else if(ticket.status == 'Closed'){
+            console.log(ticket.count);
+            this.teamClosedCount= ticket.count;
+          }
+          else if(ticket.status == 'NeedInfo'){
+            console.log(ticket.count);
+            this.teamNeedInfoCount= ticket.count;
+          }
+          else if(ticket.status == 'Approved'){
+            console.log(ticket.status +ticket.count);
+            this.teamApprovedCount= ticket.count;
+          }
+        }
+      });
+    }
   createTeam(teamName:string,headName:string):void{
    
     this.managerService.createTeam(teamName,headName).then(response => {
@@ -53,8 +127,11 @@ export class ManagerComponent implements OnInit {
   }
 
   logOut(){
-    this.managerService.logOutManager().then(response => {
+    this.managerService.logOut().then(response => {
       this.authentication = response;
+      localStorage.clear();
+      localStorage.removeItem('authenticationObject');
+      this.router.navigate(['']);
       if (this.authentication.statusCode == 1){
         localStorage.clear();
         localStorage.removeItem('authenticationObject');
@@ -91,7 +168,7 @@ export class ManagerComponent implements OnInit {
     this.router.navigate(['requestDetail',this.status,type]);
   }
   getRequestsNeedInfo(type:string):void{
-    this.status = 'NeedInformation';
+    this.status = 'NeedInfo';
     this.router.navigate(['requestDetail',this.status,type]);
   }
   getRequestsClosed(type:string):void{
@@ -106,28 +183,25 @@ export class ManagerComponent implements OnInit {
     console.log(requestType);
     console.log(resourceType);
   if(requestType=='New'){
-    this.memberService.getResourceRequested(resourceType).then(response => { this.resourceValues = response ;  
-      console.log(this.resourceValues);
-      let i=0;
-    for(let resource of this.resourceValues){
-      this.resourceName[i++] = resource.resourceName;
-    }
-  
+    this.memberService.getResourceRequested(resourceType).subscribe(response => { console.log(response);this.resourceValues = response   ;  
     });
   }
   }
-  selectedResourceValue(resource:RequestedResource):void{
-    this.selectedResource = resource;
-    console.log(this.selectedResource);
-  }
+
   getTeamsUnderManager():void{
     this.managerService.getTeamsUnderManager().then(response=>{this.teamsUnderManager=response;console.log(response);});
    
   }
 
-  Request(requestedFor,priority,requestType,resourceType,resource,comment,location):void{
-    console.log(requestedFor+ "" + priority+ "" +requestType + "" + "" + resourceType+ "" + resource + "" +comment+ "" +location);
-    this.memberService.makeRequest(this.authenticationHeader.username,requestedFor,priority,requestType,resourceType,resource,comment,location).then(response =>{console.log(response);location.reload(true);});
+  Request(requestedFor:string,priority:string,requestType:string,resourceType:string,resource:RequestedResource,comment:string,locn:string):void{
+    let teamName = null;
+    console.log("in comment" + comment);
+    console.log("in location" + locn);
+    this.memberService.makeRequest(this.authenticationHeader.username,requestedFor,priority,requestType,this.selectedResource,comment,locn,teamName).then(response =>{
+      console.log(response);
+      window.location.reload();
+      });
+  
   }
 
   manageTeam(team:Team,operation:string):void{
@@ -135,5 +209,4 @@ export class ManagerComponent implements OnInit {
     console.log(operation);
   this.router.navigate(['/teamDetailComponent',team.teamName,operation]);
  }
- 
 }

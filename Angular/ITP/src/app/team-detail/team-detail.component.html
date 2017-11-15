@@ -5,11 +5,11 @@
   <div class="col-sm-6 col-md-4 manager-list" *ngFor="let emp of teamEmployees| filter : searchText">
     <div class="chart-wrapper">
       <div class="chart-title">
-          {{employee.name}}
+          {{emp.name}}
       </div>
       <div class="chart-stage">
         <div id="grid-1-1">
-          {{employee.designation}}
+          {{emp.designation}}
           
         </div>
       </div>
@@ -18,6 +18,7 @@
       
       </div>
       </div>
+      <button class="btn btn-warning pull-left" (click)="goBack()">Back</button>
     </div>
   </div>
    
@@ -25,6 +26,7 @@
 
 <div *ngIf="operation == 'Add'">
   <b>Employee Search : </b> <input [(ngModel)]="searchText"  placeholder="Search Employee " >
+  
   <div class="container">
       <div  *ngFor="let employee of employees| filter : searchText">
     <div class="col-lg-6 col-sm-6 col-md-6 manager-list" >
@@ -32,19 +34,20 @@
     <div *ngIf="employee.designation != 'Manager'">
     <div class="chart-wrapper">
       <div class="chart-title">
-        {{employee.name}}
+        <b>Name:</b>  {{employee.name}}
       </div>
       <div class="chart-stage">
         <div id="grid-1-1">
-          {{employee.designation}}:
-          {{employee.login.username}}
+         <b>Designation:</b> {{employee.designation}}
+         <hr>
+         <b>Email id:</b>{{employee.login.username}}
         </div>
       </div>
       <div class="chart-notes">
-        <button  class="btn btn-default" data-toggle="tooltip"  title=" View Details" (click)="getEmployeeDetail(employee)"><span class="glyphicon glyphicon-list-alt"></span></button>
         <button  class="btn btn-default" data-toggle="tooltip" title=" Add To Team" (click)="addToTeam(employee)"><span class="glyphicon glyphicon-plus"></span></button>
       </div>
       </div>
+      <button class="btn btn-warning pull-left" (click)="goBack()">Back</button>
     </div>
     </div>
     </div>

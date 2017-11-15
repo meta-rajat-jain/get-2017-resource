@@ -19,7 +19,7 @@ export class ManagerService {
     private headers: Headers = new Headers();
     private createTeamUrl = this.request + 'manager/createTeam';
     private logOutUrl = this.request + 'auth/logout';
-    private getTeamsUrl = this.request + 'manager/getAllTeams';
+    private getTeamsUrl = this.request + 'manager/getTeamsForLoggedInUser';
     authenticationHeader:AuthenticatedHeader;
     username:string;
     constructor(private http: Http) {
@@ -46,7 +46,7 @@ export class ManagerService {
             .catch(this.handleError);
     }
 
-    logOutManager(): Promise<Authentication> {
+    logOut(): Promise<Authentication> {
         return this.http.get(this.logOutUrl, { headers: this.headers })
             .toPromise()
             .then(response => response.json() as Authentication )
@@ -54,20 +54,7 @@ export class ManagerService {
     }
     getTeamsUnderManager(){
         console.log("in get Teams"+JSON.parse(localStorage.getItem('authenticationObject')).username);
-        let login:Login={
-            username:JSON.parse(localStorage.getItem('authenticationObject')).username ,
-            password:'',
-            authorisationToken:''
-            }
-        let signEmp:Employee={
-            name:'',
-            contactNumber:0,
-            orgDomain:'',
-            designation:"",
-            status:"",
-            login:login
-            
-            }   
+ 
            
         return this.http.get(this.getTeamsUrl,{ headers: this.headers })
         .toPromise()

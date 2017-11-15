@@ -75,7 +75,7 @@ export class AdminComponent implements OnInit {
   deleteEmployee(employee:Employee):void{
     console.log(employee);
     if ( confirm ('Are you sure you want to delete the employee : ' + employee.name )) {
-    this.adminService.deleteEmployee(employee).then(response => this.authentication = response);
+    this.adminService.deleteEmployee(employee).then(response =>{ this.authentication = response;location.reload(true);});
     }
   }
 

@@ -55,7 +55,15 @@
                       <img class="img-responsive" src="assets/images/userIcon.png">
                   </div>
                   <div class ="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                      User Information
+                    <div *ngIf="loggedInUser">
+                      <div class="chart-stage" >
+                      <h5><span><b>Name:</b></span> <span>{{loggedInUser.name}}</span></h5>
+                      <h5><span><b>EmailID:</b> </span> <span>{{loggedInUser.login.username}}</span></h5>
+                      <h5><span><b>Designation: </b></span><span>{{loggedInUser.designation}}</span></h5>
+                      <h5><span><b>Contact Number:</b> </span> <span>{{loggedInUser.contactNumber}}</span></h5>
+                      <h5><span><b>Organisation Domain:</b> </span><span>{{loggedInUser.orgDomain}}</span></h5>
+                      </div>
+                      </div>
                   </div>
                     
                   </div>
@@ -77,7 +85,7 @@
                     <img class="img-responsive" src="assets/images/open.png">
                   </div>
                   <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                  Team Request <h3>{{openCount}}</h3>
+                   <a class="status"  (click)="getRequestsOpen('Team')">Team Request: {{teamOpenCount}}</a>
                     </div>
                   </div>
                   <div class="chart-notes">
@@ -100,7 +108,7 @@
                   <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                     <a class="status"  (click)="getRequestsInProgress('Manager')">My Request: {{InProgressCount}}</a>
                   <hr>
-                  <a class="status" (click)="getRequestsInProgress('Team')"> Team Request: {{InProgressCount}} </a>
+                  <a class="status" (click)="getRequestsInProgress('Team')"> Team Request: {{teamInProgressCount}} </a>
                          </div>
                        
                   </div>
@@ -121,9 +129,9 @@
                           <img class="img-responsive" src="assets/images/needInformation.png">
                         </div>
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                            <a class="status"  (click)="getRequestsNeedInfo('Manager')">My Request: {{InProgressCount}}</a>
+                            <a class="status"  (click)="getRequestsNeedInfo('Manager')">My Request: {{NeedInfoCount}}</a>
                           <hr>
-                          <a class="status" (click)="getRequestsNeedInfo('Team')"> Team Request: {{InProgressCount}} </a>
+                          <a class="status" (click)="getRequestsNeedInfo('Team')"> Team Request: {{teamNeedInfoCount}} </a>
                                  </div>
                   
                   </div>
@@ -134,26 +142,21 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-4">
-                <div class="chart-wrapper">
-                  <div class="chart-title">
-                   Requests Reopened
-                  </div>
-                  <div class="chart-stage">
-                    <img class="img-responsive" src="assets/images/reopened.png">
-                  </div>
-                  <div class="chart-notes">
-                   Requests which are reopened
-                  </div>
-                </div>
-              </div>
+              
               <div class="col-sm-4">
                 <div class="chart-wrapper">
                   <div class="chart-title">
                     Approved requests
                   </div>
                   <div class="chart-stage">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                     <img class="img-responsive" src="assets/images/approved.png">
+                  </div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                      <a class="status"  (click)="getRequestsApproved('Manager')">My Request: {{ApprovedCount}}</a>
+                    <hr>
+                    <a class="status" (click)="getRequestsApproved('Team')"> Team Request: {{teamApprovedCount}} </a>
+                           </div>
                   </div>
                   <div class="chart-notes">
                    Requests which are approvd
@@ -166,7 +169,14 @@
                    Requests which are closed
                   </div>
                   <div class="chart-stage">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                     <img class="img-responsive" src="assets/images/closed.png">
+                  </div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                      <a class="status"  (click)="getRequestsClosed('Manager')">My Request: {{ClosedCount}}</a>
+                    <hr>
+                    <a class="status" (click)="getRequestsClosed('Team')"> Team Request: {{teamClosedCount}} </a>
+                           </div>
                   </div>
                   <div class="chart-notes">
                    Closed requests
@@ -208,60 +218,71 @@
             
                 <div id="wrapper" style="height:auto">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <form [formGroup]="reactiveForm">
-        <div id="requestForm">
-          <h1>New Employee</h1>
-
-          <label for="Title" class="title"> {{Title}} </label>
-
-          <label for="requester" class="uname"> Requested By : </label>{{username}}
-          
-          <label for="requestedFor" class="requestedFor"> Requested For </label>
-          <input #requestedFor name="requestedFor" required="required" formControlName="requestedFor" type="text" placeholder=" mymail"/>
-          <h6 class="alert" *ngIf="!reactiveForm.controls['requestedFor'].valid && reactiveForm.controls['requestedFor'].touched ">"Incorrectly specified email"</h6>
-
-          <label for="priority" class="priority" >Priority</label>
-          <select #priority>
-              <option value="Urgent" [ngValue]="priority">Urgent</option>
-              <option value="High" [ngValue]="priority">High</option>
-              <option value="Medium" [ngValue]="priority">Medium</option>
-              <option value="Low" [ngValue]="priority">Low</option>
-            </select>
-
-            <label for="requestType" class="requestType" >request type</label>
-            <select #requestType>
-                <option  ></option>
-                <option  value="New" [ngValue]="requestType">New</option>
-                <option  value="Maintence" [ngValue]="requestType">Maintence</option>
-              </select>
-
-              <label for="resourceType" class="resourceType" >resource type</label>
-              <select #resourceType (change)="resourceRequested(requestType.value,resourceType.value)">
-                  <option  ></option>
-                  <option  value="Hardware" [ngValue]="resourceType">Hardware Provisioning</option>
-                  <option  value="Software" [ngValue]="resourceType">Software Installation</option>
-                  <option  value="Network" [ngValue]="resourceType">Network Related</option>
-                </select>
-<br>
-            <label for="ResourceRequested" class="ResourceRequested">Resources</label>
-            <select  *ngIf="requestType.value=='New'" #resource (change)="selectedResourceValue(resource.value)">
-             
-              <option  *ngFor="let resource of resourceValues"  value="{{resource}}" [ngValue]="resource">{{resource.resourceName}}</option>
-            
-              </select>
-          <br>
-          <span>
-
-              <label for="comment" class="comment">Comment </label>
-              <textarea #comment  rows="4" cols="50"></textarea>
-             
-              <label for="location" class="location"> Your location </label>
-              <textarea #location  rows="4" cols="50"></textarea>
-              <button id="button" class="btn btn-primary " (click)="Request(requestedFor.value,priority.value,requestType.value,resourceType.value,resource.value,comment.value,location.value)">Register</button>
-
-          </span>
-        </div>
-      </form>
+                    <form >
+                      <div id="requestForm">
+                      <h1>New Request</h1>
+                      <table>
+                      
+                      <tr>
+                      <td><label for="requester" class="uname"> Requested By</label></td>
+                      <td><label><h5>{{username}}</h5></label></td> 
+                      </tr>
+                      
+                      <tr>
+                      <td><label for="requestedFor" class="requestedFor">Requested For</label></td>
+                     <td> <input #requestedFor name="requestedFor" required="required" type="text" placeholder=" mymail"/></td>
+                      </tr>
+                      
+                      <tr>
+                      <td> <label for="priority" class="priority" >Priority</label></td>
+                      <td><select #priority>
+                      <option ></option>
+                      <option value="Urgent" [ngValue]="priority">Urgent</option>
+                      <option value="High" [ngValue]="priority">High</option>
+                      <option value="Medium" [ngValue]="priority">Medium</option>
+                      <option value="Low" [ngValue]="priority">Low</option>
+                      </select></td> 
+                      </tr>
+                      <tr>
+                      <td> <label for="requestType" class="requestType" >Request Type</label></td>
+                      <td> <select #requestType>
+                      <option ></option>
+                      <option value="New" [ngValue]="requestType">New</option>
+                      <option value="Maintence" [ngValue]="requestType">Maintence</option>
+                      </select></td>
+                      </tr>
+                      <tr>
+                      <td> <label for="resourceType" class="resourceType" >Resource Type</label></td>
+                      <td>
+                      <select #resourceType (change)="resourceRequested(requestType.value,resourceType.value)">
+                      <option ></option>
+                      <option value="Hardware" [ngValue]="resourceType">Hardware Provisioning</option>
+                      <option value="Software" [ngValue]="resourceType">Software Installation</option>
+                      <option value="Network" [ngValue]="resourceType">Network Related</option>
+                      </select></td>
+                      </tr>
+                      <tr>
+                      <td> <label for="ResourceRequested" class="ResourceRequested">Resources</label></td>
+                      <td> <select [(ngModel)]="selectedResource" name="resource">
+                      <option *ngFor="let resource of resourceValues" [ngValue]="resource">{{resource.resourceName}}</option>
+                      </select></td>
+                      </tr>
+                      <tr>
+                      <td> <label for="comment" class="comment">Comment </label></td>
+                      <td> <textarea #comment rows="4" cols="50"></textarea></td>
+                      </tr>
+                      <tr>
+                      <td> <label for="location" class="location"> Your location </label></td>
+                      <td><input #locn name="locn" required="required" type="text" placeholder=" Your location"/></td>
+                      </tr>
+                      <tr>
+                      
+                      <td><button id="button" class="btn btn-primary " (click)="goBack()">Go Back</button></td>
+                      <td> <button id="button" class="btn btn-primary" (click)="Request(requestedFor.value,priority.value,requestType.value,resourceType.value,resource,comment.value,locn.value)">Register</button></td>
+                      </tr>
+                      </table>
+                      </div>
+                      </form>
     </div>
   </div>
 </div>

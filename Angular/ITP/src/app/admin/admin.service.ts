@@ -43,7 +43,7 @@ export class AdminService {
     getEmployees():Promise<Employee[]>{
         return this.http.get(this.getAllEmployeeUrl, { headers: this.headers })
         .toPromise()
-        .then(response =>  response.json() as Employee[] )
+        .then(response => {console.log(response);return response.json() as Employee[] })
         .catch(this.handleError);
     }
     editEmployee(employee:Employee):Promise<Authentication>{

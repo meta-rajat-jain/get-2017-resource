@@ -17,9 +17,10 @@ export class TeamDetailService {
     controller: string = 'ResourceRequest/rest/';
     request: string = this.server + this.controller;
     private headers: Headers = new Headers();
-    private getRequestManager = this.request + 'ticket/getAllTicketsOfLoggedInEmployee';
-    private getRequestTeam = this.request + 'ticket/getAllStatusBasedTicketsForApprover';
+    private addToTeamUrl = this.request + 'manager/addEmployeeToTeam';
+    private getTeams = this.request + 'manager/getEmployeesByTeamName';
     private approveTicketUrl = this.request + 'ticket/updateTicket';
+    private getEmployeesToAddUrl = this.request + 'manager/getEmployeesNotInPaticularTeam';
     authenticationHeader:AuthenticatedHeader;
     
     constructor(private http: Http) {
@@ -27,26 +28,30 @@ export class TeamDetailService {
         this.headers.append('authorisationToken', JSON.parse(localStorage.getItem('authenticationObject')).authorisationToken);
         this.headers.append('username', JSON.parse(localStorage.getItem('authenticationObject')).username);
      }
-     manageTeam(team:Team,):Promise<Ticket[]>{
-        
-            return this.http.post(this.getRequestManager, {headers:this.headers})
-            .toPromise()
-            .then(response => response.json() as Ticket[])
-            .catch(this.handleError);
-         }
+    
          
      
      addToTeam(employee:Employee,teamName:string):Promise<Authentication>{
-         let employeeTeamDetail = { "employeeTeamDetail": [ 
-            { "employee" : [employee]} , 
-            { "teamName" : [teamName]} ] }
-        return this.http.post(this.getRequestManager,employeeTeamDetail, {headers:this.headers} )
+         let employeeTeamDetail = {  
+            "employeeDTO" : employee , 
+            "teamDTO" : {"teamName":teamName}
+        }
+            console.log(JSON.stringify(employeeTeamDetail));
+        return this.http.post(this.addToTeamUrl,JSON.stringify(employeeTeamDetail), {headers:this.headers} )
         .toPromise()
         .then(response => response.json() as Authentication)
         .catch(this.handleError);
      }
-     getTeamsDetail(teamName:string):Promise<Employee[]>{
-        return this.http.post(this.getRequestManager,teamName , {headers:this.headers} )
+     getTeamsDetail(teamNm:string):Promise<Employee[]>{
+        let teamName = { "teamName": teamNm }
+        return this.http.post(this.getTeams,teamName , {headers:this.headers} )
+        .toPromise()
+        .then(response => response.json() as Employee[])
+        .catch(this.handleError);
+     }
+     getEmployeesToAdd(teamNm:string):Promise<Employee[]>{
+        let teamName = { "teamName": teamNm }
+        return this.http.post(this.getEmployeesToAddUrl,teamName , {headers:this.headers} )
         .toPromise()
         .then(response => response.json() as Employee[])
         .catch(this.handleError);

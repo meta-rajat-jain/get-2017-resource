@@ -36,7 +36,7 @@ export class HomeService {
         getOrganisation(): Promise<string[]> {
         return this.http.get(this.getOrganisationUrl)
         .toPromise()
-        .then(response => this.domainNames =  response.json()        )
+        .then(response => this.domainNames =  response.json()   )
         .catch(this.handleError);
         }
         
@@ -84,7 +84,7 @@ export class HomeService {
                 name:usernameEmp,
                 contactNumber:contactnoEmp,
                 orgDomain:selectedDomain,
-                designation:"",
+                designation:"Member",
                 status:"",
                 login:login
                 
@@ -214,7 +214,33 @@ export class HomeService {
                 this.router.navigate(['']);
              }
          }
-        
+         getHelpDeskAuthentication():Observable<boolean>{
+            if(localStorage.getItem('authenticationObject')!=null){
+             let login:Login={
+                 username:JSON.parse(this.getAuthenticationObject()).username,
+                 password:"",
+                 authorisationToken:JSON.parse(this.getAuthenticationObject()).authorisationToken
+                 }
+             
+             return  this.http.post(this.checkUserUrl,login).map( response =>  {
+ 
+                 this.responseObject = response.json();
+                 console.log("empType" + this.responseObject.employeeType);
+                 if(this.responseObject.employeeType=='Helpdesk'){
+                    return  true;
+                 }
+                 
+                   console.log("in else");
+                    this.router.navigate(['']);
+                   
+                 
+                
+             }) ;
+             }
+             else{
+                this.router.navigate(['']);
+             }
+         }
         private handleError(error: any): Promise<any> {
             console.error('An error occurred', error); 
             return Promise.reject(error.message || error);

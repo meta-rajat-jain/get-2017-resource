@@ -9,7 +9,7 @@ export class Ticket
     comment:string;
     requestedResource:RequestedResource;
     teamName:string;
-    location:string;
+    seatLocation:string;
     requestType:string;
     status:string;
     

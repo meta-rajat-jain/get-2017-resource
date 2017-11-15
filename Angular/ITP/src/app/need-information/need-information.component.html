@@ -1,34 +1,144 @@
-<p>
-  need-information works!
-</p>
-<!--
-
-<b>Ticket Search : </b> <input [(ngModel)]="searchText"  placeholder="Search Employee " >
-<div class="container">
-<div class="col-sm-6 col-md-4 manager-list" *ngFor="let ticket of tickets| filter : searchText">
-  <div class="chart-wrapper">
-    <div class="chart-title">
-     {{ticket.ticketNo}}
-    </div>
-    <div class="chart-stage">
-      <div id="grid-1-1">
-        {{ticket.requesterName}}
-        {{ticket.requestedFor}}
-        <hr>
-        {{ticket.priority}}
-        {{ticket.comment}}
-        <hr>
-        {{ticket.requestedResource.resourceName}}
-      </div>
-    </div>
-    <div class="chart-notes">
+<body>
+  <div *ngIf="operation=='Edit'">
+<div *ngIf="ticket">
+<form >
+    <div id="requestForm">
+    <h1>Update Request</h1>
+    <table>
     
+    <tr>
+    <td><label for="requester" class="uname"> Requested By</label></td>
+    <td><label><h5>  {{ticket.requesterName}}
+      </h5></label></td> 
+    </tr>
     
-      <button  class="btn btn-default" data-toggle="tooltip"  title="Decline" (click)="updateTicket()"><span class="glyphicon glyphicon-folder-close"></span></button>
-      
+    <tr>
+    <td><label for="requestedFor" class="requestedFor">Requested For</label></td>
+    <td><label><h5>{{ticket.requestedFor}}</h5></label></td> 
+    </tr>
+    
+    <tr>
+    <td> <label for="priority" class="priority" >Priority</label></td>
+    <td><select #priority>
+    <option ></option>
+    <option value="Urgent" [ngValue]="priority">Urgent</option>
+    <option value="High" [ngValue]="priority">High</option>
+    <option value="Medium" [ngValue]="priority">Medium</option>
+    <option value="Low" [ngValue]="priority">Low</option>
+    </select></td> 
+    </tr>
+    <tr>
+    <td> <label for="requestType" class="requestType" >Request Type</label></td>
+    <td> {{ticket.requestType}}</td>
+    </tr>
+    <tr>
+    <td> <label for="resourceType" class="resourceType" >Resource Type</label></td>
+    <td>
+        {{ticket.requestedResource.resourceCategory.categoryName}}
+    </td>
+    </tr>
+    <tr>
+    <td> <label for="ResourceRequested" class="ResourceRequested">Resources</label></td>
+    <td>  {{ticket.requestedResource.resourceName}}
+      </td>
+    </tr>
+    <tr>
+        <td> <label for="Team" class="Team">Team</label></td>
+        <td>  {{ticket.teamName}}
+          </td>
+        </tr>
+    <tr>
+    <td> <label for="comment" class="comment">Comment </label></td>
+    <td> <textarea #comment rows="4" cols="50"></textarea></td>
+    </tr>
+    <tr>
+    <td> <label for="location" class="location"> Your location </label></td>
+    <td><input #locn name="locn" required="required" type="text" placeholder=" Your location"/></td>
+    </tr>
+    <tr *ngIf="type!='Member'">
+        <td> <label for="status" class="status" >Status</label></td>
+        <td>
+        <select #status >
+        <option ></option>
+        <option value="Open" [ngValue]="status">Open</option>
+        <option value="Close" [ngValue]="status">Close</option>
+        <option *ngIf="type=='Helpdesk'" value="Approved" [ngValue]="status">Approved</option>
+        <option *ngIf="type=='Helpdesk'"value="In-Progress" [ngValue]="status">In-Progress</option>
+        <option *ngIf="type=='Helpdesk'"value="Need Information" [ngValue]="status">Need Information</option>
+        
+        </select></td>
+        </tr>
+    <tr>
+    
+    <td><button id="button" class="btn btn-primary " (click)="goBack()">Go Back</button></td>
+    <td> <button id="button" class="btn btn-primary" (click)="editRequest(priority.value,comment.value,locn.value,status.value)">Register</button></td>
+    </tr>
+    </table>
     </div>
-    </div>
+    </form>
   </div>
 </div>
-   
--->
+
+<!-- Need Information Button -->
+<div *ngIf="operation=='NeedInfo'">
+    <div *ngIf="ticket">
+    <form >
+        <div id="requestForm">
+        <h1>Update Request</h1>
+        <table>
+        
+        <tr>
+        <td><label for="requester" class="uname"> Requested By</label></td>
+        <td><label><h5>  {{ticket.requesterName}}
+          </h5></label></td> 
+        </tr>
+        
+        <tr>
+        <td><label for="requestedFor" class="requestedFor">Requested For</label></td>
+        <td><label><h5>{{ticket.requestedFor}}</h5></label></td> 
+        </tr>
+        
+        <tr>
+        <td> <label for="priority" class="priority" >Priority</label></td>
+        <td>{{ticket.priority}}</td> 
+        </tr>
+        <tr>
+        <td> <label for="requestType" class="requestType" >Request Type</label></td>
+        <td> {{ticket.requestType}}</td>
+        </tr>
+        <tr>
+        <td> <label for="resourceType" class="resourceType" >Resource Type</label></td>
+        <td>
+            {{ticket.requestedResource.resourceCategory.categoryName}}
+        </td>
+        </tr>
+        <tr>
+        <td> <label for="ResourceRequested" class="ResourceRequested">Resources</label></td>
+        <td>  {{ticket.requestedResource.resourceName}}
+          </td>
+        </tr>
+        <tr>
+            <td> <label for="Team" class="Team">Team</label></td>
+            <td>  {{ticket.teamName}}
+              </td>
+            </tr>
+        <tr>
+        <td> <label for="comment" class="comment">Comment </label></td>
+        <td> <textarea #comment rows="4" cols="50"></textarea></td>
+        </tr>
+        <tr>
+        <td> <label for="location" class="location"> Your location </label></td>
+        <td>{{ticket.seatLocation}}</td>
+        </tr>
+        
+        <tr>
+        
+        <td><button id="button" class="btn btn-primary " (click)="goBack()">Go Back</button></td>
+        <td> <button id="button" class="btn btn-primary" (click)="NeedInformation(comment.value)">Register</button></td>
+        </tr>
+        </table>
+        </div>
+        </form>
+      </div>
+    </div>
+    </body>

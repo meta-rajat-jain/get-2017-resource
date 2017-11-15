@@ -40,8 +40,8 @@ export class TeamDetailComponent implements OnInit {
         this.operation = params['operation'];
       });
       this.init();
-      this.adminService.getEmployees().then(response => { this.employees = response});
-      this.teamService.getTeamsDetail(this.teamName).then(response =>  { this.teamEmployees = response});
+      this.getEmployeesToAdd();
+       this.teamService.getTeamsDetail(this.teamName).then(response =>  { console.log(response); this.teamEmployees = response});
     }
   init():void{
   
@@ -50,7 +50,22 @@ export class TeamDetailComponent implements OnInit {
      console.log(this.operation);
   }
   addToTeam(employee:Employee):void{
-   this.teamService.addToTeam(employee,this.teamName).then(response => {console.log(response)});
+   this.teamService.addToTeam(employee,this.teamName).then(response => {console.log(response);this.location.back()});
+  }
+  getEmployeesToAdd():void{
+    this.teamService.getEmployeesToAdd(this.teamName).then(response => {
+      let index=0;
+      for(let employee of response){
+        if(employee.designation!='Manager'){
+          this.employees[index++] = employee;
+        }
+    }
+    console.log(this.employees);
+  });
+    
+  }
+  goBack(): void {
+    this.location.back();
   }
   
 }

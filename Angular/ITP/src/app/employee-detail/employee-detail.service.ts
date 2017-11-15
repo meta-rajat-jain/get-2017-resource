@@ -34,13 +34,13 @@ export class EmployeeDetailService {
             name:"",
             contactNumber: 0,
             orgDomain:"",
-            designation:"",
+            designation:null,
             status:"",
             login:login
          }
          return this.http.post(this.getEmployeeUrl,employee,{ headers: this.headers })
          .toPromise()
-         .then(response =>   response.json() as Authentication)
+         .then(response =>    response.json() as Employee)
          .catch(this.handleError);
     }
     updateEmployee(name:string,contactNo:number,employee:Employee,username:string):Promise<Authentication>{

@@ -23,6 +23,7 @@
     "@angular/router": "^4.2.4",
     "angular4-social-login": "^1.0.13",
     "core-js": "^2.4.1",
+    "ng2-select": "^1.2.0",
     "primeng": "^4.3.0",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"

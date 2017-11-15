@@ -64,6 +64,7 @@ getId():void{
   console.log(this.id);
 }
 updateEmployee(name:string,contactNo:number){
+  console.log(this.employee);
   this.employeeDetail.updateEmployee(name,contactNo,this.employee,this.username).then(response => {console.log(response);this.router.navigate(['/adminDashboard'])});
 }
 goBack(): void {

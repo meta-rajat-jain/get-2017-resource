@@ -1,35 +1,38 @@
-<p>
-  requests works!
-</p>
-
 <div *ngIf='tickets'>
 <b>Ticket Search : </b> <input [(ngModel)]="searchText"  placeholder="Search Employee " >
 <div class="container">
 <div class="col-sm-6 col-md-4 manager-list" *ngFor="let ticket of tickets| filter : searchText">
   <div class="chart-wrapper">
     <div class="chart-title">
-     {{ticket.ticketNo}}
+      {{ticket.requesterName}}
     </div>
     <div class="chart-stage">
       <div id="grid-1-1">
-        {{ticket.requesterName}}
         {{ticket.requestedFor}}
         <hr>
-        {{ticket.priority}}
-        {{ticket.comment}}
-        <hr>
-        {{ticket.requestedResource.resourceName}}
+         Priority: {{ticket.priority}}
+         <br>
+         Comment:{{ticket.comment}}
+         <hr>
+         {{ticket.requestedResource.resourceName}}
+         <hr>
+         {{ticket.seatLocation}}
       </div>
     </div>
     <div class="chart-notes">
-    <div *ngIf="status=='Open'">
-      <button class="btn btn-default" data-toggle="tooltip"  title=" Approve" (click)="approve(ticket)"><span class="glyphicon glyphicon-pencil "  ></span></button>
-      <button class="delete btn btn-default" data-toggle="tooltip"  title=" Need Info" (click)="needInfo(ticket); $event.stopPropagation()"><span class="glyphicon glyphicon-list-alt" > </span></button>
-      <button  class="btn btn-default" data-toggle="tooltip"  title="Decline" (click)="decline(ticket)"><span class="glyphicon glyphicon-folder-close"></span></button>
+    <div *ngIf="status!='Closed'">
+      <button *ngIf=" type!='Member' || status == 'Open' " class="btn btn-default" data-toggle="tooltip"  title=" Approve" (click)="approve(ticket,type)"><span class="glyphicon glyphicon-pencil "  ></span></button>
+      <button class="delete btn btn-default" data-toggle="tooltip"  title=" Need Info" (click)="needInfo(ticket,NeedInfo); $event.stopPropagation()"><span class="glyphicon glyphicon-list-alt" > </span></button>
+      <button *ngIf="type!='Member'" class="btn btn-default" data-toggle="tooltip"  title="Decline" (click)="decline(ticket)"><span class="glyphicon glyphicon-folder-close"></span></button>
+      <button  class="btn btn-default" data-toggle="tooltip"  title="Edit" (click)="needInfo(ticket,Edit)"><span class="glyphicon glyphicon-folder-close"></span></button>
     </div>  
     </div>
+    
     </div>
+  
   </div>
+  
+
 </div>
-   
+<button class="btn btn-warning" (click)="goBack()">Back</button>
 </div>

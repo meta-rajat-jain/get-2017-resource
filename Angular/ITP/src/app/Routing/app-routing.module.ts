@@ -6,13 +6,15 @@ import { EmployeeDetailComponent } from '../employee-detail/employee-detail.comp
 import { ManagerComponent } from '../manager/manager.component';
 import { TeamHeadComponent } from '../team-head/team-head.component';
 import { MemberComponent } from '../member/member.component';
-import { NewRequestComponent } from '../new-request/new-request.component';
 import { ActivateGuard } from '../router-guards/activateGuard';
 import { ActivateGuardManager } from '../router-guards/activateGuardManager';
 import { ActivateGuardMember } from '../router-guards/activateGuardMember';
 import { RequestsComponent } from '../requests/requests.component';
 import { NeedInformationComponent } from '../need-information/need-information.component';
 import { TeamDetailComponent } from '../team-detail/team-detail.component';
+import { PasswordComponent } from '../password/password.component';
+import { HelpdeskComponent } from '../helpdesk/helpdesk.component';
+import { ActivateGuardHelpDesk } from '../router-guards/activateGuardHelpdesk';
 
 
 
@@ -26,18 +28,17 @@ const routes: Routes = [
   { path: 'employeeDetail/:username/:type', component: EmployeeDetailComponent },
   { path: 'managerDashboard', component: ManagerComponent,canActivate:[ActivateGuardManager] },
   { path: 'memberDashboard', component: MemberComponent,canActivate:[ActivateGuardMember]},
-  { path: 'newRequest/:username', component: NewRequestComponent },
   { path: 'requestDetail/:status/:type', component:RequestsComponent },
-  { path: 'needInformation/:ticket', component: NeedInformationComponent },
+  { path: 'needInformation/:ticketNo/:type/:operation', component: NeedInformationComponent },
   { path: 'teamDetailComponent/:teamName/:operation', component: TeamDetailComponent },
-  /*{ path: 'order', component:OrderComponent},
-  { path: 'orderDetail/:orderId', component:OrderDetailComponent}*/
+  { path: 'password', component:PasswordComponent},
+  { path: 'helpDeskDashboard', component:HelpdeskComponent}
 
 ];
 
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],
   exports: [ RouterModule ],
-  providers:[ ActivateGuard,ActivateGuardManager,ActivateGuardMember]
+  providers:[ ActivateGuard,ActivateGuardManager,ActivateGuardMember,ActivateGuardHelpDesk]
 })
 export class AppRoutingModule {}

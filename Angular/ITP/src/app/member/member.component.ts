@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NewRequestComponent } from '../new-request/new-request.component';
 import { AuthenticatedHeader } from '../Model/authenticatedHeader';
 import { MemberService } from './member.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Authentication } from '../Model/Authentication';
 import { Ticket } from '../Model/Ticket';
 import { RequestedResource } from '../Model/requestResource';
+import { Team } from '../Model/team';
+import { TicketStatusCount } from '../Model/ticketStatusCount';
+import { Employee } from '../Model/signEmp';
 
 @Component({
   selector: 'app-member',
@@ -18,34 +20,78 @@ export class MemberComponent implements OnInit {
   emailId:string;
   authenticationHeader:AuthenticatedHeader;
   authentication:Authentication;
-  reactiveForm: FormGroup;
-  resourceType:RequestedResource[]=[];
+  selectedResource:RequestedResource;
+  selectedTeam:Team;
+  resourceValues:RequestedResource[]=[];
+  teamsOfEmployee:Team[]=[];
+  status:string;
+  OpenCount:number;
+  InProgressCount:number;
+  ClosedCount:number;
+  NeedInfoCount:number;
+  ApprovedCount:number;
+  ticketCount:TicketStatusCount[]=[];
+  loggedInUser:Employee;
   constructor(private fb: FormBuilder,private router:Router,private memberService:MemberService) { }
 
   ngOnInit() {
+    this.getCount();
+    this.memberService.getUserInformation().then(response=>{this.loggedInUser=response;});
     this.authenticationHeader=JSON.parse(localStorage.getItem('authenticationObject'));
     console.log(this.authenticationHeader.username);
     let name = this.authenticationHeader.username.split('@');
     this.username = name[0];
     this.emailId = this.authenticationHeader.username;
-    this.reactiveForm = this.fb.group({
-      'requestedBy'  : [null,Validators.compose([Validators.required,Validators.minLength(1),Validators.pattern('[A-Za-z]+ *[A-Za-z ]+$')])],
-      'requestedFor'  : [null,Validators.compose([Validators.required,Validators.minLength(1),Validators.pattern('^[A-Za-z]+ *[A-Za-z ]+$')])],
-      })
+    
     }
-  Request(requestedFor,priority,requestType,resourceType,resource,comment,location):void{
-    
-    
-    this.memberService.makeRequest(this.authenticationHeader.username,requestedFor,priority,requestType,resourceType,resource,comment,location).then(response =>{console.log(response)});
+    getCount():void{
+      this.memberService.getCounts().then(response => {
+        this.ticketCount = response;
+        console.log(this.ticketCount);
+        console.log("length" );
+        console.log( this.ticketCount.length);
+        for(let ticket of this.ticketCount){
+          if(ticket.status == 'Open'){
+            console.log(ticket.count);
+            this.OpenCount= ticket.count;
+          }
+          else if(ticket.status == 'InProgress'){
+            console.log(ticket.count);
+            this.InProgressCount= ticket.count;
+          }
+          else if(ticket.status == 'Closed'){
+            console.log(ticket.count);
+            this.ClosedCount= ticket.count;
+          }
+          else if(ticket.status == 'NeedInfo'){
+            console.log(ticket.count);
+            this.NeedInfoCount= ticket.count;
+          }
+          else if(ticket.status == 'Approved'){
+            console.log(ticket.count);
+            this.ApprovedCount= ticket.count;
+          }
+          else{
+            console.log(ticket.status);
+          }
+        }
+      });
+    }
+  Request(priority,requestType,resourceType,resource,comment,location):void{
+    this.memberService.makeRequest(this.authenticationHeader.username,this.authenticationHeader.username,priority,requestType,this.selectedResource,comment,location,this.selectedTeam.teamName).then(response =>{console.log(response);window.location.reload();});
     }
 
     logOut(){
+      console.log("it is called");
+      localStorage.clear();
+      localStorage.removeItem('authenticationObject');
+      this.router.navigate(['']);
       this.memberService.logOutMember().then(response => { 
          this.authentication = response;
          if (this.authentication.statusCode == 1){
            localStorage.clear();
            localStorage.removeItem('authenticationObject');
-           this.router.navigate(['/']);
+           this.router.navigate(['']);
          }
        });
     }
@@ -54,7 +100,31 @@ export class MemberComponent implements OnInit {
       console.log(requestType);
       console.log(resourceType);
     if(requestType=='New'){
-      this.memberService.getResourceRequested(resourceType).then(response => { console.log(response);this.resourceType = response });
+      this.memberService.getResourceRequested(resourceType).subscribe(response => { this.resourceValues = response   ; console.log(this.resourceValues); 
+      });
     }
+    this.memberService.getTeamsOfEmployee().then(response =>{ this.teamsOfEmployee = response});
+    }
+    getRequestsInProgress(type:string):void{
+      console.log(type);
+      this.status = 'Inprogress';
+      this.router.navigate(['requestDetail',this.status,type]);
+    }
+    getRequestsOpen(type:string):void{
+      this.status = 'Open';
+      console.log(type);
+      this.router.navigate(['requestDetail',this.status,type]);
+    }
+    getRequestsNeedInfo(type:string):void{
+      this.status = 'NeedInformation';
+      this.router.navigate(['requestDetail',this.status,type]);
+    }
+    getRequestsClosed(type:string):void{
+      this.status = 'Closed';
+      this.router.navigate(['requestDetail',this.status,type]);
+    }
+    getRequestsApproved(type:string):void{
+      this.status = 'Approved';
+      this.router.navigate(['requestDetail',this.status,type]);
     }
 }

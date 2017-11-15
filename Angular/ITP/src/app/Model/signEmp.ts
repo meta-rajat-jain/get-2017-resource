@@ -4,7 +4,7 @@ export class Employee {
     name:string;
     contactNumber:number;
     orgDomain:string;
-    designation:string;
+    designation:any;
     status:string;
     login:Login;
 

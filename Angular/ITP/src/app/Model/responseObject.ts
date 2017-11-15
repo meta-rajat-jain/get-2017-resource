@@ -2,6 +2,6 @@ import { Authentication } from "./Authentication";
 
 export class ResponseObject {
     response:Authentication;
-    employeeType:string;
+    employeeType:any;
     category:string
 }

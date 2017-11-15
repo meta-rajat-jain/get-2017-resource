@@ -79,7 +79,7 @@ declare var $:any;
         this.signInWithGoogle(user);
       }
       });
-     this.log.getOrganisation();
+     this.log.getOrganisation() ;
       }
 
       login(username:string,password:string){
@@ -99,7 +99,7 @@ declare var $:any;
                   if(this.responseObject.response.statusCode==1) {
                     this.log.saveUser(authenticationHeader);
                     
-                    if(this.responseObject.employeeType == 'Team Member'){
+                    if(this.responseObject.employeeType == 'Member'){
                       this.router.navigate(['/memberDashboard']);
                     }
                     else if(this.responseObject.employeeType == 'Team Lead'){
@@ -108,14 +108,14 @@ declare var $:any;
                     else if(this.responseObject.employeeType == 'Manager'){
                       this.router.navigate(['/managerDashboard']);
                     }
-                    else if(this.responseObject.employeeType == 'Organisation Admin'){
+                    else if(this.responseObject.employeeType == 'Admin'){
                        this.router.navigate(['/adminDashboard']);
                     }
-                    else if(this.responseObject.employeeType.toString() == 'helpDesk'){
+                    else if(this.responseObject.employeeType.toString() == 'Helpdesk'){
                       this.router.navigate(['/helpDeskDashboard']);
                     }
                     else {
-                      this.router.navigate(['/memberDashboard']);
+                      this.router.navigate(['']);
                     }
                 this.errorMessage="Valid Credentials" + this.responseObject.response.message;
                 }else {
@@ -151,11 +151,11 @@ declare var $:any;
                           this.log.saveUser(authenticationHeader);
                          
                    
-                        this.errorMessage="Valid Credentials" + this.authenticationObject.message;
+                        this.errorMessage= this.authenticationObject.message;
                         location.reload(true);
                       }else {
                      
-                        this.errorMessage="Invalid Credentials" + this.authenticationObject.message;
+                        this.errorMessage= this.authenticationObject.message;
                      
                       }    
                    
@@ -179,7 +179,7 @@ declare var $:any;
                               
                              
                               this.errorMessage="Valid Credentials" + this.authenticationObject.message;
-                              
+                              location.reload(true);
                              
                              
                             }else {
@@ -199,7 +199,7 @@ declare var $:any;
                           signInWithGoogle(user:SocialUser):void{
                              
 
-                              this.log.authenticateGoogleUser(user).then( response => {
+                              this.log.authenticateGoogleUser(user).then( response => {console.log(response);
                                 this.responseObject = response;
 
                                let authenticationHeader:AuthenticatedHeader ={
@@ -209,25 +209,25 @@ declare var $:any;
                                 }
                                 if(this.responseObject.response.statusCode == 1) {
                                     this.log.saveUser(authenticationHeader);
-                                    if(this.responseObject.employeeType == 'Team Member'){
-                                      this.router.navigate(['/memberDashboard']);
+                                    if(this.responseObject.employeeType == 'Member'){
+                                      this.router.navigate(['memberDashboard']);
                                     }
                                     else if(this.responseObject.employeeType == 'Team Lead'){
-                                      this.router.navigate(['/teamLeadDashboard']);
+                                      this.router.navigate(['teamLeadDashboard']);
                                     }
                                     else if(this.responseObject.employeeType == 'Manager'){
-                                      this.router.navigate(['/managerDashboard']);
+                                      this.router.navigate(['managerDashboard']);
                                     }
-                                    else if(this.responseObject.employeeType == 'Organisation Admin'){
-                                       this.router.navigate(['/adminDashboard']);
+                                    else if(this.responseObject.employeeType == 'Admin'){
+                                       this.router.navigate(['adminDashboard']);
                                     }
-                                    else if(this.responseObject.employeeType.toString() == 'helpDesk'){
-                                      this.router.navigate(['/helpDeskDashboard']);
+                                    else if(this.responseObject.employeeType == 'Helpdesk'){
+                                      this.router.navigate(['helpDeskDashboard']);
                                     }
                                    
                                   }else {
-                                  
-                                    this.router.navigate(['/']);
+                                    this.errorMessage="This account is not registered with us.Please Log in with registered ID" ;
+                                    this.router.navigate(['']);
                                   }
 
 
@@ -282,5 +282,9 @@ declare var $:any;
         x.style.display = "block";
        }
       }
+
+      forgetPassword(){
+        this.router.navigate(['/password']);
+        }
       
     }

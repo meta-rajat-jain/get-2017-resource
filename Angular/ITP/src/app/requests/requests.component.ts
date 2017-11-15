@@ -44,16 +44,20 @@ init():void{
  
   this.requestsService.getRequests(this.status,this.type).then(response => this.tickets = response);
 }
-  approve(ticket:Ticket):void{
-   
-    this.requestsService.approveTicket(ticket).then(response => {console.log(response);});
+  approve(ticket:Ticket,type:string):void{
+   console.log(ticket,type);
+    this.requestsService.approveTicket(ticket,type).then(response => {console.log(response);});
   }
-  needInfo(ticket:Ticket):void{
-    console.log(this.type);
-    this.router.navigate(['needInformation',ticket]);
+  needInfo(ticket:Ticket,operation:string):void{
+    console.log(ticket + operation);
+    this.router.navigate(['needInformation',ticket.ticketNo,this.type,operation]);
   }
-  decline(ticket:Ticket):void{}
+  decline(ticket:Ticket,type:string):void{
+    this.requestsService.rejectTicket(ticket,type).then(response => {console.log(response);});    
+  }
 
-  
+  goBack(): void {
+    this.location.back();
+  }
   
 }
