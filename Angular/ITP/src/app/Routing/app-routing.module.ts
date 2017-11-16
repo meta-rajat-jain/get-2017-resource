@@ -6,15 +6,16 @@ import { EmployeeDetailComponent } from '../employee-detail/employee-detail.comp
 import { ManagerComponent } from '../manager/manager.component';
 import { TeamHeadComponent } from '../team-head/team-head.component';
 import { MemberComponent } from '../member/member.component';
-import { ActivateGuard } from '../router-guards/activateGuard';
-import { ActivateGuardManager } from '../router-guards/activateGuardManager';
-import { ActivateGuardMember } from '../router-guards/activateGuardMember';
+import { ActivateGuardManager } from '../services/router-guards/activateGuardManager';
+import { ActivateGuardMember } from '../services/router-guards/activateGuardMember';
 import { RequestsComponent } from '../requests/requests.component';
 import { NeedInformationComponent } from '../need-information/need-information.component';
 import { TeamDetailComponent } from '../team-detail/team-detail.component';
 import { PasswordComponent } from '../password/password.component';
 import { HelpdeskComponent } from '../helpdesk/helpdesk.component';
-import { ActivateGuardHelpDesk } from '../router-guards/activateGuardHelpdesk';
+import { ActivateGuardHelpDesk } from '../services/router-guards/activateGuardHelpdesk';
+import { ActivateGuard } from '../services/router-guards/activateGuard';
+import { NotFoundComponent } from '../not-found/not-found.component';
 
 
 
@@ -32,7 +33,8 @@ const routes: Routes = [
   { path: 'needInformation/:ticketNo/:type/:operation', component: NeedInformationComponent },
   { path: 'teamDetailComponent/:teamName/:operation', component: TeamDetailComponent },
   { path: 'password', component:PasswordComponent},
-  { path: 'helpDeskDashboard', component:HelpdeskComponent}
+  { path: 'helpDeskDashboard', component:HelpdeskComponent},
+  { path: '**', component: NotFoundComponent },
 
 ];
 

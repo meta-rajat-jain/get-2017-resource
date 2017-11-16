@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticatedHeader } from '../Model/authenticatedHeader';
-import { Employee } from '../Model/signEmp';
-import { AdminService } from './admin.service';
-import { Authentication } from '../Model/Authentication';
-import { HomeService } from '../home/home.service';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthenticatedHeader } from "../Model/authenticatedHeader";
+import { Employee } from "../Model/signEmp";
+import { Authentication } from "../Model/Authentication";
+import { AdminService } from "../services/admin.service";
+import { UserService } from "../services/user.service";
 
 
 @Component({
@@ -25,7 +25,7 @@ export class AdminComponent implements OnInit {
   type:boolean=true;
   empType:boolean;
   title:string;
-  constructor(private adminService: AdminService, private homeService: HomeService,private router:Router,private fb: FormBuilder) {
+  constructor(private adminService: AdminService, private userService: UserService,private router:Router,private fb: FormBuilder) {
     this.reactiveForm = this.fb.group({
     'empName'  : [null,Validators.compose([Validators.required,Validators.minLength(1),Validators.pattern('[A-Za-z]+ *[A-Za-z ]+$')])],
     'empEmail'  : [null,Validators.compose([Validators.required,Validators.minLength(1)])],
@@ -39,25 +39,21 @@ export class AdminComponent implements OnInit {
     this.autheticatedHeader = JSON.parse(localStorage.getItem('authenticationObject'));
     let name = this.autheticatedHeader.username.split('@');
     this.username = name[0];
-    console.log( JSON.parse(localStorage.getItem('authenticationObject')));
-    console.log(JSON.parse(localStorage.getItem('authenticationObject')));
     this.getManagers();
     this.getAllEmployees();
   
   }
   logOut(): void {
     this.adminService.logOutUser().then(response => {
-      console.log(this.authentication.statusCode);
       this.authentication = response;
       if (this.authentication.statusCode == 1){
         localStorage.removeItem('authenticationObject');
         localStorage.clear();
-        this.router.navigate(['/']);
+        this.router.navigate(['']);
       }
     });
   }
   getManagers():void{
-    console.log("getmanager is called");
     this.adminService.getManagers().then( response =>this.managers = response   );
   }
   getEmployees():Employee[]{
@@ -91,8 +87,6 @@ export class AdminComponent implements OnInit {
       });
   }
   getEmployeeDetail(employee:Employee):void{
-    console.log(employee);
-    console.log("getting type" + this.type);
     this.router.navigate(['/employeeDetail', employee.login.username,this.type ]);
   }
   registerEmployee(name:string,username:string,password:string,contactNo:number){
@@ -101,7 +95,7 @@ export class AdminComponent implements OnInit {
    console.log(input[0]);
     let domain = input[1];
     console.log("in domain" + domain);
-    this.homeService.signUp(name,password,username,contactNo,domain).then(
+    this.userService.signUp(name,password,username,contactNo,domain).then(
       response =>{ this.authentication = response;
                    if(this.authentication.statusCode ==1){
                      this.router.navigate(['adminDashboard']);

@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TicketStatusCount } from '../Model/ticketStatusCount';
-import { MemberService } from '../member/member.service';
-import { Router } from '@angular/router';
-import { HelpdeskService } from './helpdesk.service';
-import { Employee } from '../Model/signEmp';
-import { AuthenticatedHeader } from '../Model/authenticatedHeader';
-import { Authentication } from '../Model/Authentication';
-import { HomeService } from '../home/home.service';
-import { ManagerService } from '../manager/manager.service';
+import { AuthenticatedHeader } from "../Model/authenticatedHeader";
+import { Authentication } from "../Model/Authentication";
+import { HelpdeskService } from "../services/helpdesk.service";
+import { Router } from "@angular/router";
+import { ManagerService } from "../services/manager.service";
+
 
 @Component({
   selector: 'app-helpdesk',

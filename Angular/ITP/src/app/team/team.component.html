@@ -1,0 +1,49 @@
+<section>
+    <div id="container_demo">
+      
+      <div id="wrapper" style="height:auto">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<form [formGroup]="reactiveForm">
+    <div id="sign" >
+      <h1>New Employee</h1>
+     
+      
+        
+          <label for="usernameEmp" class="uname"> Employee Name </label>
+          <input #usernameEmp name="usernameEmp" formControlName="empName" required="required" type="text" placeholder="myusername " />
+          <h6 class="alert" *ngIf="!reactiveForm.controls['empName'].valid && reactiveForm.controls['empName'].touched">Invalid Enter</h6>
+        
+      
+          <label for="emailId" class="emailId"> Employee Email </label>
+          <input #emailIdEmp name="emailIdEmp" required="required" formControlName="empEmail" type="text" placeholder=" mymail" (change)="checkDomain(emailIdEmp.value)" />
+          <h6 class="alert" *ngIf="!reactiveForm.controls['empEmail'].valid && reactiveForm.controls['empEmail'].touched ">"Incorrectly specified email"</h6>
+          <p class="domain_message" *ngIf="title">{{title}}</p>
+          
+        
+        
+          <label for="passwordEmp" class="youpasswd"> Employee password </label>
+          <input #passwordEmp name="passwordEmp"formControlName="empPassword" required="required" type="password" placeholder="eg. X8df!90EO" />
+          <h6 class="alert" *ngIf="!reactiveForm.controls['empPassword'].valid && reactiveForm.controls['empPassword'].touched">"Password must have at least a single digit"</h6>
+        
+
+        
+          <label for="contactno" class="contactNumber"> Employee Contact Number </label>
+          <input #contactnoEmp name="contactnoEmp" required="required" formControlName="empContact" type="text" placeholder="eg. 8888-888888" />
+          <h6 class="alert" *ngIf="!reactiveForm.controls['empContact'].valid && reactiveForm.controls['empContact'].touched">"Please fill a valid contact number"</h6>
+        
+        <br>
+        <span>
+
+        
+          <button id ="button" class="btn btn-primary " (click)="registerEmployee(usernameEmp.value,emailIdEmp.value,passwordEmp.value,contactnoEmp.value)">Register</button>
+
+
+
+        </span>
+      </div>
+      </form>
+   
+  </div>
+  </div>
+</div>
+</section>

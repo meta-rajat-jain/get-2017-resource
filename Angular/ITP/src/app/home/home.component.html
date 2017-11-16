@@ -1,26 +1,26 @@
 <body>
 
-<nav class="navbar navbar-default">
-	<div class="container">
-		<div class="row">
-
-			<ul class="nav  nav-tabs">
-				<li class="active">
-					<a href="#section1" data-toggle="tab" class="panel-tab">Home</a>
-				</li>
-				<li>
-					<a href="#section2" data-toggle="tab" class="panel-tab">How We Work</a>
-				</li>
-				<li>
-					<a href="#section3" data-toggle="tab" class="panel-tab">About us</a>
-				</li>
-
-			</ul>
-		</div>
-	</div>
-</nav>
-
-<div class="container-fluid">
+		<nav class="navbar navbar-default">
+				<div class="container">
+					<div class="row">
+						<div class="collapse navbar-collapse" id="navbar">
+								<ul class="nav  nav-tabs">
+										<li class="active">
+											<a href="#section1" data-toggle="tab" class="panel-tab">Home</a>
+										</li>
+										<li>
+											<a href="#section2" data-toggle="tab" class="panel-tab">How We Work</a>
+										</li>
+										<li>
+											<a href="#section3" data-toggle="tab" class="panel-tab">About us</a>
+										</li>
+						
+									</ul>
+						</div>
+					</div>
+				</div>
+	</nav>
+<div class="container">
 	<div class="row" >
 		<div class="col-lg-7  col-xs-12 col-sm-12 col-md-7">
 			<div class="tab-content">
@@ -49,7 +49,7 @@
 
 		<div class="col-lg-5 col-xs-12 col-sm-12 col-md-5" >
 
-			<section>
+			
 				<div id="container_demo">
 
 					<div id="wrapper">
@@ -68,7 +68,7 @@
 									<label for="password" class="youpasswd"> Your password </label>
 									<input #password name="password" formControlName="password" required="required" type="password" placeholder="eg. X8df!90EO"
 									/>
-									<div class="alert" *ngIf="!reactiveForm.controls['password'].valid && reactiveForm.controls['password'].touched">"Password must have at least a eight digit"</div>
+									<div class="alert" *ngIf="!reactiveForm.controls['password'].valid && reactiveForm.controls['password'].touched">"Password must have at least eight digit"</div>
 								
 									<br><br><br>
 
@@ -112,7 +112,7 @@
 									
 										<label for="usernameEmp" class="uname"> Your Name </label>
 										<input #usernameEmp name="usernameEmp" formControlName="empName" required="required" type="text" placeholder="myusername " />
-										<h6 class="alert" *ngIf="!reactiveForm.controls['empName'].valid && reactiveForm.controls['empName'].touched">Invalid Enter</h6>
+										<h6 class="alert" *ngIf="!reactiveForm.controls['empName'].valid && reactiveForm.controls['empName'].touched">Invalid User Name</h6>
 									
 								
 										<label for="emailId" class="emailId"> Your Email </label>
@@ -125,7 +125,7 @@
 									
 										<label for="passwordEmp" class="youpasswd"> Your password </label>
 										<input #passwordEmp name="passwordEmp"formControlName="empPassword" required="required" type="password" placeholder="eg. X8df!90EO" />
-										<h6 class="alert" *ngIf="!reactiveForm.controls['empPassword'].valid && reactiveForm.controls['empPassword'].touched">"Password must have at least a single digit"</h6>
+										<h6 class="alert" *ngIf="!reactiveForm.controls['empPassword'].valid && reactiveForm.controls['empPassword'].touched">"Password must have at least eight characters"</h6>
 									
 
 									
@@ -189,7 +189,7 @@
 					</div>
 
 				</div>
-			</section>
+		
 
 
 		</div>

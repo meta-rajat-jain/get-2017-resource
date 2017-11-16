@@ -15,20 +15,20 @@ import { TicketStatusCount } from '../Model/ticketStatusCount';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map' ;
 import 'rxjs/Rx';
+import { RequestConstants } from '../Constants/request';
 @Injectable()
 export class MemberService {
 
-    server: string = 'http://172.16.33.111:8080/';
-    controller: string = 'ResourceRequest/rest/';
-    request: string = this.server + this.controller;
+
     private headers: Headers = new Headers();
-    private makeRequestUrl = this.request + 'ticket/saveTicket';
-    private logOutUrl = this.request + 'auth/logout';
-    private getResourcesUrl = this.request + 'ticket/getAllCategoryBasedResources';
-    private getTicketStatusCountUrl = this.request + 'ticket/getTicketCountByStatusOfRequester';
-    private getTicketCountForApprover=this.request + 'ticket/getTicketCountForApprover';
-    private getTeamsOfEmp = this.request + 'manager/getTeamsForLoggedInUser';
-    private getUserInfoUrl= this.request + 'employee/getEmployeeDetails';
+  
+    private makeRequestUrl=RequestConstants.TICKET_REQUEST + 'saveTicket';
+    private logOutUrl=RequestConstants.AUTHENTICATION_REQUEST+'logout';
+    private getResourcesUrl=RequestConstants.TICKET_REQUEST+'getAllCategoryBasedResources';
+    private getTicketStatusCountUrl=RequestConstants.TICKET_REQUEST+'getTicketCountByStatusOfRequester';
+    private getTicketCountForApprover=RequestConstants.TICKET_REQUEST+'getTicketCountForApprover';
+    private getTeamsOfEmp=RequestConstants.MANAGER_REQUEST+'getTeamsForLoggedInUser';
+    private getUserInfoUrl=RequestConstants.EMPLOYEE_REQUEST+'getEmployeeDetails';
     
     constructor(private http: Http) {
         this.headers.append('Content-Type', 'application/json');

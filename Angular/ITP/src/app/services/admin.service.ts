@@ -4,21 +4,20 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { Employee } from '../Model/signEmp';
 import { Authentication } from '../Model/Authentication';
+import { RequestConstants } from "../Constants/request";
 
 @Injectable()
 export class AdminService {
-
-    server: string = 'http://172.16.33.111:8080/';
-    controller: string = 'ResourceRequest/rest/';
-    request: string = this.server + this.controller;
+    private getManagerUrl=RequestConstants.ADMIN_REQUEST+'getAllManagers';
+    private getAllEmployeeUrl=RequestConstants.ADMIN_REQUEST+'getAllEmployees';
+    private logOutUrl=RequestConstants.AUTHENTICATION_REQUEST+'logout';
+    private getEmployeeUrl=RequestConstants.ADMIN_REQUEST+'updateEmployee';
+    private deleteEmployeeUrl=RequestConstants.ADMIN_REQUEST+'deleteEmployee';
+    private addManagerUrl=RequestConstants.ADMIN_REQUEST+'addManager';
     private headers: Headers = new Headers();
-    private getManagerUrl = this.request + 'admin/getAllManagers';
-    private getAllEmployeeUrl = this.request + 'admin/getAllEmployees';
-    private logOutUrl = this.request + 'auth/logout';
-    private getEmployeeUrl = this.request  + 'admin/updateEmployee';
-    private deleteEmployeeUrl = this.request + 'admin/deleteEmployee';
-    private addManagerUrl = this.request + 'admin/addManager';
+
     constructor(private http: Http) {
+        console.log(localStorage.getItem('authenticationObject'));
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('authorisationToken', JSON.parse(localStorage.getItem('authenticationObject')).authorisationToken);
         this.headers.append('username', JSON.parse(localStorage.getItem('authenticationObject')).username);

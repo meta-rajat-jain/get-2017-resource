@@ -1,16 +1,17 @@
 import { FormArray, FormControl, FormGroup, ValidationErrors } from '@angular/forms';   
-import { Employee } from './Model/signEmp';
-import { HomeService } from './home/home.service';
+
+import { UserService } from "../services/user.service";
+
 
 export class CustomValidators{
     ngOnInIt():void{
         this.getOrg();
     }
      static checkDomainNames: string[]=[];
-    constructor(private log:HomeService){};
+    constructor(private userService:UserService){};
     
     getOrg():string[]{
-         this.log.getOrganisation().then(response=>{ CustomValidators.checkDomainNames = response });
+         this.userService.getOrganisation().then(response=>{ CustomValidators.checkDomainNames = response });
          return CustomValidators.checkDomainNames;
     }
      static  checkOrganisation(form:FormGroup):ValidationErrors{
@@ -34,7 +35,7 @@ export class CustomValidators{
               }
             }
             const message = {
-                'countryCity': {
+                'error': {
                   'message': error
                 }
               };

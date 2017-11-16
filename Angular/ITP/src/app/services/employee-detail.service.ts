@@ -6,16 +6,18 @@ import { Employee } from '../Model/signEmp';
 import { Authentication } from '../Model/Authentication';
 import { Login } from '../Model/login';
 import { AuthenticatedHeader } from '../Model/authenticatedHeader';
+import { RequestConstants } from "../Constants/request";
 
 @Injectable()
 export class EmployeeDetailService {
 
-    server: string = 'http://172.16.33.111:8080/';
-    controller: string = 'ResourceRequest/rest/';
-    request: string = this.server + this.controller;
     private headers: Headers = new Headers();
-    private getEmployeeUrl = this.request + 'admin/getEmployee';
-    private updateEmployeeUrl = this.request + 'admin/updateEmployee'
+
+
+    private getEmployeeUrl=RequestConstants.ADMIN_REQUEST+'getEmployee';
+    private updateEmployeeUrl=RequestConstants.ADMIN_REQUEST+'updateEmployee';
+
+
     authenticationHeader:AuthenticatedHeader;
     constructor(private http: Http) {
         this.headers.append('Content-Type', 'application/json');

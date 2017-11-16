@@ -10,17 +10,20 @@ import { ResponseObject } from '../Model/responseObject';
 import { Team } from '../Model/team';
 import { Login } from '../Model/login';
 import { TicketStatusCount } from '../Model/ticketStatusCount';
+import { RequestConstants } from "../Constants/request";
 
 @Injectable()
 export class HelpdeskService {
 
-    server: string = 'http://172.16.33.111:8080/';
-    controller: string = 'ResourceRequest/rest/';
-    request: string = this.server + this.controller;
+
     private headers: Headers = new Headers();
-    private logOutUrl = this.request + 'auth/logout';
-    private getTicketStatusCountUrl = this.request + '/helpdesk/getTicketCountForHelpDesk';
-    private getUserInfoUrl= this.request + 'employee/getEmployeeDetails';
+
+
+    private logOutUrl=RequestConstants.AUTHENTICATION_REQUEST+'logout';
+    private getTicketStatusCountUrl=RequestConstants.HELPDESK_REQUEST+'getTicketCountForHelpDesk';
+    private getUserInfoUrl=RequestConstants.EMPLOYEE_REQUEST+'getEmployeeDetails';
+
+
     constructor(private http: Http) {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('authorisationToken', JSON.parse(localStorage.getItem('authenticationObject')).authorisationToken);

@@ -5,16 +5,16 @@ import 'rxjs/add/operator/toPromise';
 import { Authentication } from '../Model/Authentication';
 import { Ticket } from '../Model/Ticket';
 import { RequestedResource } from '../Model/requestResource';
+import { RequestConstants } from "../Constants/request";
 
 @Injectable()
 export class NeedInformationService {
 
-    server: string = 'http://172.16.33.111:8080/';
-    controller: string = 'ResourceRequest/rest/';
-    request: string = this.server + this.controller;
+
     private headers: Headers = new Headers();
-    private needInformationOfTicket = this.request + 'ticket/getTicket';
-    private updateTicket = this.request + 'ticket/updateTicket';
+    private needInformationOfTicket=RequestConstants.TICKET_REQUEST+'getTicket';
+    private updateTicket=RequestConstants.TICKET_REQUEST+'updateTicket';
+
     constructor(private http: Http) {
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('authorisationToken', JSON.parse(localStorage.getItem('authenticationObject')).authorisationToken);

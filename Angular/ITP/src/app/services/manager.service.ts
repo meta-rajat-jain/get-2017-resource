@@ -9,17 +9,17 @@ import { Employee } from '../Model/signEmp';
 import { ResponseObject } from '../Model/responseObject';
 import { Team } from '../Model/team';
 import { Login } from '../Model/login';
+import { RequestConstants } from "../Constants/request";
 
 @Injectable()
 export class ManagerService {
 
-    server: string = 'http://172.16.33.111:8080/';
-    controller: string = 'ResourceRequest/rest/';
-    request: string = this.server + this.controller;
+
     private headers: Headers = new Headers();
-    private createTeamUrl = this.request + 'manager/createTeam';
-    private logOutUrl = this.request + 'auth/logout';
-    private getTeamsUrl = this.request + 'manager/getTeamsForLoggedInUser';
+    private createTeamUrl=RequestConstants.MANAGER_REQUEST+'createTeam';
+    private logOutUrl=RequestConstants.AUTHENTICATION_REQUEST+'logout';
+    private getTeamsUrl=RequestConstants.MANAGER_REQUEST+'getTeamsForLoggedInUser';
+    private canRequestUrl = RequestConstants.EMPLOYEE_REQUEST + 'getEmployeesUnderHead';
     authenticationHeader:AuthenticatedHeader;
     username:string;
     constructor(private http: Http) {
@@ -60,6 +60,12 @@ export class ManagerService {
         .toPromise()
         .then(response => response.json() as Team[] )
         .catch(this.handleError);
+    }
+    canRequest(): Promise<Employee[]> {
+        return this.http.get(this.canRequestUrl, { headers: this.headers })
+            .toPromise()
+            .then(response => response.json() as Employee[] )
+            .catch(this.handleError);
     }
     
     private handleError(error: any): Promise<any> {

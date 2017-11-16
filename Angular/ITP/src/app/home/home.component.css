@@ -222,6 +222,11 @@ a.hiddenanchor{
    position: relative;	
    margin-left:150px;
 }
+@media screen and (max-width: 600px) and (min-width: 400px) {
+  #wrapper {
+    margin-left:0px;
+  }
+}
 
 #wrapper a{
    color: rgb(95, 155, 198);

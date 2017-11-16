@@ -21,10 +21,10 @@
     </div>
     <div class="chart-notes">
     <div *ngIf="status!='Closed'">
-      <button *ngIf=" type!='Member' || status == 'Open' " class="btn btn-default" data-toggle="tooltip"  title=" Approve" (click)="approve(ticket,type)"><span class="glyphicon glyphicon-pencil "  ></span></button>
-      <button class="delete btn btn-default" data-toggle="tooltip"  title=" Need Info" (click)="needInfo(ticket,NeedInfo); $event.stopPropagation()"><span class="glyphicon glyphicon-list-alt" > </span></button>
+      <button *ngIf=" type!='Member' && status == 'Open' " class="btn btn-default" data-toggle="tooltip"  title=" Approve" (click)="approve(ticket,type)"><span class="glyphicon glyphicon-ok "  ></span></button>
+      <button  *ngIf=" type!='Member'" class="delete btn btn-default" data-toggle="tooltip"  title=" Need Info" (click)="needInfo(ticket,'NeedInfo'); $event.stopPropagation()"><span class="glyphicon glyphicon-list-alt" > </span></button>
       <button *ngIf="type!='Member'" class="btn btn-default" data-toggle="tooltip"  title="Decline" (click)="decline(ticket)"><span class="glyphicon glyphicon-folder-close"></span></button>
-      <button  class="btn btn-default" data-toggle="tooltip"  title="Edit" (click)="needInfo(ticket,Edit)"><span class="glyphicon glyphicon-folder-close"></span></button>
+      <button  class="btn btn-default" data-toggle="tooltip"  title="Edit" (click)="needInfo(ticket,'Edit')"><span class="glyphicon glyphicon-pencil"></span></button>
     </div>  
     </div>
     

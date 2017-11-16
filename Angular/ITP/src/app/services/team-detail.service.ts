@@ -8,19 +8,20 @@ import { Authentication } from '../Model/Authentication';
 import { Login } from '../Model/login';
 import { AuthenticatedHeader } from '../Model/authenticatedHeader';
 import { Team } from '../Model/team';
+import { RequestConstants } from "../Constants/request";
 
 
 @Injectable()
 export class TeamDetailService {
 
-    server: string = 'http://172.16.33.111:8080/';
-    controller: string = 'ResourceRequest/rest/';
-    request: string = this.server + this.controller;
     private headers: Headers = new Headers();
-    private addToTeamUrl = this.request + 'manager/addEmployeeToTeam';
-    private getTeams = this.request + 'manager/getEmployeesByTeamName';
-    private approveTicketUrl = this.request + 'ticket/updateTicket';
-    private getEmployeesToAddUrl = this.request + 'manager/getEmployeesNotInPaticularTeam';
+    private addToTeamUrl=RequestConstants.MANAGER_REQUEST+'addEmployeeToTeam';
+    private getTeams=RequestConstants.MANAGER_REQUEST+'getEmployeesByTeamName';
+    private approveTicketUrl=RequestConstants.TICKET_REQUEST+'updateTicket';
+    private getEmployeesToAddUrl=RequestConstants.MANAGER_REQUEST+'getEmployeesNotInPaticularTeam';
+
+
+
     authenticationHeader:AuthenticatedHeader;
     
     constructor(private http: Http) {

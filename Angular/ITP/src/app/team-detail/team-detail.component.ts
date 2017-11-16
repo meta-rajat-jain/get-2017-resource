@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../admin/admin.service';
 import { Employee } from '../Model/signEmp';
 import { AdminComponent } from '../admin/admin.component';
 import { ParamMap, ActivatedRoute, Router } from '@angular/router';
@@ -11,9 +10,11 @@ import { AuthenticatedHeader } from '../Model/authenticatedHeader';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Ticket } from '../Model/Ticket';
-import { TeamDetailService } from './team-detail.service';
 import { Team } from '../Model/team';
-import { ManagerService } from '../manager/manager.service';
+import { ManagerService } from "../services/manager.service";
+import { AdminService } from "../services/admin.service";
+import { TeamDetailService } from "../services/team-detail.service";
+
 
 @Component({
   selector: 'app-team-detail',

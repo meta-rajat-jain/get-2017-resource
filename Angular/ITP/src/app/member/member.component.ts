@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticatedHeader } from '../Model/authenticatedHeader';
-import { MemberService } from './member.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Authentication } from '../Model/Authentication';
 import { Ticket } from '../Model/Ticket';
@@ -9,6 +8,7 @@ import { RequestedResource } from '../Model/requestResource';
 import { Team } from '../Model/team';
 import { TicketStatusCount } from '../Model/ticketStatusCount';
 import { Employee } from '../Model/signEmp';
+import { MemberService } from "../services/member.service";
 
 @Component({
   selector: 'app-member',
@@ -77,7 +77,7 @@ export class MemberComponent implements OnInit {
         }
       });
     }
-  Request(priority,requestType,resourceType,resource,comment,location):void{
+  Request(priority,requestType,resourceType,resource,team,comment,location):void{
     this.memberService.makeRequest(this.authenticationHeader.username,this.authenticationHeader.username,priority,requestType,this.selectedResource,comment,location,this.selectedTeam.teamName).then(response =>{console.log(response);window.location.reload();});
     }
 
@@ -100,8 +100,7 @@ export class MemberComponent implements OnInit {
       console.log(requestType);
       console.log(resourceType);
     if(requestType=='New'){
-      this.memberService.getResourceRequested(resourceType).subscribe(response => { this.resourceValues = response   ; console.log(this.resourceValues); 
-      });
+      this.memberService.getResourceRequested(resourceType).subscribe(response =>  this.resourceValues = response   );
     }
     this.memberService.getTeamsOfEmployee().then(response =>{ this.teamsOfEmployee = response});
     }
@@ -116,7 +115,7 @@ export class MemberComponent implements OnInit {
       this.router.navigate(['requestDetail',this.status,type]);
     }
     getRequestsNeedInfo(type:string):void{
-      this.status = 'NeedInformation';
+      this.status = 'NeedInfo';
       this.router.navigate(['requestDetail',this.status,type]);
     }
     getRequestsClosed(type:string):void{

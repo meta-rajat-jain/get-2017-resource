@@ -1,282 +1,353 @@
+<body class="dashboard">
+  <nav class="navbar navbar-default">
+    <div class="container">
 
-<body class="dashboard" >
-    <nav class="navbar navbar-default">
-      <div class="container">
-       
-        <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" href="#section1">Request-Tab</a></li>
-          <li ><a data-toggle="tab" href="#section2">New Request</a></li>
-          <li class="pull-right">
-            <a   (click)="logOut()">Log Out</a>
-          </li>
-          <li class="pull-right">
-            <span class="glyphicon glyphicon-user img-circle user-image"></span>
-            <span><a href="#">{{username}}</a></span>
-          </li>
-        </ul>
-        
-      </div>
-    </nav>
-    <div class="tab-content">
-      
-        <div class="tab-pane in active" id="section1">
-        
-          <div class="container-fluid">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a data-toggle="tab" href="#section1">Request-Tab</a>
+        </li>
+        <li>
+          <a data-toggle="tab" href="#section2">New Request</a>
+        </li>
+        <li class="pull-right">
+          <a (click)="logOut()">Log Out</a>
+        </li>
+        <li class="pull-right">
+          <span class="glyphicon glyphicon-user img-circle user-image"></span>
+          <span>
+            <a href="#">{{username}}</a>
+          </span>
+        </li>
+      </ul>
+
+    </div>
+  </nav>
+  <div class="tab-content">
+
+    <div class="tab-pane in active" id="section1">
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="chart-wrapper">
+              <div class="chart-title">
+                Cell Title
+              </div>
+              <div class="chart-stage">
+                Employee Information
+              </div>
+              <div class="chart-notes">
+                Notes about this chart
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-9">
             <div class="row">
-              <div class="col-sm-3">
+              <div class="col-sm-12">
                 <div class="chart-wrapper">
                   <div class="chart-title">
-                    Cell Title
+                    Employee Info
                   </div>
                   <div class="chart-stage">
-                    Employee Information
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                      <img class="img-responsive" src="assets/images/userIcon.png">
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                      <div *ngIf="loggedInUser">
+                        <div class="chart-stage">
+                          <h5>
+                            <span>
+                              <b>Name:</b>
+                            </span>
+                            <span>{{loggedInUser.name}}</span>
+                          </h5>
+                          <h5>
+                            <span>
+                              <b>EmailID:</b>
+                            </span>
+                            <span>{{loggedInUser.login.username}}</span>
+                          </h5>
+                          <h5>
+                            <span>
+                              <b>Designation: </b>
+                            </span>
+                            <span>{{loggedInUser.designation}}</span>
+                          </h5>
+                          <h5>
+                            <span>
+                              <b>Contact Number:</b>
+                            </span>
+                            <span>{{loggedInUser.contactNumber}}</span>
+                          </h5>
+                          <h5>
+                            <span>
+                              <b>Organisation Domain:</b>
+                            </span>
+                            <span>{{loggedInUser.orgDomain}}</span>
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
                   <div class="chart-notes">
-                    Notes about this chart
+
                   </div>
                 </div>
               </div>
-              <div class="col-sm-9">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="chart-wrapper">
-                      <div class="chart-title">
-                       Employee Info
-                      </div>
-                      <div class="chart-stage">
-                        <div class ="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                          <img class="img-responsive" src="assets/images/userIcon.png">
-                      </div>
-                      <div class ="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                        <div *ngIf="loggedInUser">
-                        <div class="chart-stage" >
-                        <h5><span><b>Name:</b></span> <span>{{loggedInUser.name}}</span></h5>
-                        <h5><span><b>EmailID:</b> </span> <span>{{loggedInUser.login.username}}</span></h5>
-                        <h5><span><b>Designation: </b></span><span>{{loggedInUser.designation}}</span></h5>
-                        <h5><span><b>Contact Number:</b> </span> <span>{{loggedInUser.contactNumber}}</span></h5>
-                        <h5><span><b>Organisation Domain:</b> </span><span>{{loggedInUser.orgDomain}}</span></h5>
-                        </div>
-                        </div>
-                        </div>
-                        
-                      </div>
-                      <div class="chart-notes">
-                       
-                      </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="chart-wrapper">
+                  <div class="chart-title">
+                    Open
+
+                  </div>
+                  <div class="chart-stage">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                      <img class="img-responsive" src="assets/images/open.png">
                     </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                      <a class="status" (click)="getRequestsOpen('Member')">My Request: {{OpenCount}}</a>
+                    </div>
+                  </div>
+                  <div class="chart-notes">
+                    Opened Requests
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-sm-4">
-                    <div class="chart-wrapper">
-                      <div class="chart-title">
-                       Open
-                       
-                      </div>
-                      <div class="chart-stage">
-                          <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                        <img class="img-responsive" src="assets/images/open.png">
-                      </div>
-                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                       <a class="status"  (click)="getRequestsOpen('Member')">My Request: {{OpenCount}}</a>
-                        </div>
-                      </div>
-                      <div class="chart-notes">
-                        Opened Requests
-                      </div>
-                    </div>
+              </div>
+
+              <div class="col-sm-4">
+
+                <div class="chart-wrapper">
+                  <div class="chart-title">
+                    In-Progress
                   </div>
-                  
-                  <div class="col-sm-4">
-                   
-                    <div class="chart-wrapper">
-                      <div class="chart-title">
-                        In-Progress
-                      </div>
-                      <div class="chart-stage">
-                        
-                          <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                        <img class="img-responsive" src="assets/images/Progress.png">
-                      </div>
-                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                       
+                  <div class="chart-stage">
+
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                      <img class="img-responsive" src="assets/images/Progress.png">
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+
                       <a class="status" (click)="getRequestsInProgress('Member')"> My Request: {{InProgressCount}} </a>
-                             </div>
-                           
-                      </div>
-                      <div class="chart-notes">
-                        Requests in progress
-                      </div>
                     </div>
-                  
+
                   </div>
-                
-                  <div class="col-sm-4">
-                    <div class="chart-wrapper">
-                      <div class="chart-title">
-                        Need Additional Information
-                      </div>
-                      <div class="chart-stage">
-                          <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                              <img class="img-responsive" src="assets/images/needInformation.png">
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                               
-                              <a class="status" (click)="getRequestsNeedInfo('Member')"> My Request: {{NeedInfoCount}} </a>
-                                     </div>
-                      
-                      </div>
-                      <div class="chart-notes">
-                        Requests which require additional Information
-                      </div>
-                    </div>
+                  <div class="chart-notes">
+                    Requests in progress
                   </div>
                 </div>
-                <div class="row">
-                  
-                  <div class="col-sm-4">
-                    <div class="chart-wrapper">
-                      <div class="chart-title">
-                        Approved requests
-                      </div>
-                      <div class="chart-stage">
-                          <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                        <img class="img-responsive" src="assets/images/approved.png">
-                      </div>
-                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                          
-                        <a class="status" (click)="getRequestsApproved('Member')"> My Request: {{ApprovedCount}} </a>
-                               </div>
-                      </div>
-                      <div class="chart-notes">
-                       Requests which are approvd
-                      </div>
+
+              </div>
+
+              <div class="col-sm-4">
+                <div class="chart-wrapper">
+                  <div class="chart-title">
+                    Need Additional Information
+                  </div>
+                  <div class="chart-stage">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                      <img class="img-responsive" src="assets/images/needInformation.png">
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+
+                      <a class="status" (click)="getRequestsNeedInfo('Member')"> My Request: {{NeedInfoCount}} </a>
+                    </div>
+
+                  </div>
+                  <div class="chart-notes">
+                    Requests which require additional Information
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col-sm-4">
+                <div class="chart-wrapper">
+                  <div class="chart-title">
+                    Approved requests
+                  </div>
+                  <div class="chart-stage">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                      <img class="img-responsive" src="assets/images/approved.png">
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+
+                      <a class="status" (click)="getRequestsApproved('Member')"> My Request: {{ApprovedCount}} </a>
                     </div>
                   </div>
-                  <div class="col-sm-4">
-                    <div class="chart-wrapper">
-                      <div class="chart-title">
-                       Requests which are closed
-                      </div>
-                      <div class="chart-stage">
-                          <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                        <img class="img-responsive" src="assets/images/closed.png">
-                      </div>
-                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                         
-                        <a class="status" (click)="getRequestsClosed('Member')"> My Request: {{ClosedCount}} </a>
-                               </div>
-                      </div>
-                      <div class="chart-notes">
-                       Closed requests
-                      </div>
+                  <div class="chart-notes">
+                    Requests which are approvd
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="chart-wrapper">
+                  <div class="chart-title">
+                    Requests which are closed
+                  </div>
+                  <div class="chart-stage">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                      <img class="img-responsive" src="assets/images/closed.png">
                     </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+
+                      <a class="status" (click)="getRequestsClosed('Member')"> My Request: {{ClosedCount}} </a>
+                    </div>
+                  </div>
+                  <div class="chart-notes">
+                    Closed requests
                   </div>
                 </div>
               </div>
             </div>
           </div>
-         </div>
-        
-      
-      <div class="tab-pane" id="section2">
+        </div>
+      </div>
+    </div>
 
-          <div id="container_demo">
-              
-                  <div id="wrapper" style="height:auto">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                      <form >
-                        <div id="requestForm">
-                        <h1>New Request</h1>
-                        <table>
-                        
-                        <tr>
-                        <td><label for="requester" class="uname"> Requested By</label></td>
-                        <td><label><h5>{{username}}</h5></label></td> 
-                        </tr>
-                        
-                        <tr>
-                        <td><label for="requestedFor" class="requestedFor">Requested For</label></td>
-                        <td><label><h5>{{username}}</h5></label></td> 
-                        </tr>
-                        
-                        <tr>
-                        <td> <label for="priority" class="priority" >Priority</label></td>
-                        <td><select #priority>
-                        <option ></option>
-                        <option value="Urgent" [ngValue]="priority">Urgent</option>
+
+    <div class="tab-pane" id="section2">
+
+      <div id="container_demo">
+
+        <div id="wrapper" style="height:auto">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <form>
+              <div id="requestForm">
+                <h1>New Request</h1>
+                <table>
+
+                  <tr>
+                    <td>
+                      <label for="requester" class="uname"> Requested By</label>
+                    </td>
+                    <td>
+                      <label>
+                        <h5>{{username}}</h5>
+                      </label>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <label for="requestedFor" class="requestedFor">Requested For</label>
+                    </td>
+                    <td>
+                      <label>
+                        <h5>{{username}}</h5>
+                      </label>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <label for="priority" class="priority">Priority</label>
+                    </td>
+                    <td>
+                      <select #priority>
+
+                        <option value="Urgent" [ngValue]="priority" selected>Urgent</option>
                         <option value="High" [ngValue]="priority">High</option>
                         <option value="Medium" [ngValue]="priority">Medium</option>
                         <option value="Low" [ngValue]="priority">Low</option>
-                        </select></td> 
-                        </tr>
-                        <tr>
-                        <td> <label for="requestType" class="requestType" >Request Type</label></td>
-                        <td> <select #requestType>
-                        <option ></option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label for="requestType" class="requestType">Request Type</label>
+                    </td>
+                    <td>
+                      <select #requestType>
+
                         <option value="New" [ngValue]="requestType">New</option>
                         <option value="Maintence" [ngValue]="requestType">Maintence</option>
-                        </select></td>
-                        </tr>
-                        <tr>
-                        <td> <label for="resourceType" class="resourceType" >Resource Type</label></td>
-                        <td>
-                        <select #resourceType (change)="resourceRequested(requestType.value,resourceType.value)">
-                        <option ></option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label for="resourceType" class="resourceType">Resource Type</label>
+                    </td>
+                    <td>
+                      <select #resourceType (change)="resourceRequested(requestType.value,resourceType.value)">
+                        <option></option>
                         <option value="Hardware" [ngValue]="resourceType">Hardware Provisioning</option>
                         <option value="Software" [ngValue]="resourceType">Software Installation</option>
                         <option value="Network" [ngValue]="resourceType">Network Related</option>
-                        </select></td>
-                        </tr>
-                        <tr>
-                        <td> <label for="ResourceRequested" class="ResourceRequested">Resources</label></td>
-                        <td> <select [(ngModel)]="selectedResource" name="resource">
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label for="ResourceRequested" class="ResourceRequested">Resources</label>
+                    </td>
+                    <td>
+                      <select [(ngModel)]="selectedResource" name="resource">
                         <option *ngFor="let resource of resourceValues" [ngValue]="resource">{{resource.resourceName}}</option>
-                        </select></td>
-                        </tr>
-                        <tr>
-                        <td><label for="Team" class="Team">Team</label></td>
-                        <td><select [(ngModel)]="selectedTeam" name="team">
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label for="Team" class="Team">Team</label>
+                    </td>
+                    <td>
+                      <select [(ngModel)]="selectedTeam" name="team">
                         <option *ngFor="let team of teamsOfEmployee" [ngValue]="team">{{team.teamName}}</option>
-                        </select></td>
-                        </tr>
-                        <tr>
-                        <td> <label for="comment" class="comment">Comment </label></td>
-                        <td> <textarea #comment rows="4" cols="50"></textarea></td>
-                        </tr>
-                        <tr>
-                        <td> <label for="location" class="location"> Your location </label></td>
-                        <td><input #locn name="locn" required="required" type="text" placeholder=" Your location"/></td>
-                        </tr>
-                        <tr>
-                        
-                        <td><button id="button" class="btn btn-primary " (click)="goBack()">Go Back</button></td>
-                        <td> <button id="button" class="btn btn-primary" (click)="Request(priority.value,requestType.value,resourceType.value,resource,team,comment.value,locn.value)">Register</button></td>
-                        </tr>
-                        </table>
-                        </div>
-                        </form>
-                    </div>
-                  </div>
-                </div>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label for="comment" class="comment">Comment </label>
+                    </td>
+                    <td>
+                      <textarea #comment rows="4" cols="50"></textarea>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label for="location" class="location"> Your location </label>
+                    </td>
+                    <td>
+                      <input #locn name="locn" required="required" type="text" placeholder=" Your location" />
+                    </td>
+                  </tr>
+                  <tr>
 
-
-
-
-
-
-
-
+                    <td>
+                      <button id="button" class="btn btn-primary " (click)="goBack()">Go Back</button>
+                    </td>
+                    <td>
+                      <button id="button" class="btn btn-primary" (click)="Request(priority.value,requestType.value,resourceType.value,resource,team,comment.value,locn.value)">Register</button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-      
-      
-      
-      
-      
-      
-      </div>
-      
-       
-      </body>
-     
-      
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+  </div>
+
+
+</body>

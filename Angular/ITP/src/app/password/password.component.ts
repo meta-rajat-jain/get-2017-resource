@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { PasswordService } from './password.service';
+import { PasswordService } from "../services/password.service";
+
 
 @Component({
 selector: 'app-password',

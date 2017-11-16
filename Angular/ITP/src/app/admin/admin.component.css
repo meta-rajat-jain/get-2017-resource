@@ -252,3 +252,6 @@ padding-bottom: 20px;
     td{
       text-align: center;
     }
+.main-content{
+min-height:  566px;
+}

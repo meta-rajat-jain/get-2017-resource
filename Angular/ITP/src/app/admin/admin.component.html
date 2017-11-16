@@ -12,11 +12,11 @@
         </ul>
       </li>
       <li class="pull-right">
-        <a href="#section3"  (click)="logOut()">Log Out</a>
+        <a   (click)="logOut()">Log Out</a>
       </li>
       <li class="pull-right">
         <span class="glyphicon glyphicon-user img-circle user-image"></span>
-        <span><a href="#">{{username}}</a></span>
+        <span><a >{{username}}</a></span>
       </li>
     </ul>
     
@@ -31,19 +31,7 @@
           <h2>Managers</h2>
           <br>
           <div class="row">
-         <!--   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ">
-            <div class="card card-outline-primary mb-3 text-center">
-                <div class="card-block">
-                  <h3 class="card-title">{{manager.name}}</h3>
-                <hr>  
-                  <span><b>{{manager.designation}}</b></span>
-                <hr>
-                <span><b>{{manager.login.username}}</b></span>
-                <hr>
-                <span><b>{{manager.contactNumber}}</b></span>
-                
-                </div>
-              </div>-->
+         
               <div class="col-sm-6 col-md-4 manager-list" *ngFor="let manager of managers">
                   <div class="chart-wrapper">
                     <div class="chart-title">
@@ -127,40 +115,6 @@
 
   <div class="tab-pane"  id="editEmployee">
 
-<!--
-
-
-
-
-      <div class="table-responsive text-center">
-
-          Employee Search :  <input [(ngModel)]="searchText"  placeholder="Search Employee " >
-          <table class="table table-hover table-striped table-bordered">
-              <thead>
-                  <tr>
-                      <th class=" text-center">Employee Name</th>
-                      <th class=" text-center">Designation</th>
-                      <th class=" text-center">Employee Work Id</th>
-                      <th class=" text-center">Options</th>
-                  </tr>
-              </thead>
-              <tbody><tr *ngFor="let employee of employees| filter : searchText"  >
-                <td>{{employee.name}}</td>
-                <td>{{employee.designation}}   <button  *ngIf="employee.designation!='Manager'" class="btn btn-default" data-toggle="tooltip" title=" Promote to manager" (click)="addManager(employee)"><span class="glyphicon glyphicon-plus"></span></button> </td>
-                <td>{{employee.login.username}}</td>
-                <td>
-                  <button class="btn btn-default" data-toggle="tooltip"  title=" Edit" (click)="editEmployeeDetail(employee)"><span class="glyphicon glyphicon-pencil "  ></span></button>
-                  <button class="delete btn btn-default" data-toggle="tooltip"  title=" Delete" (click)="deleteEmployee(employee); $event.stopPropagation()"><span class="glyphicon glyphicon-folder-close" > </span></button>
-                  <button  class="btn btn-default" data-toggle="tooltip"  title=" View Details" (click)="getEmployeeDetail(employee)"><span class="glyphicon glyphicon-list-alt"></span></button>
-                
-                  
-                </td>
-            </tr>
-        </tbody>
-      </table>
-
-</div>
--->
 <b>Employee Search : </b> <input [(ngModel)]="searchText"  placeholder="Search Employee " >
 <div class="container">
 <div class="col-sm-6 col-md-4 manager-list" *ngFor="let employee of employees| filter : searchText">

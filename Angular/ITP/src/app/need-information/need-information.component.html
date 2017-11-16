@@ -55,14 +55,14 @@
     <td> <label for="location" class="location"> Your location </label></td>
     <td><input #locn name="locn" required="required" type="text" placeholder=" Your location"/></td>
     </tr>
-    <tr *ngIf="type!='Member'">
+    <tr >
         <td> <label for="status" class="status" >Status</label></td>
         <td>
         <select #status >
         <option ></option>
         <option value="Open" [ngValue]="status">Open</option>
-        <option value="Close" [ngValue]="status">Close</option>
-        <option *ngIf="type=='Helpdesk'" value="Approved" [ngValue]="status">Approved</option>
+        <option *ngIf="type!='Member'" value="Close" [ngValue]="status">Close</option>
+        <option *ngIf="type!='Member'" value="Approved" [ngValue]="status">Approved</option>
         <option *ngIf="type=='Helpdesk'"value="In-Progress" [ngValue]="status">In-Progress</option>
         <option *ngIf="type=='Helpdesk'"value="Need Information" [ngValue]="status">Need Information</option>
         

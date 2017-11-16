@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../admin/admin.service';
 import { Employee } from '../Model/signEmp';
 import { AdminComponent } from '../admin/admin.component';
 import { ParamMap, ActivatedRoute, Router } from '@angular/router';
@@ -11,7 +10,8 @@ import { AuthenticatedHeader } from '../Model/authenticatedHeader';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Ticket } from '../Model/Ticket';
-import { RequestsService } from './requests.service';
+import { RequestsService } from "../services/requests.service";
+
 @Component({
   selector: 'app-requests',
   templateUrl: './requests.component.html',
@@ -49,7 +49,8 @@ init():void{
     this.requestsService.approveTicket(ticket,type).then(response => {console.log(response);});
   }
   needInfo(ticket:Ticket,operation:string):void{
-    console.log(ticket + operation);
+    console.log(ticket);
+    console.log( operation);
     this.router.navigate(['needInformation',ticket.ticketNo,this.type,operation]);
   }
   decline(ticket:Ticket,type:string):void{

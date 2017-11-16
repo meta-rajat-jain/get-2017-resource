@@ -57,11 +57,11 @@
                   <div class ="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                     <div *ngIf="loggedInUser">
                       <div class="chart-stage" >
-                      <h5><span><b>Name:</b></span> <span>{{loggedInUser.name}}</span></h5>
-                      <h5><span><b>EmailID:</b> </span> <span>{{loggedInUser.login.username}}</span></h5>
-                      <h5><span><b>Designation: </b></span><span>{{loggedInUser.designation}}</span></h5>
-                      <h5><span><b>Contact Number:</b> </span> <span>{{loggedInUser.contactNumber}}</span></h5>
-                      <h5><span><b>Organisation Domain:</b> </span><span>{{loggedInUser.orgDomain}}</span></h5>
+                      <h5><span class="pull-left"><b>Name:</b></span> <span class="pull-left">{{loggedInUser.name}}</span></h5><br>
+                      <h5><span class="pull-left"><b>EmailID:</b> </span> <span class="pull-left">{{loggedInUser.login.username}}</span></h5><br>
+                      <h5><span class="pull-left"><b>Designation: </b></span><span class="pull-left">{{loggedInUser.designation}}</span></h5><br>
+                      <h5><span class="pull-left"><b>Contact Number:</b> </span> <span class="pull-left">{{loggedInUser.contactNumber}}</span></h5><br>
+                      <h5><span class="pull-left"><b>Organisation Domain:</b> </span><span class="pull-left">{{loggedInUser.orgDomain}}</span></h5><br>
                       </div>
                       </div>
                   </div>
@@ -126,7 +126,7 @@
                   </div>
                   <div class="chart-stage">
                       <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                          <img class="img-responsive" src="assets/images/needInformation.png">
+                          <img class="img-responsive" src="assets/images/needInformtion.png">
                         </div>
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                             <a class="status"  (click)="getRequestsNeedInfo('Manager')">My Request: {{NeedInfoCount}}</a>
@@ -230,14 +230,15 @@
                       
                       <tr>
                       <td><label for="requestedFor" class="requestedFor">Requested For</label></td>
-                     <td> <input #requestedFor name="requestedFor" required="required" type="text" placeholder=" mymail"/></td>
-                      </tr>
+                     <td> <input #requestedFor name="requestedFor" required="required" type="text" (change)="canRequest(requestedFor.value)" placeholder=" mymail"/></td>
+                   
+                    </tr>
+                    <tr>  <p class="domain_message" *ngIf="title">{{title}}</p> </tr>
                       
                       <tr>
                       <td> <label for="priority" class="priority" >Priority</label></td>
                       <td><select #priority>
-                      <option ></option>
-                      <option value="Urgent" [ngValue]="priority">Urgent</option>
+                      <option value="Urgent" [ngValue]="priority" selected>Urgent</option>
                       <option value="High" [ngValue]="priority">High</option>
                       <option value="Medium" [ngValue]="priority">Medium</option>
                       <option value="Low" [ngValue]="priority">Low</option>
@@ -246,8 +247,7 @@
                       <tr>
                       <td> <label for="requestType" class="requestType" >Request Type</label></td>
                       <td> <select #requestType>
-                      <option ></option>
-                      <option value="New" [ngValue]="requestType">New</option>
+                      <option value="New" [ngValue]="requestType" selected disabled>New</option>
                       <option value="Maintence" [ngValue]="requestType">Maintence</option>
                       </select></td>
                       </tr>
@@ -255,8 +255,7 @@
                       <td> <label for="resourceType" class="resourceType" >Resource Type</label></td>
                       <td>
                       <select #resourceType (change)="resourceRequested(requestType.value,resourceType.value)">
-                      <option ></option>
-                      <option value="Hardware" [ngValue]="resourceType">Hardware Provisioning</option>
+                      <option value="Hardware" [ngValue]="resourceType" selected disabled>Hardware Provisioning</option>
                       <option value="Software" [ngValue]="resourceType">Software Installation</option>
                       <option value="Network" [ngValue]="resourceType">Network Related</option>
                       </select></td>
@@ -264,7 +263,7 @@
                       <tr>
                       <td> <label for="ResourceRequested" class="ResourceRequested">Resources</label></td>
                       <td> <select [(ngModel)]="selectedResource" name="resource">
-                      <option *ngFor="let resource of resourceValues" [ngValue]="resource">{{resource.resourceName}}</option>
+                      <option *ngFor="let resource of resourceValues" [ngValue]="resource" selected disabled>{{resource.resourceName}}</option>
                       </select></td>
                       </tr>
                       <tr>
