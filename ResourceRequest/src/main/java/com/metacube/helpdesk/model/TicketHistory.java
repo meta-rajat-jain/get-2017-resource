@@ -2,8 +2,6 @@ package com.metacube.helpdesk.model;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,43 +10,36 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="TicketHistory")
+@Table(name = "TicketHistory")
 public class TicketHistory implements Serializable {
-    
+
     /**
      * 
      */
     private static final long serialVersionUID = -1700242899690125882L;
-
     @Id
-    @Column(name="id")
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id; 
-    
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     @ManyToOne
-    @JoinColumn(name="ticketNo",nullable=false)
+    @JoinColumn(name = "ticketNo", nullable = false)
     private Ticket ticket;
-    
-    //to be made enum
-    @Column(name="previousPriority",nullable=false)
+    // to be made enum
+    @Column(name = "previousPriority", nullable = false)
     private String previousPriority;
-    
-    //to be made enum
-    @Column(name="previousStatus",nullable=false)
+    // to be made enum
+    @Column(name = "previousStatus", nullable = false)
     private String previousStatus;
-    
-    @Column(name="previousComment")
+    @Column(name = "previousComment")
     private String previousComment;
-    
-    @Type(type="date")
-    @Column(name="lastDateOfUpdate",nullable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "lastDateOfUpdate", nullable = false)
     private Date lastDateOfUpdate;
-    
-    @Column(name="lastUpdatedBy",nullable=false)
+    @Column(name = "lastUpdatedBy", nullable = false)
     private String lastUpdatedBy;
 
     public int getId() {
@@ -107,9 +98,9 @@ public class TicketHistory implements Serializable {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
-    public TicketHistory(int id, Ticket ticket, String previousPriority,
+    public TicketHistory( int id, Ticket ticket, String previousPriority,
             String previousStatus, String previousComment,
-            Date lastDateOfUpdate, String lastUpdatedBy) {
+            Date lastDateOfUpdate, String lastUpdatedBy ) {
         super();
         this.id = id;
         this.ticket = ticket;
@@ -124,9 +115,9 @@ public class TicketHistory implements Serializable {
         super();
     }
 
-    public TicketHistory(Ticket ticket, String previousPriority,
+    public TicketHistory( Ticket ticket, String previousPriority,
             String previousStatus, String previousComment,
-            Date lastDateOfUpdate, String lastUpdatedBy) {
+            Date lastDateOfUpdate, String lastUpdatedBy ) {
         super();
         this.ticket = ticket;
         this.previousPriority = previousPriority;
@@ -135,6 +126,4 @@ public class TicketHistory implements Serializable {
         this.lastDateOfUpdate = lastDateOfUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
     }
-    
-     
 }

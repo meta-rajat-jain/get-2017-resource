@@ -11,7 +11,7 @@ public class OrganisationDTO implements Serializable {
     private String name;
     private String contactNumber;
     private String domain;
-    private LogIn login;
+    private LoginDTO login;
     public String getName() {
         return name;
     }
@@ -31,7 +31,7 @@ public class OrganisationDTO implements Serializable {
         this.domain = domain;
     }
     public OrganisationDTO(String name, String contactNumber, String domain,
-            LogIn login) {
+    		LoginDTO login) {
         
         this.name = name;
         this.contactNumber = contactNumber;
@@ -41,12 +41,13 @@ public class OrganisationDTO implements Serializable {
     public OrganisationDTO() {
         super();
     }
-    public LogIn getLogin() {
-        return login;
-    }
-    public void setLogin(LogIn login) {
-        this.login = login;
-    }
+	public LoginDTO getLogin() {
+		return login;
+	}
+	public void setLogin(LoginDTO login) {
+		this.login = login;
+	}
+   
     
     
 }

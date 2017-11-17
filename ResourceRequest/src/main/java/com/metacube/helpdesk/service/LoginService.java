@@ -15,7 +15,7 @@ public interface LoginService {
     LoginDTO modelToDto(LogIn login);
     LogIn dtoToModel(LoginDTO loginDetails);
     LoginResponse verifyExternalLogin(String userName);
-    Boolean authorizeRequest(String authorizationToken,String userName);
+    Boolean authenticateRequest(String authorizationToken,String userName);
     Response logOut(String authorisationToken, String username);
    
 	Response checkPassword(String authorisationToken, String username,
@@ -28,5 +28,6 @@ public interface LoginService {
 	Designation getAccountType(String username);
 	Response forgotPassword(String usernameForForgotPassword);
 	Response enableLogIn(String username, String hashUsername);
+	LogIn createLogIn(LoginDTO loginDto);
     
 }

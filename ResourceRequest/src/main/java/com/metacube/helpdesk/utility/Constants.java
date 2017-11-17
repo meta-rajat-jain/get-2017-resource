@@ -18,5 +18,7 @@ public class Constants {
 	public static final String TICKET_APPROVED ="Approved";
 	public static final String TICKET_NEEDINFO = "NeedInfo";
 	public static final String TICKET_CLOSED = "Closed";
+	public static final String EMPLOYEE_STATUS_ACTIVE = "Active";
+	public static final String EMPLOYEE_STATUS_INACTIVE = "InActive";
      
 }

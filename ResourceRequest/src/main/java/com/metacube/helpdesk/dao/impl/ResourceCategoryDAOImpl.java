@@ -41,8 +41,6 @@ public class ResourceCategoryDAOImpl extends GenericDAO implements ResourceCateg
         Session session = this.sessionFactory.getCurrentSession();
         // Criteria query
         Criteria cr = session.createCriteria(ResourceCategory.class);
-               
-
         List<ResourceCategory> allCategories = cr.list();
         return allCategories;
     }
