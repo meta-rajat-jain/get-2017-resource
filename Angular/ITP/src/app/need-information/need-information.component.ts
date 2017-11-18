@@ -27,6 +27,7 @@ export class NeedInformationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
     this.sub = this.route.params.subscribe(params => {
       this.ticketNo = params["ticketNo"];
       this.type = params["type"];
@@ -54,7 +55,8 @@ export class NeedInformationComponent implements OnInit {
         comment,
         location,
         this.ticket.teamName,
-        status
+        status,
+        this.ticket.requestDate
       )
       .then(response => {
         console.log(response);
@@ -72,7 +74,8 @@ export class NeedInformationComponent implements OnInit {
         this.ticket.requestedResource,
         comment,
         this.ticket.seatLocation,
-        this.ticket.teamName
+        this.ticket.teamName,
+        this.ticket.requestDate
       )
       .then(response => {
         console.log(response);

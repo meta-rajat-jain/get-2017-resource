@@ -11,6 +11,7 @@ import { Team } from '../Model/team';
 import { Login } from '../Model/login';
 import { TicketStatusCount } from '../Model/ticketStatusCount';
 import { RequestConstants } from "../Constants/request";
+import { HttpClient } from "./httpClient";
 
 @Injectable()
 export class HelpdeskService {
@@ -24,21 +25,18 @@ export class HelpdeskService {
     private getUserInfoUrl=RequestConstants.EMPLOYEE_REQUEST+'getEmployeeDetails';
 
 
-    constructor(private http: Http) {
-        this.headers.append('Content-Type', 'application/json');
-        this.headers.append('authorisationToken', JSON.parse(localStorage.getItem('authenticationObject')).authorisationToken);
-        this.headers.append('username', JSON.parse(localStorage.getItem('authenticationObject')).username);
-     }
+    constructor(private http: HttpClient) {
+          }
 
   
     logOut(): Promise<Authentication> {
-        return this.http.get(this.logOutUrl, { headers: this.headers })
+        return this.http.get(this.logOutUrl)
             .toPromise()
             .then(response => response.json() as Authentication )
             .catch(this.handleError);
     }
     getCounts():Promise<TicketStatusCount[]>{
-        return this.http.get(this.getTicketStatusCountUrl,{headers:this.headers} )
+        return this.http.get(this.getTicketStatusCountUrl )
         .toPromise()
         .then(response =>  response.json() as TicketStatusCount[] )
         .catch(this.handleError);

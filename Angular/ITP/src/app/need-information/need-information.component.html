@@ -1,4 +1,6 @@
+<app-navbar></app-navbar>
 <body>
+  <div class="main-content">
   <div *ngIf="operation=='Edit'">
 <div *ngIf="ticket">
 <form >
@@ -61,7 +63,7 @@
         <select #status >
         <option ></option>
         <option value="Open" [ngValue]="status">Open</option>
-        <option *ngIf="type!='Member'" value="Close" [ngValue]="status">Close</option>
+        <option *ngIf="type!='Member'" value="Close" [ngValue]="status">Closed</option>
         <option *ngIf="type!='Member'" value="Approved" [ngValue]="status">Approved</option>
         <option *ngIf="type=='Helpdesk'"value="In-Progress" [ngValue]="status">In-Progress</option>
         <option *ngIf="type=='Helpdesk'"value="Need Information" [ngValue]="status">Need Information</option>
@@ -140,5 +142,6 @@
         </div>
         </form>
       </div>
+    </div>
     </div>
     </body>

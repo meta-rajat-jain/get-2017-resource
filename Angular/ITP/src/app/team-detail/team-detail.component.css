@@ -38,3 +38,22 @@
   td{
     text-align: center;
   }
+  .glyphicon-user{
+    font-size: 16px;
+    color:#df7407;
+    padding: 3px;
+    }
+    .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+    background-color: #efecec;
+    }
+    .nav>li>a:hover {
+    text-decoration: none;
+    background-color: #efecec;
+    }
+    .nav>li>a:focus{
+    background-color: #efecec;
+    color: black;
+    }
+    .main-content{
+      min-height:  800px;
+      }

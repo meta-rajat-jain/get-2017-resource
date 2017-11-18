@@ -5,7 +5,7 @@ body{
   margin:0px;
 	padding:0px;
   box-sizing:border-box;
-  background-color: #efecec;
+
 }
 
 a{
@@ -22,9 +22,12 @@ a.hiddenanchor{
     border-radius:0px;
   }
   
-  .navbar{
-    min-height:0px;
-  }
+  .navbar {
+    position: relative;
+    min-height: 50px;
+    margin-bottom: 0px !important;
+    border: 1px solid transparent;
+}
   .nav-tabs{
     color:white !important;
        border-bottom:0px;
@@ -221,7 +224,7 @@ padding-bottom: 20px;
       border-bottom: 1px solid #d7d7d7;
       text-align: center;
       color:black;
-      background-color: #C8D9DB;
+      background-color:     #d6a26f  ;
       font-size: 20px;
       font-weight: 200;
       padding: 10px;
@@ -233,12 +236,12 @@ padding-bottom: 20px;
       text-align: center;
       padding: 10px;
       position: relative;
-      background-color: #F4F7F8;;
+      background-color: antiquewhite;
     }
     
     .chart-notes {
       border-top: 1px solid #e2e2e2;
-      background-color: #F4F7F8;
+      background-color: antiquewhite;
       text-align: center;
       font-size: 12px;
       padding:10px;
@@ -253,5 +256,22 @@ padding-bottom: 20px;
       text-align: center;
     }
 .main-content{
-min-height:  566px;
+min-height:  750px;
+background-color: snow;
 }
+.glyphicon-user{
+  font-size: 16px;
+  color:#df7407;
+  padding: 3px;
+  }
+  .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+  background-color: #efecec;
+  }
+  .nav>li>a:hover {
+  text-decoration: none;
+  background-color: #efecec;
+  }
+  .nav>li>a:focus{
+  background-color: #efecec;
+  color: black;
+  }

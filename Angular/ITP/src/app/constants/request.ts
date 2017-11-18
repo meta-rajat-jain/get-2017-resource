@@ -9,5 +9,5 @@ export class RequestConstants{
     public static TEAM_REQUEST:string=RequestConstants.REQUEST+'team/';
     public static TICKET_REQUEST:string=RequestConstants.REQUEST+'ticket/';
     public static HELPDESK_REQUEST:string=RequestConstants.REQUEST+'helpdesk/';
-    
+    public static GoogleId:string="579262438220-gtpft4dkqeur6oe38c7t0ph8oeiqrmtl.apps.googleusercontent.com";
     }

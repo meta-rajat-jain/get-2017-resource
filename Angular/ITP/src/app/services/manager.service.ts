@@ -10,6 +10,7 @@ import { ResponseObject } from '../Model/responseObject';
 import { Team } from '../Model/team';
 import { Login } from '../Model/login';
 import { RequestConstants } from "../Constants/request";
+import { HttpClient } from "./httpClient";
 
 @Injectable()
 export class ManagerService {
@@ -18,15 +19,12 @@ export class ManagerService {
     private headers: Headers = new Headers();
     private createTeamUrl=RequestConstants.MANAGER_REQUEST+'createTeam';
     private logOutUrl=RequestConstants.AUTHENTICATION_REQUEST+'logout';
-    private getTeamsUrl=RequestConstants.MANAGER_REQUEST+'getTeamsForLoggedInUser';
+    private getTeamsUrl=RequestConstants.MANAGER_REQUEST+'getAllTeams';
     private canRequestUrl = RequestConstants.EMPLOYEE_REQUEST + 'getEmployeesUnderHead';
     authenticationHeader:AuthenticatedHeader;
     username:string;
-    constructor(private http: Http) {
-        this.headers.append('Content-Type', 'application/json');
-        this.headers.append('authorisationToken', JSON.parse(localStorage.getItem('authenticationObject')).authorisationToken);
-        this.headers.append('username', JSON.parse(localStorage.getItem('authenticationObject')).username);
-     }
+    constructor(private http: HttpClient) {
+    }
 
     createTeam(teamName:string,headName:string): Promise<Authentication> {
         this.authenticationHeader = JSON.parse(localStorage.getItem('authenticationObject'));
@@ -39,15 +37,15 @@ export class ManagerService {
             orgDomain:username[1],
             teamHeadUsername:headName
         }
-   
-        return this.http.post(this.createTeamUrl,team, { headers: this.headers })
+        console.log(team);
+        return this.http.post(this.createTeamUrl,team)
             .toPromise()
             .then(response => response.json() as Authentication )
             .catch(this.handleError);
     }
 
     logOut(): Promise<Authentication> {
-        return this.http.get(this.logOutUrl, { headers: this.headers })
+        return this.http.get(this.logOutUrl)
             .toPromise()
             .then(response => response.json() as Authentication )
             .catch(this.handleError);
@@ -56,13 +54,13 @@ export class ManagerService {
         console.log("in get Teams"+JSON.parse(localStorage.getItem('authenticationObject')).username);
  
            
-        return this.http.get(this.getTeamsUrl,{ headers: this.headers })
+        return this.http.get(this.getTeamsUrl)
         .toPromise()
         .then(response => response.json() as Team[] )
         .catch(this.handleError);
     }
     canRequest(): Promise<Employee[]> {
-        return this.http.get(this.canRequestUrl, { headers: this.headers })
+        return this.http.get(this.canRequestUrl)
             .toPromise()
             .then(response => response.json() as Employee[] )
             .catch(this.handleError);

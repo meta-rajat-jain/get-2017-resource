@@ -7,6 +7,7 @@ import { Authentication } from '../Model/Authentication';
 import { Login } from '../Model/login';
 import { AuthenticatedHeader } from '../Model/authenticatedHeader';
 import { RequestConstants } from "../Constants/request";
+import { HttpClient } from "./httpClient";
 
 @Injectable()
 export class EmployeeDetailService {
@@ -19,11 +20,9 @@ export class EmployeeDetailService {
 
 
     authenticationHeader:AuthenticatedHeader;
-    constructor(private http: Http) {
-        this.headers.append('Content-Type', 'application/json');
-        this.headers.append('authorisationToken', JSON.parse(localStorage.getItem('authenticationObject')).authorisationToken);
-        this.headers.append('username', JSON.parse(localStorage.getItem('authenticationObject')).username);
-     }
+    constructor(private http: HttpClient) {
+
+    }
 
     getEmployeeDetail(username:string):Promise<Employee>{
         console.log("in username" + username);
@@ -40,7 +39,7 @@ export class EmployeeDetailService {
             status:"",
             login:login
          }
-         return this.http.post(this.getEmployeeUrl,employee,{ headers: this.headers })
+         return this.http.post(this.getEmployeeUrl,employee)
          .toPromise()
          .then(response =>    response.json() as Employee)
          .catch(this.handleError);
@@ -64,7 +63,7 @@ export class EmployeeDetailService {
           }
           console.log("After");
           console.log(emp);
-          return this.http.post(this.updateEmployeeUrl,emp,{ headers: this.headers })
+          return this.http.post(this.updateEmployeeUrl,emp)
           .toPromise()
           .then(response =>   response.json() as Authentication)
           .catch(this.handleError);

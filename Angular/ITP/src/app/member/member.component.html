@@ -1,31 +1,11 @@
+<app-navbar></app-navbar>
+<div *ngIf="loggedInUser">
 <body class="dashboard">
-  <nav class="navbar navbar-default">
-    <div class="container">
-
-      <ul class="nav nav-tabs">
-        <li class="active">
-          <a data-toggle="tab" href="#section1">Request-Tab</a>
-        </li>
-        <li>
-          <a data-toggle="tab" href="#section2">New Request</a>
-        </li>
-        <li class="pull-right">
-          <a (click)="logOut()">Log Out</a>
-        </li>
-        <li class="pull-right">
-          <span class="glyphicon glyphicon-user img-circle user-image"></span>
-          <span>
-            <a href="#">{{username}}</a>
-          </span>
-        </li>
-      </ul>
-
-    </div>
-  </nav>
+ 
   <div class="tab-content">
 
     <div class="tab-pane in active" id="section1">
-
+<div *ngIf="loggedInUser">
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-3">
@@ -207,147 +187,9 @@
         </div>
       </div>
     </div>
-
-
-    <div class="tab-pane" id="section2">
-
-      <div id="container_demo">
-
-        <div id="wrapper" style="height:auto">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <form>
-              <div id="requestForm">
-                <h1>New Request</h1>
-                <table>
-
-                  <tr>
-                    <td>
-                      <label for="requester" class="uname"> Requested By</label>
-                    </td>
-                    <td>
-                      <label>
-                        <h5>{{username}}</h5>
-                      </label>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <label for="requestedFor" class="requestedFor">Requested For</label>
-                    </td>
-                    <td>
-                      <label>
-                        <h5>{{username}}</h5>
-                      </label>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <label for="priority" class="priority">Priority</label>
-                    </td>
-                    <td>
-                      <select #priority>
-
-                        <option value="Urgent" [ngValue]="priority" selected>Urgent</option>
-                        <option value="High" [ngValue]="priority">High</option>
-                        <option value="Medium" [ngValue]="priority">Medium</option>
-                        <option value="Low" [ngValue]="priority">Low</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label for="requestType" class="requestType">Request Type</label>
-                    </td>
-                    <td>
-                      <select #requestType>
-
-                        <option value="New" [ngValue]="requestType">New</option>
-                        <option value="Maintence" [ngValue]="requestType">Maintence</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label for="resourceType" class="resourceType">Resource Type</label>
-                    </td>
-                    <td>
-                      <select #resourceType (change)="resourceRequested(requestType.value,resourceType.value)">
-                        <option></option>
-                        <option value="Hardware" [ngValue]="resourceType">Hardware Provisioning</option>
-                        <option value="Software" [ngValue]="resourceType">Software Installation</option>
-                        <option value="Network" [ngValue]="resourceType">Network Related</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label for="ResourceRequested" class="ResourceRequested">Resources</label>
-                    </td>
-                    <td>
-                      <select [(ngModel)]="selectedResource" name="resource">
-                        <option *ngFor="let resource of resourceValues" [ngValue]="resource">{{resource.resourceName}}</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label for="Team" class="Team">Team</label>
-                    </td>
-                    <td>
-                      <select [(ngModel)]="selectedTeam" name="team">
-                        <option *ngFor="let team of teamsOfEmployee" [ngValue]="team">{{team.teamName}}</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label for="comment" class="comment">Comment </label>
-                    </td>
-                    <td>
-                      <textarea #comment rows="4" cols="50"></textarea>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label for="location" class="location"> Your location </label>
-                    </td>
-                    <td>
-                      <input #locn name="locn" required="required" type="text" placeholder=" Your location" />
-                    </td>
-                  </tr>
-                  <tr>
-
-                    <td>
-                      <button id="button" class="btn btn-primary " (click)="goBack()">Go Back</button>
-                    </td>
-                    <td>
-                      <button id="button" class="btn btn-primary" (click)="Request(priority.value,requestType.value,resourceType.value,resource,team,comment.value,locn.value)">Register</button>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-
-
-
-
-
-
-
     </div>
 
 
-
-
-
-
-  </div>
-
-
+    </div>
 </body>
+</div>

@@ -1,0 +1,40 @@
+<div  style="background-image:url(assets/images/img_bg_1.jpg); width:100%">
+  <div class="container">
+      <div class="row main" style="min-height:100%">
+       
+        <div class="main-login main-center">
+           
+                <div class="panel-title text-center">
+                    <h1 class="title">Login</h1>
+                    <hr />
+             </div> 
+          <form  id="employee" class="form-horizontal" [formGroup]="reactiveForm">
+              <div class="form-group ">
+           
+									<label for="username" class="uname"> Your email or username </label>
+									<input #username name="username" class="form-control" formControlName="username" required="required" type="text" placeholder="myusername or mymail@mail.com"
+									/>
+									<div  *ngIf="!reactiveForm.controls['username'].valid && reactiveForm.controls['username'].touched">"Incorrectly specified email"</div>
+
+									<br>
+									<br>
+									<label for="password" class="youpasswd"> Your password </label>
+									<input #password  class="form-control"name="password" formControlName="password" required="required" type="password" placeholder="eg. X8df!90EO"
+									/>
+									<div  *ngIf="!reactiveForm.controls['password'].valid && reactiveForm.controls['password'].touched">"Password must have at least eight digit"</div>
+                </div>
+  
+            <div class="form-group ">
+                <a (click)="forgetPassword()">forget password?</a>
+              <button type="button" class="btn btn-default btn-lg btn-block login-button" (click)="login(username.value , password.value)">Login</button>
+              
+              <p  style="color:red" *ngIf="errorMessage">{{errorMessage}}</p>
+            </div>
+            <div class="login-register">
+                    <a class="login-navigate" routerLink="/signup" routerLinkActive="active" >Signup</a>
+                 </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

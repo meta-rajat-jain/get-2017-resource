@@ -8,6 +8,7 @@ import { Authentication } from "../Model/Authentication";
 import { Login } from "../Model/login";
 import { AuthenticatedHeader } from "../Model/authenticatedHeader";
 import { RequestConstants } from "../Constants/request";
+import { HttpClient } from "./httpClient";
 
 @Injectable()
 export class RequestsService {
@@ -25,18 +26,8 @@ export class RequestsService {
     "updateTicket";
 
   authenticationHeader: AuthenticatedHeader;
-  constructor(private http: Http) {
-    this.headers.append("Content-Type", "application/json");
-    this.headers.append(
-      "authorisationToken",
-      JSON.parse(localStorage.getItem("authenticationObject"))
-        .authorisationToken
-    );
-    this.headers.append(
-      "username",
-      JSON.parse(localStorage.getItem("authenticationObject")).username
-    );
-  }
+  constructor(private http: HttpClient) {
+}
   getRequests(status: string, type: string): Promise<Ticket[]> {
     if (type == "Manager") {
       let params: URLSearchParams = new URLSearchParams();
@@ -47,7 +38,7 @@ export class RequestsService {
         search: params
       });
       return this.http
-        .get(this.getRequestManager, options)
+        .get(this.getRequestManager)
         .toPromise()
         .then(response => response.json() as Ticket[])
         .catch(this.handleError);
@@ -55,7 +46,7 @@ export class RequestsService {
       const url = `${this.getRequestTeam}/${status}`;
       console.log(url);
       return this.http
-        .get(url, { headers: this.headers })
+        .get(url)
         .toPromise()
         .then(response => response.json() as Ticket[])
         .catch(this.handleError);
@@ -63,7 +54,7 @@ export class RequestsService {
       const url = `${this.getRequestMember}/${status}`;
       console.log(url);
       return this.http
-        .get(url, { headers: this.headers })
+        .get(url)
         .toPromise()
         .then(response => response.json() as Ticket[])
         .catch(this.handleError);
@@ -71,20 +62,23 @@ export class RequestsService {
       const url = `${this.getRequestHelpdesk}/${status}`;
       console.log(url);
       return this.http
-        .get(url, { headers: this.headers })
+        .get(url)
         .toPromise()
         .then(response => response.json() as Ticket[])
         .catch(this.handleError);
     }
   }
   approveTicket(ticket: Ticket, type: string): Promise<Authentication> {
-    if (type == "HelpDesk") {
+    if(ticket.status === "InProgress" && type==="Helpdesk"){
+      ticket.status = "Closed";
+    }
+    else if (ticket.status === "Approved" && type == "Helpdesk") {
       ticket.status = "InProgress";
     } else {
       ticket.status = "Approved";
     }
     return this.http
-      .post(this.changeStatusOfTicketUrl, ticket, { headers: this.headers })
+      .post(this.changeStatusOfTicketUrl, ticket)
       .toPromise()
       .then(response => response.json() as Authentication)
       .catch(this.handleError);
@@ -92,7 +86,7 @@ export class RequestsService {
   rejectTicket(ticket: Ticket, type: string): Promise<Authentication> {
     ticket.status = "Closed";
     return this.http
-      .post(this.changeStatusOfTicketUrl, ticket, { headers: this.headers })
+      .post(this.changeStatusOfTicketUrl, ticket)
       .toPromise()
       .then(response => response.json() as Authentication)
       .catch(this.handleError);

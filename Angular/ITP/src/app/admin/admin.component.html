@@ -1,31 +1,7 @@
-<nav class="navbar navbar-default">
-  <div class="container">
-   
-    <ul class="nav nav-tabs">
-      <li class="active"><a data-toggle="tab" href="#section1">Managers</a></li>
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Employee
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a data-toggle="tab" href="#createEmployee">Create Employee</a></li>
-          <li><a data-toggle="tab" href="#editEmployee">Edit Employee Details</a></li>
-        </ul>
-      </li>
-      <li class="pull-right">
-        <a   (click)="logOut()">Log Out</a>
-      </li>
-      <li class="pull-right">
-        <span class="glyphicon glyphicon-user img-circle user-image"></span>
-        <span><a >{{username}}</a></span>
-      </li>
-    </ul>
-    
-  </div>
-</nav>
 
-<div class="tab-content">
-  <div class="tab-pane in active" id="section1">
-    
+ <app-navbar></app-navbar>
+
+    <div *ngIf="managers">
       <div class="main-content">
         <div class="container">
           <h2>Managers</h2>
@@ -53,98 +29,10 @@
           </div>
         </div>
       </div>
-  </div>
+
  
-    <div class="tab-pane"  id="createEmployee">
-        <section>
-            <div id="container_demo">
-              
-              <div id="wrapper" style="height:auto">
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <form [formGroup]="reactiveForm">
-            <div id="sign" >
-              <h1>New Employee</h1>
-             
-              
-                
-                  <label for="usernameEmp" class="uname"> Employee Name </label>
-                  <input #usernameEmp name="usernameEmp" formControlName="empName" required="required" type="text" placeholder="myusername " />
-                  <h6 class="alert" *ngIf="!reactiveForm.controls['empName'].valid && reactiveForm.controls['empName'].touched">Invalid Enter</h6>
-                
-              
-                  <label for="emailId" class="emailId"> Employee Email </label>
-                  <input #emailIdEmp name="emailIdEmp" required="required" formControlName="empEmail" type="text" placeholder=" mymail" (change)="checkDomain(emailIdEmp.value)" />
-                  <h6 class="alert" *ngIf="!reactiveForm.controls['empEmail'].valid && reactiveForm.controls['empEmail'].touched ">"Incorrectly specified email"</h6>
-                  <p class="domain_message" *ngIf="title">{{title}}</p>
-                  
-                
-                
-                  <label for="passwordEmp" class="youpasswd"> Employee password </label>
-                  <input #passwordEmp name="passwordEmp"formControlName="empPassword" required="required" type="password" placeholder="eg. X8df!90EO" />
-                  <h6 class="alert" *ngIf="!reactiveForm.controls['empPassword'].valid && reactiveForm.controls['empPassword'].touched">"Password must have at least a single digit"</h6>
-                
-  
-                
-                  <label for="contactno" class="contactNumber"> Employee Contact Number </label>
-                  <input #contactnoEmp name="contactnoEmp" required="required" formControlName="empContact" type="text" placeholder="eg. 8888-888888" />
-                  <h6 class="alert" *ngIf="!reactiveForm.controls['empContact'].valid && reactiveForm.controls['empContact'].touched">"Please fill a valid contact number"</h6>
-                
-                <br>
-                <span>
-  
-                
-                  <button id ="button" class="btn btn-primary " (click)="registerEmployee(usernameEmp.value,emailIdEmp.value,passwordEmp.value,contactnoEmp.value)">Register</button>
-  
-  
-  
-                </span>
-              </div>
-              </form>
-           
-					</div>
-          </div>
-				</div>
-			</section>
-  
-  
-
-   
-    
-  </div>
-  
-
-  <div class="tab-pane"  id="editEmployee">
-
-<b>Employee Search : </b> <input [(ngModel)]="searchText"  placeholder="Search Employee " >
-<div class="container">
-<div class="col-sm-6 col-md-4 manager-list" *ngFor="let employee of employees| filter : searchText">
-  <div class="chart-wrapper">
-    <div class="chart-title">
-      {{employee.name}}
     </div>
-    <div class="chart-stage">
-      <div id="grid-1-1">
-        {{employee.designation}}
-        <hr>
-        {{employee.login.username}}
-      </div>
-    </div>
-    <div class="chart-notes">
-    
-      <button class="btn btn-default" data-toggle="tooltip"  title=" Edit" (click)="editEmployeeDetail(employee)"><span class="glyphicon glyphicon-pencil "  ></span></button>
-      <button class="delete btn btn-default" data-toggle="tooltip"  title=" Delete" (click)="deleteEmployee(employee); $event.stopPropagation()"><span class="glyphicon glyphicon-folder-close" > </span></button>
-      <button  class="btn btn-default" data-toggle="tooltip"  title=" View Details" (click)="getEmployeeDetail(employee)"><span class="glyphicon glyphicon-list-alt"></span></button>
-      <button  *ngIf="employee.designation!='Manager'" class="btn btn-default" data-toggle="tooltip" title=" Promote to manager" (click)="addManager(employee)"><span class="glyphicon glyphicon-plus"></span></button>
-    </div>
-    </div>
-  </div>
-</div>
-   
-        <div id="gutter"></div>
 
-  </div>
-  <div class="tab-pane"  id="removeEmployee">Section 3</div>
-  </div>
 
 
   

@@ -1,5 +1,5 @@
 .dashboard {
-    background: #f2f2f2;
+    background: white;
     font-family: 'Gotham Rounded SSm A', 'Gotham Rounded SSm B', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   .chart-wrapper {
@@ -21,9 +21,15 @@
     padding: 5px 10px;
     position: relative;
   }
-  
+  .chart-title{
+    background: #d6a26f;
+  }
+
+  .chart-stage{
+    background: antiquewhite;
+  }
+
   .dashboard .chart-wrapper .chart-notes {
-    background: #fbfbfb;
     border-top: 1px solid #e2e2e2;
     color: #808080;
     font-size: 12px;
@@ -90,10 +96,9 @@
    
   .glyphicon-user{
     font-size: 16px;
-    color:#739FA5;
+    color:#df7407;
     padding: 3px;
     }
-    
     .user-image{
     margin-top: 10px;
     background: white;
@@ -265,3 +270,19 @@
       }
     
       
+      .glyphicon-user{
+        font-size: 16px;
+        color:#df7407;
+        padding: 3px;
+        }
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+        background-color: #efecec;
+        }
+        .nav>li>a:hover {
+        text-decoration: none;
+        background-color: #efecec;
+        }
+        .nav>li>a:focus{
+        background-color: #efecec;
+        color: black;
+        }

@@ -12,5 +12,8 @@ export class Ticket
     seatLocation:string;
     requestType:string;
     status:string;
+    lastUpdatedByUsername:string;
+    lastDateOfUpdate:Date ;
+    requestDate:Date ;
     
     }

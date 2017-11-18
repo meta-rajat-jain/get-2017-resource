@@ -30,6 +30,7 @@ export class HelpdeskComponent implements OnInit {
   constructor(private helpDeskService:HelpdeskService,private router:Router,private managerService:ManagerService) { }
 
   ngOnInit() {
+
     this.getCount();
 
     this.authenticationHeader=JSON.parse(localStorage.getItem('authenticationObject'));
@@ -95,7 +96,7 @@ export class HelpdeskComponent implements OnInit {
   logOut(){
     this.managerService.logOut().then(response => {
       this.authentication = response;
-      
+      this.router.navigate(['']);
       if (this.authentication.statusCode == 1){
         localStorage.clear();
         localStorage.removeItem('authenticationObject');

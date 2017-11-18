@@ -18,7 +18,7 @@ import { MemberService } from "../services/member.service";
   styleUrls: ["./manager.component.css"]
 })
 export class ManagerComponent implements OnInit {
-  username: string;
+  username: string ='';
   authenticationHeader: AuthenticatedHeader;
   authentication: Authentication;
   employees: Employee[] = [];
@@ -56,6 +56,7 @@ export class ManagerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
     this.authenticationHeader = JSON.parse(
       localStorage.getItem("authenticationObject")
     );
@@ -120,60 +121,8 @@ export class ManagerComponent implements OnInit {
       }
     });
   }
-  createTeam(teamName: string, headName: string): void {
-    this.managerService.createTeam(teamName, headName).then(response => {
-      console.log("service response");
-    });
-    location.reload(true);
-  }
 
-  logOut() {
-    this.managerService.logOut().then(response => {
-      this.authentication = response;
-      localStorage.clear();
-      localStorage.removeItem("authenticationObject");
-      this.router.navigate([""]);
-      if (this.authentication.statusCode == 1) {
-        localStorage.clear();
-        localStorage.removeItem("authenticationObject");
-        this.router.navigate([""]);
-      }
-    });
-  }
-  checkEmployee(headName: string): void {
-    this.adminService.getEmployees().then(response => {
-      this.employees = response;
 
-      for (let emp of this.employees) {
-        console.log("before if" + headName);
-        console.log(emp.login.username);
-        if (headName == emp.login.username) {
-          console.log(headName + "==" + emp.login.username);
-          this.title = "";
-          break;
-        } else {
-          this.title = "Invalid user";
-        }
-      }
-    });
-  }
-  canRequest(employeeName: string): void {
-    this.managerService.canRequest().then(response => {
-      this.requestedEmployee = response;
-
-      for (let emp of this.requestedEmployee) {
-        console.log("before if" + employeeName);
-        console.log(emp.login.username);
-        if (employeeName == emp.login.username) {
-          console.log(employeeName + "==" + emp.login.username);
-          this.title = "";
-          break;
-        } else {
-          this.title = "Invalid user";
-        }
-      }
-    });
-  }
   getRequestsInProgress(type: string): void {
     console.log(type);
     this.status = "Inprogress";
@@ -196,58 +145,5 @@ export class ManagerComponent implements OnInit {
     this.status = "Approved";
     this.router.navigate(["requestDetail", this.status, type]);
   }
-  resourceRequested(requestType: string, resourceType: string): void {
-    console.log(requestType);
-    console.log(resourceType);
-    if (requestType == "New") {
-      this.memberService
-        .getResourceRequested(resourceType)
-        .subscribe(response => {
-          console.log(response);
-          this.resourceValues = response;
-        });
-    }
-  }
-
-  getTeamsUnderManager(): void {
-    this.managerService.getTeamsUnderManager().then(response => {
-      this.teamsUnderManager = response;
-      console.log(response);
-    });
-  }
-
-  Request(
-    requestedFor: string,
-    priority: string,
-    requestType: string,
-    resourceType: string,
-    resource: RequestedResource,
-    comment: string,
-    locn: string
-  ): void {
-    let teamName = null;
-    console.log("in comment" + comment);
-    console.log("in location" + locn);
-    this.memberService
-      .makeRequest(
-        this.authenticationHeader.username,
-        requestedFor,
-        priority,
-        requestType,
-        this.selectedResource,
-        comment,
-        locn,
-        teamName
-      )
-      .then(response => {
-        console.log(response);
-        window.location.reload();
-      });
-  }
-
-  manageTeam(team: Team, operation: string): void {
-    console.log(team);
-    console.log(operation);
-    this.router.navigate(["/teamDetailComponent", team.teamName, operation]);
-  }
+ 
 }

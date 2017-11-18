@@ -16,8 +16,13 @@ import { HelpdeskComponent } from '../helpdesk/helpdesk.component';
 import { ActivateGuardHelpDesk } from '../services/router-guards/activateGuardHelpdesk';
 import { ActivateGuard } from '../services/router-guards/activateGuard';
 import { NotFoundComponent } from '../not-found/not-found.component';
-
-
+import { EmployeeComponent } from '../employee/employee.component';
+import { CreateEmployeeComponent } from '../create-employee/create-employee.component';
+import { CreateTeamComponent } from "../create-team/create-team.component";
+import { TeamComponent } from "../team/team.component";
+import { RequestResourceComponent } from "../request-resource/request-resource.component";
+import { SignupComponent } from '../signup/signup.component';
+import { LoginComponent } from '../login/login.component';
 
 
 
@@ -32,9 +37,17 @@ const routes: Routes = [
   { path: 'requestDetail/:status/:type', component:RequestsComponent },
   { path: 'needInformation/:ticketNo/:type/:operation', component: NeedInformationComponent },
   { path: 'teamDetailComponent/:teamName/:operation', component: TeamDetailComponent },
-  { path: 'password', component:PasswordComponent},
-  { path: 'helpDeskDashboard', component:HelpdeskComponent},
+  { path: 'password', component:PasswordComponent },
+  { path: 'helpDeskDashboard', component:HelpdeskComponent },
+  { path: 'employee',component:EmployeeComponent,canActivate:[ActivateGuard]},
+  { path: 'createEmployee',component:CreateEmployeeComponent,canActivate:[ActivateGuard] },
+  { path: 'createTeam',component:CreateTeamComponent, canActivate:[ActivateGuardManager] },
+  { path: 'teamUnderManager',component:TeamComponent,canActivate:[ActivateGuardManager] },
+  { path: 'requestResource/:type',component:RequestResourceComponent },
+  { path: 'signup',component:SignupComponent },
+  { path: 'login',component:LoginComponent },
   { path: '**', component: NotFoundComponent },
+
 
 ];
 

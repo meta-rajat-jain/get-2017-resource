@@ -38,13 +38,23 @@ import { NeedInformationService } from "./services/need-information.service";
 import { PasswordService } from "./services/password.service";
 import { TeamDetailService } from "./services/team-detail.service";
 import { NotFoundComponent } from './not-found/not-found.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { CreateEmployeeComponent } from './create-employee/create-employee.component';
 import { TeamComponent } from './team/team.component';
+import { CreateTeamComponent } from './create-team/create-team.component';
+import { RequestResourceComponent } from './request-resource/request-resource.component';
+import { RequestResourceService } from "./services/requestrsource.service";
+import { HttpClient } from "./services/httpClient";
+import { SignupComponent } from './signup/signup.component';
+import { LoginComponent } from './login/login.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { RequestConstants } from "./Constants/request";
 
 let config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
     provider: new GoogleLoginProvider(
-      "579262438220-gtpft4dkqeur6oe38c7t0ph8oeiqrmtl.apps.googleusercontent.com"
+      RequestConstants.GoogleId
     )
   }
 ]);
@@ -69,7 +79,14 @@ export function provideConfig() {
     HelpdeskComponent,
     PasswordComponent,
     NotFoundComponent,
-    TeamComponent
+    EmployeeComponent,
+    CreateEmployeeComponent,
+    TeamComponent,
+    CreateTeamComponent,
+    RequestResourceComponent,
+    SignupComponent,
+    LoginComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -94,6 +111,8 @@ export function provideConfig() {
     NeedInformationService,
     TeamDetailService,
     PasswordService,
+    RequestResourceService,
+    HttpClient,
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig

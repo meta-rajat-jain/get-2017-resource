@@ -33,6 +33,7 @@ export class EmployeeDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+   
     this.authenticationHeader = JSON.parse(
       localStorage.getItem("authenticationObject")
     );

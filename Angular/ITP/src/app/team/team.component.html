@@ -1,49 +1,56 @@
-<section>
-    <div id="container_demo">
-      
-      <div id="wrapper" style="height:auto">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-<form [formGroup]="reactiveForm">
-    <div id="sign" >
-      <h1>New Employee</h1>
-     
-      
-        
-          <label for="usernameEmp" class="uname"> Employee Name </label>
-          <input #usernameEmp name="usernameEmp" formControlName="empName" required="required" type="text" placeholder="myusername " />
-          <h6 class="alert" *ngIf="!reactiveForm.controls['empName'].valid && reactiveForm.controls['empName'].touched">Invalid Enter</h6>
-        
-      
-          <label for="emailId" class="emailId"> Employee Email </label>
-          <input #emailIdEmp name="emailIdEmp" required="required" formControlName="empEmail" type="text" placeholder=" mymail" (change)="checkDomain(emailIdEmp.value)" />
-          <h6 class="alert" *ngIf="!reactiveForm.controls['empEmail'].valid && reactiveForm.controls['empEmail'].touched ">"Incorrectly specified email"</h6>
-          <p class="domain_message" *ngIf="title">{{title}}</p>
-          
-        
-        
-          <label for="passwordEmp" class="youpasswd"> Employee password </label>
-          <input #passwordEmp name="passwordEmp"formControlName="empPassword" required="required" type="password" placeholder="eg. X8df!90EO" />
-          <h6 class="alert" *ngIf="!reactiveForm.controls['empPassword'].valid && reactiveForm.controls['empPassword'].touched">"Password must have at least a single digit"</h6>
-        
-
-        
-          <label for="contactno" class="contactNumber"> Employee Contact Number </label>
-          <input #contactnoEmp name="contactnoEmp" required="required" formControlName="empContact" type="text" placeholder="eg. 8888-888888" />
-          <h6 class="alert" *ngIf="!reactiveForm.controls['empContact'].valid && reactiveForm.controls['empContact'].touched">"Please fill a valid contact number"</h6>
-        
-        <br>
-        <span>
-
-        
-          <button id ="button" class="btn btn-primary " (click)="registerEmployee(usernameEmp.value,emailIdEmp.value,passwordEmp.value,contactnoEmp.value)">Register</button>
-
-
-
-        </span>
-      </div>
-      </form>
+<!-- <nav class="navbar navbar-default" style="background-image:url(assets/images/img_bg_1.jpg); width:100%">
+  
+  <div class="container">
    
+    <ul class="nav nav-tabs">
+      <li ><a routerLink="/managerDashboard" routerLinkActive="active">Request-Tab</a></li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Team
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a routerLink="/createTeam" routerLinkActive="active">Create New Team</a></li>
+          <li><a routerLink="/teamUnderManager" routerLinkActive="active" (click)="getTeamsUnderManager();">Edit Existing Team </a></li>
+        </ul>
+      </li>
+      <li ><a (click)="goToRequestTab('Manager');" >New Request</a></li>
+      <li class="pull-right">
+        <span class="glyphicon glyphicon-user img-circle user-image"></span>
+        <span class="dropdown">
+        <span class=" dropdown-toggle" data-toggle="dropdown">{{username}}
+        <span class="caret"></span></span>
+        <ul class="dropdown-menu">
+        <li><a (click)="changePassword('change')">Change Password</a></li>
+        <li><a (click)="logOut()">Log Out</a></li>
+        </ul>
+        </span>
+        </li>
+    </ul>
+    
   </div>
+</nav> -->
+<app-navbar></app-navbar>
+<div class="main-content">
+<div class="container">
+  <div class="col-sm-6 col-md-4 manager-list" *ngFor="let team of teamsUnderManager| filter : searchText">
+    <div class="chart-wrapper">
+      <div class="chart-title">
+        {{team.teamName}}
+      </div>
+      <div class="chart-stage">
+        <div id="grid-1-1">
+          {{team.teamHeadUsername}}
+          
+        </div>
+      </div>
+      <div class="chart-notes">
+      
+        <button class="btn btn-default" data-toggle="tooltip"  title=" Add Team Member" (click)="manageTeam(team,'Add')"><span class="glyphicon glyphicon-plus "  ></span></button>
+          <button  class="btn btn-default" data-toggle="tooltip"  title=" View Details of the Team" (click)="manageTeam(team,'Detail')"><span class="glyphicon glyphicon-list-alt"></span></button>
+     
+      </div>
+      </div>
+    </div>
+ 
   </div>
+  <button class="btn btn-default" data-toggle="tooltip"  title="Back" (click)="goBack()"><span class="	glyphicon glyphicon-chevron-left "  >Back</span></button>
 </div>
-</section>

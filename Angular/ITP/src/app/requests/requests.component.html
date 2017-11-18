@@ -1,5 +1,7 @@
+<app-navbar></app-navbar>
+<div class="main-content">
 <div *ngIf='tickets'>
-<b>Ticket Search : </b> <input [(ngModel)]="searchText"  placeholder="Search Employee " >
+
 <div class="container">
 <div class="col-sm-6 col-md-4 manager-list" *ngFor="let ticket of tickets| filter : searchText">
   <div class="chart-wrapper">
@@ -21,7 +23,7 @@
     </div>
     <div class="chart-notes">
     <div *ngIf="status!='Closed'">
-      <button *ngIf=" type!='Member' && status == 'Open' " class="btn btn-default" data-toggle="tooltip"  title=" Approve" (click)="approve(ticket,type)"><span class="glyphicon glyphicon-ok "  ></span></button>
+      <button *ngIf=" type!='Member'  " class="btn btn-default" data-toggle="tooltip"  title=" Approve" (click)="approve(ticket,type)"><span class="glyphicon glyphicon-ok "  ></span></button>
       <button  *ngIf=" type!='Member'" class="delete btn btn-default" data-toggle="tooltip"  title=" Need Info" (click)="needInfo(ticket,'NeedInfo'); $event.stopPropagation()"><span class="glyphicon glyphicon-list-alt" > </span></button>
       <button *ngIf="type!='Member'" class="btn btn-default" data-toggle="tooltip"  title="Decline" (click)="decline(ticket)"><span class="glyphicon glyphicon-folder-close"></span></button>
       <button  class="btn btn-default" data-toggle="tooltip"  title="Edit" (click)="needInfo(ticket,'Edit')"><span class="glyphicon glyphicon-pencil"></span></button>
@@ -35,4 +37,5 @@
 
 </div>
 <button class="btn btn-warning" (click)="goBack()">Back</button>
+</div>
 </div>

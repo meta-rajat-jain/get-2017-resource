@@ -1,0 +1,162 @@
+<app-navbar> </app-navbar>
+<div *ngIf="type=='Member'">
+<form>
+  <b><h2>New Request!</h2></b>
+       <div class="container form_details">
+         <div class= "nameDetails">
+           <span class="avs"><label>Requested By</label></span>
+           <span>
+            {{username}}
+           </span>
+       </div>
+ 
+       <div class= "nameDetails">
+         <span class="avs"><label>Requested For</label></span>
+           <span>    
+            {{username}}
+          </span>
+     </div>
+ 
+ <div class="nameDetails">
+           <span><label>Priority</label></span>
+           <span><i class="fa fa-list list"></i><select #priority name=slist required >
+           <option value="" disabled selected hidden id="first" style="color:#D9D9D9">Please select your priority</option>
+             <option value="Urgent">Urgent</option>
+             <option value="High">High</option>
+             <option value="Medium">Medium</option>
+             <option value="Low">Low</option>
+             
+             </select></span>
+         </div>
+         
+         <div class="nameDetails">
+           <span><label>Request Type</label></span>
+           <span><i class="fa fa-list list"></i><select name=slist  #requestType required>
+           <option value="" disabled selected hidden id="first" style="color:#D9D9D9">Please select request type</option>
+             <option value="New">New</option>
+             <option value="Maintainance">Maintainance</option>
+             
+             </select></span>
+         </div>
+         
+         <div class="nameDetails">
+           <span><label>Resource Type</label></span>
+           <span><i class="fa fa-list list"></i><select name=slist  #resourceType (change)="resourceRequested(requestType.value,resourceType.value)" required>
+           <option value="" disabled selected hidden id="first"  style="color:#D9D9D9">Please select resource type</option>
+           <option value="Hardware" [ngValue]="resourceType">Hardware Provisioning</option>
+           <option value="Software" [ngValue]="resourceType">Software Installation</option>
+           <option value="Network" [ngValue]="resourceType">Network Related</option>
+             
+             </select></span>
+         </div>
+         
+         <div class="nameDetails">
+           <span><label>Resource</label></span>
+           <span><i class="fa fa-list list"></i><select [(ngModel)]="selectedResource" name="resource">
+            <option *ngFor="let resource of resourceValues" [ngValue]="resource">{{resource.resourceName}}</option>
+            </select></span>
+         </div>
+         
+         <div class="nameDetails">
+           <span><label>Team</label></span>
+           <span><i class="fa fa-list list"></i><select [(ngModel)]="selectedTeam" name="team" required>
+            <option  *ngFor="let team of teamsOfEmployee" [ngValue]="team">{{team.teamName}}</option>
+             </select></span>
+         </div>
+      
+         <div class="nameDetails">
+         <span class="avs"><label >Comment</label></span>
+           <span ><i  class="fa fa-pencil comment" ></i><textarea #comment id="textarea" placeholder="Ticket Description" required></textarea>
+           </span>
+         </div>
+         <div class="nameDetails">
+          <span class="avs"><label >Location</label></span>
+            <span ><i  class="fa fa-pencil comment" ></i><textarea #locn id="textarea" placeholder="Your Seat Location" required></textarea>
+            </span>
+          </div>
+         <div class="submit-button">
+          <button type="submit"  class="btn btn-primary " (click)="goBack()">Go Back</button>
+          <button type="submit"  class="btn btn-primary" (click)="Request(priority.value,requestType.value,resourceType.value,resource,comment.value,locn.value)">Register</button>
+              </div>
+      </div>
+     </form>
+     
+</div>
+     <div *ngIf="type=='Manager'">
+     <form>
+      <b><h2>New Request!</h2></b>
+           <div class="container form_details">
+             <div class= "nameDetails">
+               <span class="avs"><label>Requested By</label></span>
+               <span>
+  {{username}}
+               </span>
+           </div>
+     
+           <div class= "nameDetails">
+             <span class="avs"><label>Requested For</label></span>
+               <span>    <i class="fa fa-user list"></i>
+                <input #requestedFor name="requestedFor" [(ngModel)] ="requesterFor" required="required" type="text" (change)="canRequest(requestedFor.value)" placeholder=" mymail"/>
+                <p class="domain_message" *ngIf="title">{{title}}</p>
+              </span>
+         </div>
+        
+     
+     <div class="nameDetails">
+               <span><label>Priority</label></span>
+               <span><i class="fa fa-list list"></i><select #priority name=slist required >
+               <option value="" disabled selected hidden id="first" style="color:#D9D9D9">Please select your priority</option>
+                 <option value="Urgent">Urgent</option>
+                 <option value="High">High</option>
+                 <option value="Medium">Medium</option>
+                 <option value="Low">Low</option>
+                 
+                 </select></span>
+             </div>
+             
+             <div class="nameDetails">
+               <span><label>Request Type</label></span>
+               <span><i class="fa fa-list list"></i><select name=slist  #requestType required>
+               <option value="" disabled selected hidden id="first" style="color:#D9D9D9">Please select request type</option>
+                 <option value="New">New</option>
+                 <option value="Maintainance">Maintainance</option>
+                 
+                 </select></span>
+             </div>
+             
+             <div class="nameDetails">
+               <span><label>Resource Type</label></span>
+               <span><i class="fa fa-list list"></i><select name=slist  #resourceType (change)="resourceRequested(requestType.value,resourceType.value)" required>
+               <option value="" disabled selected hidden id="first"  style="color:#D9D9D9">Please select resource type</option>
+               <option value="Hardware" [ngValue]="resourceType">Hardware Provisioning</option>
+               <option value="Software" [ngValue]="resourceType">Software Installation</option>
+               <option value="Network" [ngValue]="resourceType">Network Related</option>
+                 
+                 </select></span>
+             </div>
+             
+             <div class="nameDetails">
+               <span><label>Resource</label></span>
+               <span><i class="fa fa-list list"></i><select [(ngModel)]="selectedResource" name="resource">
+                <option *ngFor="let resource of resourceValues" [ngValue]="resource">{{resource.resourceName}}</option>
+                </select></span>
+             </div>
+            
+          
+             <div class="nameDetails">
+             <span class="avs"><label >Comment</label></span>
+               <span ><i  class="fa fa-pencil comment" ></i><textarea #comment id="textarea" placeholder="Ticket Description" required></textarea>
+               </span>
+             </div>
+             <div class="nameDetails">
+              <span class="avs"><label >Location</label></span>
+                <span ><i  class="fa fa-pencil comment" ></i><textarea #locn id="textarea" placeholder="Ticket Description" required></textarea>
+                </span>
+              </div>
+             <div class="submit-button">
+              <button id="button" class="btn btn-primary " (click)="goBack()">Go Back</button>
+               <button id="button" class="btn btn-primary" (click)="Request(priority.value,requestType.value,resourceType.value,resource,comment.value,locn.value)">Register</button>
+                  </div>
+          </div>
+         </form>
+        </div>

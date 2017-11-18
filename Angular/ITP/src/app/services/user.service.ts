@@ -113,8 +113,6 @@ export class UserService {
             login: login
 
         }
-        console.log("url" + this.signUpOrganisationUrl);
-        console.log(JSON.stringify(signOrg));
         const url = `${this.signUpOrganisationUrl} `;
         return this.http.post(url, signOrg)
             .toPromise()

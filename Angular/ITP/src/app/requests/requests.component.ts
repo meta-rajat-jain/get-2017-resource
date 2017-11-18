@@ -26,7 +26,7 @@ export class RequestsComponent implements OnInit {
   constructor(private requestsService:RequestsService, private route: ActivatedRoute,private router:Router, private location: Location) { }
 
   ngOnInit() {
-     
+
  
     this.sub = this.route.params.subscribe(params=>{
       console.log(params['type']);
@@ -46,7 +46,7 @@ init():void{
 }
   approve(ticket:Ticket,type:string):void{
    console.log(ticket,type);
-    this.requestsService.approveTicket(ticket,type).then(response => {console.log(response);});
+    this.requestsService.approveTicket(ticket,type).then(response => {console.log(response);location.reload(true)});
   }
   needInfo(ticket:Ticket,operation:string):void{
     console.log(ticket);

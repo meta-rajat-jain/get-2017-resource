@@ -16,7 +16,7 @@ import { MemberService } from "../services/member.service";
   styleUrls: ['./member.component.css']
 })
 export class MemberComponent implements OnInit {
-  username:string;
+  username:string='';
   emailId:string;
   authenticationHeader:AuthenticatedHeader;
   authentication:Authentication;
@@ -35,6 +35,7 @@ export class MemberComponent implements OnInit {
   constructor(private fb: FormBuilder,private router:Router,private memberService:MemberService) { }
 
   ngOnInit() {
+ 
     this.getCount();
     this.memberService.getUserInformation().then(response=>{this.loggedInUser=response;});
     this.authenticationHeader=JSON.parse(localStorage.getItem('authenticationObject'));
@@ -81,29 +82,8 @@ export class MemberComponent implements OnInit {
     this.memberService.makeRequest(this.authenticationHeader.username,this.authenticationHeader.username,priority,requestType,this.selectedResource,comment,location,this.selectedTeam.teamName).then(response =>{console.log(response);window.location.reload();});
     }
 
-    logOut(){
-      console.log("it is called");
-      localStorage.clear();
-      localStorage.removeItem('authenticationObject');
-      this.router.navigate(['']);
-      this.memberService.logOutMember().then(response => { 
-         this.authentication = response;
-         if (this.authentication.statusCode == 1){
-           localStorage.clear();
-           localStorage.removeItem('authenticationObject');
-           this.router.navigate(['']);
-         }
-       });
-    }
+   
   
-    resourceRequested(requestType:string,resourceType:string):void{
-      console.log(requestType);
-      console.log(resourceType);
-    if(requestType=='New'){
-      this.memberService.getResourceRequested(resourceType).subscribe(response =>  this.resourceValues = response   );
-    }
-    this.memberService.getTeamsOfEmployee().then(response =>{ this.teamsOfEmployee = response});
-    }
     getRequestsInProgress(type:string):void{
       console.log(type);
       this.status = 'Inprogress';
@@ -126,4 +106,5 @@ export class MemberComponent implements OnInit {
       this.status = 'Approved';
       this.router.navigate(['requestDetail',this.status,type]);
     }
+ 
 }

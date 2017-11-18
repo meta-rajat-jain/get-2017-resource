@@ -6,6 +6,8 @@ import { Authentication } from '../Model/Authentication';
 import { Ticket } from '../Model/Ticket';
 import { RequestedResource } from '../Model/requestResource';
 import { RequestConstants } from "../Constants/request";
+import { HttpClient } from "./httpClient";
+
 
 @Injectable()
 export class NeedInformationService {
@@ -15,23 +17,24 @@ export class NeedInformationService {
     private needInformationOfTicket=RequestConstants.TICKET_REQUEST+'getTicket';
     private updateTicket=RequestConstants.TICKET_REQUEST+'updateTicket';
 
-    constructor(private http: Http) {
-        this.headers.append('Content-Type', 'application/json');
-        this.headers.append('authorisationToken', JSON.parse(localStorage.getItem('authenticationObject')).authorisationToken);
-        this.headers.append('username', JSON.parse(localStorage.getItem('authenticationObject')).username);
-     }
+    constructor(private http: HttpClient) {
+        
+    }
   
     getTicket(ticketNumber:number){
         console.log(ticketNumber);
         let ticketNo = { "ticketNo" : ticketNumber} ;
         console.log(JSON.stringify(ticketNo));
-        return this.http.post(this.needInformationOfTicket,JSON.stringify(ticketNo),{ headers: this.headers })
+        return this.http.post(this.needInformationOfTicket,JSON.stringify(ticketNo))
         .toPromise()
         .then(response =>  response.json() as Ticket )
         .catch(this.handleError);
         }
-        updateRequest(ticketNo:number,username:string,requestedFor:string,priority:string,requestType:string,resource:RequestedResource,comment:string,locn:string,team:string,status:string): Promise<Authentication> {
+        updateRequest(ticketNo:number,username:string,requestedFor:string,priority:string,requestType:string,resource:RequestedResource,comment:string,locn:string,team:string,status:string,requestDate:Date): Promise<Authentication> {
+            let  date:any;
             console.log(resource + comment + locn + team);
+           date =  new Date(); 
+           date=Date.now();
              let requestedResource:RequestedResource={
                  resourceId:resource.resourceId,
                  resourceName:resource.resourceName,
@@ -47,17 +50,24 @@ export class NeedInformationService {
                teamName: team,
                seatLocation:locn,
                requestType:requestType,
-               status:status
+               status:status,
+               lastUpdatedByUsername:username,
+               lastDateOfUpdate: date,
+               requestDate:requestDate
                }
                console.log(request);
              
-                 return this.http.post(this.updateTicket,request, { headers: this.headers })
+                 return this.http.post(this.updateTicket,request)
                  .toPromise()
                  .then(response => response.json() as Authentication )
                  .catch(this.handleError);
          }
-         needInfoRequest(ticketNo:number,username:string,requestedFor:string,priority:string,requestType:string,resource:RequestedResource,comment:string,locn:string,team:string): Promise<Authentication> {
+         needInfoRequest(ticketNo:number,username:string,requestedFor:string,priority:string,requestType:string,resource:RequestedResource,comment:string,locn:string,team:string,requestDate:Date): Promise<Authentication> {
             console.log(resource + comment + locn + team);
+            let  date:any;
+            console.log(resource + comment + locn + team);
+           date =  new Date(); 
+           date=Date.now();
              let requestedResource:RequestedResource={
                  resourceId:resource.resourceId,
                  resourceName:resource.resourceName,
@@ -73,11 +83,14 @@ export class NeedInformationService {
                teamName: team,
                seatLocation:locn,
                requestType:requestType,
-               status:'NeedInfo'
+               status:'NeedInfo',
+               lastUpdatedByUsername:username,
+               lastDateOfUpdate: date,
+               requestDate:requestDate
                }
                console.log(request);
              
-                 return this.http.post(this.updateTicket,request, { headers: this.headers })
+                 return this.http.post(this.updateTicket,request)
                  .toPromise()
                  .then(response => response.json() as Authentication )
                  .catch(this.handleError);
