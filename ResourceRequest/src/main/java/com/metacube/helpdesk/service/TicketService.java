@@ -13,13 +13,11 @@ public interface TicketService {
 
     Ticket dtoToModel(TicketDTO ticketDTO);
 
-    Response saveTicket(String authorisationToken, String username,
-            TicketDTO ticketDTO);
+    Response saveTicket(String username, TicketDTO ticketDTO);
 
-    Response updateTicket(String authorisationToken, String username,
-            TicketDTO ticketDTO);
+    Response updateTicket(String username, TicketDTO ticketDTO);
 
-    Status saveTicketHistory(Ticket ticket);
+    Status saveTicketHistory(int ticketNo);
 
     List<TicketDTO> getAllTicketsOfEmployee(String authorisationToken,
             String username, String username2);
@@ -32,8 +30,7 @@ public interface TicketService {
     List<TicketDTO> getAllHelpdeskStatusBasedTickets(String authorisationToken,
             String username, String status);
 
-    Response ticketUpdateApprovalChange(String authorisationToken,
-            String username, TicketDTO ticketDTO);
+    Response ticketUpdateApprovalChange(String username, TicketDTO ticketDTO);
 
     List<TicketDTO> getAllStatusBasedTicketsOfUserr(
             String authorisationTokenFromLogin, String username, String status);

@@ -1,8 +1,6 @@
 package com.metacube.helpdesk.model;
 
 import java.io.Serializable;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,32 +11,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="ItResource")
+@Table(name = "ItResource")
 public class ItResource implements Serializable {
-    
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name="resourceId")
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "resourceId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int resourceId;
-    
-    @Column(name="resourceName", nullable = false)
+    @Column(name = "resourceName", nullable = false)
     private String resourceName;
-    
     @ManyToOne
-    @JoinColumn(name="resourceCategory",nullable=false)
+    @JoinColumn(name = "resourceCategory", nullable = false)
     private ResourceCategory resourceCategory;
-    
+
     public ItResource() {
-    
     }
 
-    public ItResource(String resourceName, ResourceCategory resourceCategory) {
-      
+    public ItResource( String resourceName, ResourceCategory resourceCategory ) {
         this.resourceName = resourceName;
         this.resourceCategory = resourceCategory;
     }
@@ -66,5 +56,4 @@ public class ItResource implements Serializable {
     public void setResourceCategory(ResourceCategory resourceCategory) {
         this.resourceCategory = resourceCategory;
     }
-    
 }

@@ -7,6 +7,11 @@ public class TeamDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private int teamId;
     private String teamName;
+
+    public TeamDTO( String teamName ) {
+        super();
+        this.teamName = teamName;
+    }
     private String orgDomain;
     private String teamHeadUsername;
     private String managerUsername;

@@ -101,15 +101,25 @@ public class AdminController {
 
     @RequestMapping(value = "/deleteEmployee", method = RequestMethod.POST)
     public @ResponseBody Response deleteEmployee(
+            @RequestHeader(value = "username") String username,
             @RequestBody EmployeeDTO employeeToBeDeleted) {
+        if (Validation.isNull(employeeToBeDeleted)) {
+            return new Response(0, null,
+                    "One or more required data is missing ewith request ");
+        }
         return employeeService.deleteEmployee(employeeToBeDeleted.getLogin()
-                .getUsername());
+                .getUsername(), username);
     }
 
     @RequestMapping(value = "/updateEmployee", method = RequestMethod.POST)
     public @ResponseBody Response updateEmployee(
+            @RequestHeader(value = "username") String username,
             @RequestBody EmployeeDTO employeeToBeUpdated) {
-        return employeeService.updateEmployee(employeeToBeUpdated);
+        if (Validation.isNull(employeeToBeUpdated)) {
+            return new Response(0, null,
+                    "One or more required data is missing ewith request ");
+        }
+        return employeeService.updateEmployee(employeeToBeUpdated, username);
     }
 
     @ExceptionHandler({ org.springframework.http.converter.HttpMessageNotReadableException.class })

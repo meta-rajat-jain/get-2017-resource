@@ -20,6 +20,7 @@ import com.metacube.helpdesk.model.Team;
 import com.metacube.helpdesk.service.EmployeeService;
 import com.metacube.helpdesk.service.LoginService;
 import com.metacube.helpdesk.service.TeamService;
+import com.metacube.helpdesk.utility.Designation;
 import com.metacube.helpdesk.utility.Response;
 import com.metacube.helpdesk.utility.Status;
 import com.metacube.helpdesk.utility.Validation;
@@ -100,6 +101,13 @@ public class TeamServiceImpl implements TeamService {
         if (teamDTO.getTeamHeadUsername() == null) {
             teamDTO.setTeamHeadUsername(username);
         }
+        if (employeeDAO
+                .getEmployee(loginDAO.get(teamDTO.getTeamHeadUsername())) == null) {
+            return new Response(0, null, "Team Head Not exist");
+        }
+        if (!loginService.getAccountType(username).equals(Designation.Manager)) {
+            return new Response(0, null, "You are not authorize to create Team");
+        }
         if (teamDAO.getTeamByName(teamDTO.getTeamName()) != null) {
             return new Response(0, null,
                     "Team Creation Failed : Probable reason Team with this name Already Exists ");
@@ -139,6 +147,10 @@ public class TeamServiceImpl implements TeamService {
      */
     @Override
     public Team createTeam(String managerUsername) {
+        if (!loginService.getAccountType(managerUsername).equals(
+                Designation.Manager)) {
+            return new Team();
+        }
         String[] splittedUsername = managerUsername.split("@");
         TeamDTO teamDTO = new TeamDTO();
         teamDTO.setTeamName("TEAM " + splittedUsername[0]);
@@ -149,10 +161,13 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Response addEmployeeToTeam(EmpTeamDTO empTeamDTo) {
+    public Response addEmployeeToTeam(EmpTeamDTO empTeamDTo, String username) {
+        if (!loginService.getAccountType(username).equals(Designation.Manager)) {
+            return new Response(0, null,
+                    "You are not authorize to add employee to team");
+        }
         Employee employee = employeeDAO.getEmployee(loginService
                 .dtoToModel(empTeamDTo.getEmployeeDTO().getLogin()));
-        System.out.println(employee);
         if (!Validation.isNull(employee)) {
             Team team = teamDAO.getTeamByName((empTeamDTo.getTeamDTO()
                     .getTeamName()));
@@ -189,21 +204,26 @@ public class TeamServiceImpl implements TeamService {
     public List<TeamDTO> getAllTeamsUnderManager(String authorisationToken,
             String username) {
         List<TeamDTO> teamDTOList = new ArrayList<TeamDTO>();
+        if (!loginService.getAccountType(username).equals(Designation.Manager)) {
+            return teamDTOList;
+        }
         if (loginService.authenticateRequest(authorisationToken, username)) {
-            String[] splittedUsername = username.split("@");
-            String teamName = "TEAM " + splittedUsername[0];
-            Team team = teamDAO.getTeamByName((teamName));
-            if (team != null) {
-                Set<Employee> employeeInThisTeam = team.getEmployees();
-                for (Employee employee : employeeInThisTeam) {
-                    if (!employee.getUsername().getUsername().equals(username)) {
-                        List<Team> teamsHeadedByEmployee = teamDAO
-                                .getTeamsHeadedByAnEmployee(employee);
-                        for (Team teamHeadByEmployee : teamsHeadedByEmployee) {
-                            teamDTOList.add(modelToDTO(teamHeadByEmployee));
-                        }
-                    }
-                }
+            /*
+             * String[] splittedUsername = username.split("@"); String teamName
+             * = "TEAM " + splittedUsername[0]; Team team =
+             * teamDAO.getTeamByName((teamName)); if (team != null) {
+             * Set<Employee> employeeInThisTeam = team.getEmployees(); for
+             * (Employee employee : employeeInThisTeam) { if
+             * (employee.getUsername().getUsername().equals(username)) {
+             * List<Team> teamsHeadedByEmployee = teamDAO
+             * .getTeamsHeadedByAnEmployee(employee); for (Team
+             * teamHeadByEmployee : teamsHeadedByEmployee) {
+             * teamDTOList.add(modelToDTO(teamHeadByEmployee)); } } } }
+             */
+            List<Team> teams = teamDAO.getTeamForManager(employeeDAO
+                    .getEmployee(loginDAO.get(username)));
+            for (Team team : teams) {
+                teamDTOList.add(modelToDTO(team));
             }
         }
         return teamDTOList;
@@ -212,22 +232,30 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Set<EmployeeDTO> getAllEmployeesUnderHead(String username,
             String authorisationToken) {
+        if (!loginService.getAccountType(username).equals(Designation.Manager)) {
+            return new HashSet<EmployeeDTO>();
+        }
         if (loginService.authenticateRequest(authorisationToken, username)) {
-            Employee employeeToGetTeamsOf = employeeDAO.getEmployee(loginDAO
-                    .get(username));
-            if (employeeToGetTeamsOf != null) {
-                Set<EmployeeDTO> employeeDTOList = new HashSet<EmployeeDTO>();
-                List<Team> teamsHeaded = teamDAO
-                        .getTeamsHeadedByAnEmployee(employeeToGetTeamsOf);
-                for (Team headedTeam : teamsHeaded) {
-                    for (Employee emp : headedTeam.getEmployees()) {
-                        employeeDTOList.add(employeeService.modelToDto(emp));
-                    }
-                }
-                return employeeDTOList;
-            }
+            return getAllEmployeesUnderHead(username);
         }
         return new HashSet<EmployeeDTO>();
+    }
+
+    @Override
+    public Set<EmployeeDTO> getAllEmployeesUnderHead(String username) {
+        Employee employeeToGetTeamsOf = employeeDAO.getEmployee(loginDAO
+                .get(username));
+        Set<EmployeeDTO> employeeDTOList = new HashSet<EmployeeDTO>();
+        if (employeeToGetTeamsOf != null) {
+            List<Team> teamsHeaded = teamDAO
+                    .getTeamsHeadedByAnEmployee(employeeToGetTeamsOf);
+            for (Team headedTeam : teamsHeaded) {
+                for (Employee emp : headedTeam.getEmployees()) {
+                    employeeDTOList.add(employeeService.modelToDto(emp));
+                }
+            }
+        }
+        return employeeDTOList;
     }
 
     @Override
@@ -236,6 +264,10 @@ public class TeamServiceImpl implements TeamService {
         List<EmployeeDTO> allEmployeesDTOInTeam = new ArrayList<EmployeeDTO>();
         if (loginService.authenticateRequest(authorisationTokenFromLogin,
                 username)) {
+            if (!loginService.getAccountType(username).equals(
+                    Designation.Manager)) {
+                return allEmployeesDTOInTeam;
+            }
             Team team = getTeamByName(teamName);
             if (team != null) {
                 Set<Employee> employeeInThisTeam = team.getEmployees();
@@ -255,6 +287,10 @@ public class TeamServiceImpl implements TeamService {
         if (!Validation.isEmpty(teamMember) && !Validation.isNull(teamMember)) {
             if (loginService.authenticateRequest(authorisationTokenFromLogin,
                     username)) {
+                if (!loginService.getAccountType(username).equals(
+                        Designation.Manager)) {
+                    return employeeTeamsDTO;
+                }
                 Employee employee = employeeDAO.getEmployee(loginDAO
                         .get(teamMember));
                 if (employee != null) {
@@ -278,6 +314,10 @@ public class TeamServiceImpl implements TeamService {
         LogIn employeeUsername[];
         if (loginService.authenticateRequest(authorisationTokenFromLogin,
                 username)) {
+            if (!loginService.getAccountType(username).equals(
+                    Designation.Manager)) {
+                return allEmployeesDTONotInTeam;
+            }
             Team team = getTeamByName(teamName);
             if (team != null) {
                 Set<Employee> employeeInThisTeam = team.getEmployees();

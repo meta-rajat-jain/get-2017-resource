@@ -41,15 +41,25 @@ public class OrganisationServiceImpl implements OrganisationService {
                 || Validation.isEmpty(organisationDTO.getName())
                 || Validation.isEmpty(organisationDTO.getContactNumber())
                 || Validation.isEmpty(organisationDTO.getDomain())) {
-            return new Response(0, null, "Please fill all required fields");
+            return new Response(0, null,
+                    MessageConstants.REQUIRED_DATA_NOT_SPECIFIED);
         }
         if (!Validation.validateInput(organisationDTO.getDomain(),
                 Constants.DOMAIN_REGEX)) {
-            return new Response(0, null, "Incorrect format of Domain");
+            return new Response(0, null, MessageConstants.INVALID_DOMAIN);
         }
         if (!Validation.validateInput(organisationDTO.getLogin().getUsername(),
                 Constants.EMAILREGEX)) {
-            return new Response(0, null, "Incorrect format of email");
+            return new Response(0, null, MessageConstants.INVALID_EMAIL_ADDRESS);
+        }
+        if (!Validation
+                .validateInput(organisationDTO.getName(), Constants.NAME)) {
+            return new Response(0, null, MessageConstants.INVALID_NAME);
+        }
+        if (!Validation.validateInput(organisationDTO.getContactNumber(),
+                Constants.CONTACT_NUMBER_REGEX)) {
+            return new Response(0, null,
+                    MessageConstants.INVALID_CONTACT_NUMBER);
         }
         return null;
     }
@@ -67,11 +77,11 @@ public class OrganisationServiceImpl implements OrganisationService {
             }
             if (organisationDAO.getByDomain(organisationDTO.getDomain()) != null) {
                 return new Response(2, null,
-                        "organisation with this domain already exist");
+                        MessageConstants.DOMAIN_ALREADY_EXIST);
             }
             if (organisationDAO.getByName(organisationDTO.getName()) != null) {
                 return new Response(2, null,
-                        "organisation with this name already exist");
+                        MessageConstants.ORGANISATION_ALREADY_EXIST);
             }
             organisationDTO.getLogin().setEnabled(true);
             LogIn logIn = loginService.createLogIn(organisationDTO.getLogin());
@@ -97,10 +107,10 @@ public class OrganisationServiceImpl implements OrganisationService {
             logInHelpdesk.setEnabled(true);
             if (!loginDAO.create(logInHelpdesk).equals(Status.Success)) {
                 return new Response(0, null,
-                        "Problem in creating helpdesk account");
+                        MessageConstants.HELPDESK_ACCOUNT_NOT_CREATED);
             }
             if (organisationDAO.create(organisation).equals(Status.Success)) {
-                return new Response(1, null, "Account Created");
+                return new Response(1, null, MessageConstants.ACCOUNT_CREATED);
             } else {
                 return new Response(0, null,
                         MessageConstants.ACCOUNT_NOT_CREATED);

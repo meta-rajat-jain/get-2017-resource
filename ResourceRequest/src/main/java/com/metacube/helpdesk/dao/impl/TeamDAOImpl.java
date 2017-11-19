@@ -108,4 +108,15 @@ public class TeamDAOImpl implements TeamDAO {
         }
         return null;
     }
+
+    @Override
+    public List<Team> getTeamForManager(Employee employee) {
+        Session session = this.sessionFactory.getCurrentSession();
+        // Criteria query
+        Criteria cr = session.createCriteria(Team.class)
+                .add(Restrictions.eq("manager", employee))
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        List<Team> teamList = cr.list();
+        return teamList;
+    }
 }

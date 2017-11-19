@@ -66,15 +66,24 @@ public class EmployeeServiceImpl implements EmployeeService {
                 || Validation.isEmpty(employeeDTO.getName())
                 || Validation.isEmpty(employeeDTO.getContactNumber())
                 || Validation.isEmpty(employeeDTO.getOrgDomain())) {
-            return new Response(0, null, "Please fill all required fields");
+            return new Response(0, null,
+                    MessageConstants.REQUIRED_DATA_NOT_SPECIFIED);
         }
         if (!Validation.validateInput(employeeDTO.getLogin().getUsername(),
                 Constants.EMAILREGEX)) {
-            return new Response(0, null, "Incorrect format of email");
+            return new Response(0, null, MessageConstants.INVALID_EMAIL_ADDRESS);
+        }
+        if (!Validation.validateInput(employeeDTO.getOrgDomain(),
+                Constants.DOMAIN_REGEX)) {
+            return new Response(0, null, MessageConstants.INVALID_DOMAIN);
+        }
+        if (!Validation.validateInput(employeeDTO.getName(), Constants.NAME)) {
+            return new Response(0, null, MessageConstants.INVALID_NAME);
         }
         if (!Validation.validateInput(employeeDTO.getContactNumber(),
                 Constants.CONTACT_NUMBER_REGEX)) {
-            return new Response(0, null, "Incorrect format of contact number");
+            return new Response(0, null,
+                    MessageConstants.INVALID_CONTACT_NUMBER);
         }
         return null;
     }
@@ -95,7 +104,7 @@ public class EmployeeServiceImpl implements EmployeeService {
              * belongs exist or not.
              */
             if (organisationDAO.getByDomain(employeeDTO.getOrgDomain()) == null) {
-                return new Response(2, null, "Domain not exist");
+                return new Response(2, null, MessageConstants.DOMAIN_NOT_EXIST);
             }
             /*
              * method to check if employee with this username already exist or
@@ -109,10 +118,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             LogIn logIn = loginService.createLogIn(employeeDTO.getLogin());
             String orgDomain = getOrgDomainFromUsername(logIn.getUsername());
             if (!orgDomain.equals(employeeDTO.getOrgDomain())) {
-                return new Response(
-                        2,
-                        null,
-                        "This username can't belong to the specified organisation - Format:yourlogin@orgdomain");
+                return new Response(2, null,
+                        MessageConstants.INCONSISTENT_ORG_FOR_USER);
             }
             if (loginDAO.create(logIn).equals(Status.Success)) {
                 employee = dtoToModel(employeeDTO);
@@ -137,7 +144,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     e.printStackTrace();
                 }
                 return new Response(1, null,
-                        "Verification mail has been sent to your account");
+                        MessageConstants.VERIFICATION_MAIL_SENT);
             } else {
                 return new Response(0, null,
                         MessageConstants.ACCOUNT_NOT_CREATED);
@@ -186,12 +193,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (loginService.authenticateRequest(authorisationToken, userName)) {
             if (!loginService.getAccountType(userName)
                     .equals(Designation.Admin)) {
-                return null;
+                return allManagersDTO;
             }
             Organisation organisation = organisationService
                     .getOrganisationFromUserName(userName);
             if (Validation.isNull(organisation)) {
-                return null;
+                return allManagersDTO;
             }
             List<Employee> allManagers = employeeDAO
                     .getAllManagers(organisation);
@@ -212,7 +219,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     .equals(Designation.Admin)
                     && !loginService.getAccountType(userName).equals(
                             Designation.Manager)) {
-                return null;
+                return allEmployeesDTO;
             }
             /*
              * to get organisation from username
@@ -232,8 +239,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Response addManager(String authorisationTokenFromLogin,
             String username, String managerUsername) {
         if (Validation.isNull(managerUsername)) {
-            return new Response(0, null,
-                    "UnABLE TO FETCH MANAGER DATA from request");
+            return new Response(0, null, MessageConstants.INVALID_USERNAME);
         }
         if (!loginService.getAccountType(username).equals(Designation.Admin)) {
             return new Response(0, null, MessageConstants.UNAUTHORISED_USER);
@@ -243,52 +249,70 @@ public class EmployeeServiceImpl implements EmployeeService {
             Employee employee = employeeDAO.getEmployee(managerLogInObject);
             if (employee == null) {
                 return new Response(2, authorisationTokenFromLogin,
-                        "User with this username does not exist");
+                        MessageConstants.USERNAME_NOT_EXIST);
             }
             employee.setDesignation(Designation.Manager);
             if (employeeDAO.updateEmployee(employee).equals(Status.Success)) {
                 Team team = teamService.createTeam(managerUsername);
                 teamService.addEmployeeToTeam(employee, team);
                 return new Response(1, authorisationTokenFromLogin,
-                        "Manager Added Successfully");
+                        MessageConstants.MANAGER_ADDED_SUCCESSFULLY);
             }
         }
         return new Response(2, authorisationTokenFromLogin,
-                "User with this username does not exist");
+                MessageConstants.USERNAME_NOT_EXIST);
     }
 
     /**
      * 
      */
     @Override
-    public Response deleteEmployee(String employeeToBeDeleted) {
+    public Response deleteEmployee(String employeeToBeDeleted,
+            String loggedInUser) {
+        if (!loginService.getAccountType(loggedInUser)
+                .equals(Designation.Admin)) {
+            return new Response(0, null, MessageConstants.UNAUTHORISED_USER);
+        }
         LogIn employeeToBeDeletedObject = loginDAO.get(employeeToBeDeleted);
         if (employeeToBeDeletedObject != null) {
             Employee employee = employeeDAO
                     .getEmployee(employeeToBeDeletedObject);
+            if (employee.getStatus().equals(Constants.EMPLOYEE_STATUS_INACTIVE)) {
+                return new Response(0, null,
+                        MessageConstants.USERNAME_NOT_EXIST);
+            }
             employee.setStatus(Constants.EMPLOYEE_STATUS_INACTIVE);
             if (employeeDAO.updateEmployee(employee).equals(Status.Success)) {
-                return new Response(1, null, "Employee Deleted Successfully");
+                return new Response(1, null,
+                        MessageConstants.EMPLOYEE_DELETED_SUCCESSFULLY);
             } else {
-                return new Response(0, null, "Unable to delete employee");
+                return new Response(0, null,
+                        MessageConstants.ERROR_IN_DELETING_EMPLOYEE);
             }
         } else {
-            return new Response(0, null, "Employee to be  deleted not exist");
+            return new Response(0, null, MessageConstants.USERNAME_NOT_EXIST);
         }
     }
 
     @Override
-    public Response updateEmployee(EmployeeDTO employeeToBeUpdated) {
-        int employeeId = employeeDAO.getEmployee(
-                loginDAO.get(employeeToBeUpdated.getLogin().getUsername()))
-                .getEmployeeId();
-        Employee e = dtoToModel(employeeToBeUpdated);
-        e.setEmployeeId(employeeId);
-        if (employeeDAO.updateEmployee(e).equals(Status.Success)) {
+    public Response updateEmployee(EmployeeDTO employeeDtoToBeUpdated,
+            String loggedInUser) {
+        Employee employee = employeeDAO.getEmployee(loginDAO
+                .get(employeeDtoToBeUpdated.getLogin().getUsername()));
+        if (employee == null) {
+            return new Response(0, null, MessageConstants.USERNAME_NOT_EXIST);
+        }
+        if (!loginService.getAccountType(loggedInUser)
+                .equals(Designation.Admin)) {
+            return new Response(0, null, MessageConstants.UNAUTHORISED_USER);
+        }
+        employee.setContactNumber(employeeDtoToBeUpdated.getContactNumber());
+        employee.setEmployeeName(employeeDtoToBeUpdated.getName());
+        if (employeeDAO.updateEmployee(employee).equals(Status.Success)) {
             return new Response(1, null,
-                    "Employee Profile updated Successfully");
+                    MessageConstants.EMPLOYEE_UPDATED_SUCCESSFULLY);
         } else {
-            return new Response(0, null, "Employee to be  update not exist");
+            return new Response(0, null, MessageConstants.USERNAME_NOT_EXIST);
         }
     }
 

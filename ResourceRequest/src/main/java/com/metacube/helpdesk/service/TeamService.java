@@ -16,7 +16,7 @@ public interface TeamService {
 
     Team createTeam(String managerUsername);
 
-    Response addEmployeeToTeam(EmpTeamDTO empTeamDTo);
+    Response addEmployeeToTeam(EmpTeamDTO empTeamDTo, String username);
 
     Status addEmployeeToTeam(Employee employee, Team team);
 
@@ -34,4 +34,6 @@ public interface TeamService {
 
     Set<EmployeeDTO> getAllEmployeesUnderHead(String username,
             String authorisationToken);
+
+    Set<EmployeeDTO> getAllEmployeesUnderHead(String username);
 }

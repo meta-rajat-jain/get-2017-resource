@@ -19,7 +19,8 @@ import com.metacube.helpdesk.utility.Status;
 
 @Repository("employeeDAO")
 @Transactional
-public class EmployeeDAOImpl extends GenericDAO implements EmployeeDAO {
+public class EmployeeDAOImpl extends GenericDAO<Employee> implements
+        EmployeeDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -46,10 +47,12 @@ public class EmployeeDAOImpl extends GenericDAO implements EmployeeDAO {
     public List<Employee> getAllManagers(Organisation organisation) {
         Session session = this.sessionFactory.getCurrentSession();
         // Criteria query
-        Criteria cr = session.createCriteria(Employee.class)
+        Criteria cr = session
+                .createCriteria(Employee.class)
                 .add(Restrictions.eq("designation", Designation.Manager))
                 .add(Restrictions.eq("organisation", organisation))
-                .add(Restrictions.eq("status", "active"))
+                .add(Restrictions
+                        .eq("status", Constants.EMPLOYEE_STATUS_ACTIVE))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<Employee> allManagers = cr.list();
         return allManagers;
@@ -66,9 +69,11 @@ public class EmployeeDAOImpl extends GenericDAO implements EmployeeDAO {
     public List<Employee> getAllEmployees(Organisation organisation) {
         Session session = this.sessionFactory.getCurrentSession();
         // Criteria query
-        Criteria cr = session.createCriteria(Employee.class)
+        Criteria cr = session
+                .createCriteria(Employee.class)
                 .add(Restrictions.eq("organisation", organisation))
-                .add(Restrictions.eq("status", "active"))
+                .add(Restrictions
+                        .eq("status", Constants.EMPLOYEE_STATUS_ACTIVE))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<Employee> allEmployees = cr.list();
         return allEmployees;
@@ -84,11 +89,8 @@ public class EmployeeDAOImpl extends GenericDAO implements EmployeeDAO {
     public Employee getEmployee(LogIn login) {
         Session session = this.sessionFactory.getCurrentSession();
         // Criteria query
-        Criteria cr = session
-                .createCriteria(Employee.class)
-                .add(Restrictions.eq("username", login))
-                .add(Restrictions
-                        .eq("status", Constants.EMPLOYEE_STATUS_ACTIVE));
+        Criteria cr = session.createCriteria(Employee.class).add(
+                Restrictions.eq("username", login));
         Employee employee = (Employee) cr.uniqueResult();
         return employee;
     }
@@ -130,6 +132,8 @@ public class EmployeeDAOImpl extends GenericDAO implements EmployeeDAO {
         Session session = this.sessionFactory.getCurrentSession();
         Criteria criteria = session.createCriteria(Employee.class);
         criteria.add(Restrictions.not(Restrictions.in("username", array)))
+                .add(Restrictions
+                        .eq("status", Constants.EMPLOYEE_STATUS_ACTIVE))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<Employee> allEmployees = criteria.list();
         return allEmployees;

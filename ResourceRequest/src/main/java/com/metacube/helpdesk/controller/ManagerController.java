@@ -128,11 +128,12 @@ public class ManagerController {
 
     @RequestMapping(value = "/addEmployeeToTeam", method = RequestMethod.POST)
     public @ResponseBody Response addEmployeeToTeam(
+            @RequestHeader(value = "username") String username,
             @RequestBody EmpTeamDTO empTeamDTo) {
         if (empTeamDTo == null) {
             return new Response(0, null,
                     "One or more required data is missing with request ");
         }
-        return teamService.addEmployeeToTeam(empTeamDTo);
+        return teamService.addEmployeeToTeam(empTeamDTo, username);
     }
 }

@@ -34,7 +34,7 @@ public class LoginDAOImpl implements LoginDAO {
         Status result = Status.Success;
         try {
             Session session = this.sessionFactory.getCurrentSession();
-            session.save(login);
+            int id = (int) session.save(login);
             System.out.println("Login created");
         } catch (Exception e) {
             e.printStackTrace();

@@ -2,22 +2,24 @@ package com.metacube.helpdesk.dto;
 
 import java.io.Serializable;
 
+public class LoginDTO implements Serializable {
 
-
-public class LoginDTO implements Serializable{
-
-    
     /**
      * 
      */
     private static final long serialVersionUID = -6028356566155970945L;
+
+    public LoginDTO( String username ) {
+        super();
+        this.username = username;
+    }
     private String username;
     private String password;
     private String authorisationToken;
     private boolean enabled;
 
-    public LoginDTO(String username, String password,
-            String authorisationToken, boolean enabled) {
+    public LoginDTO( String username, String password,
+            String authorisationToken, boolean enabled ) {
         this.username = username;
         this.password = password;
         this.authorisationToken = authorisationToken;
@@ -33,7 +35,6 @@ public class LoginDTO implements Serializable{
     }
 
     public LoginDTO() {
-
     }
 
     public String getUsername() {
@@ -60,17 +61,16 @@ public class LoginDTO implements Serializable{
         this.authorisationToken = authorisationToken;
     }
 
-    public LoginDTO(String username, String password, String authorisationToken) {
+    public LoginDTO( String username, String password, String authorisationToken ) {
         super();
         this.username = username;
         this.password = password;
         this.authorisationToken = authorisationToken;
     }
 
-    public LoginDTO(String username, String password) {
+    public LoginDTO( String username, String password ) {
         super();
         this.username = username;
         this.password = password;
     }
-
 }

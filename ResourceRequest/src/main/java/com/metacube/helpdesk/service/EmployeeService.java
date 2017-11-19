@@ -19,9 +19,9 @@ public interface EmployeeService {
     Response addManager(String authorisationToken, String username,
             String managerUsername);
 
-    Response deleteEmployee(String employeeToBeDeleted);
+    Response deleteEmployee(String employeeToBeDeleted, String username);
 
-    Response updateEmployee(EmployeeDTO employeeToBeUpdated);
+    Response updateEmployee(EmployeeDTO employeeToBeUpdated, String username);
 
     Employee get(LogIn logIn);
 

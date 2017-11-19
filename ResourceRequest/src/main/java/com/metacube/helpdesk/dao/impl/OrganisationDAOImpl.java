@@ -1,8 +1,6 @@
 package com.metacube.helpdesk.dao.impl;
 
-
 import java.util.List;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,7 +9,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.metacube.helpdesk.dao.OrganisationDAO;
 import com.metacube.helpdesk.model.LogIn;
 import com.metacube.helpdesk.model.Organisation;
@@ -20,43 +17,40 @@ import com.metacube.helpdesk.utility.Status;
 @Repository("organisationDAO")
 @Transactional
 public class OrganisationDAOImpl implements OrganisationDAO {
-    
+
     @Autowired
     private SessionFactory sessionFactory;
-    
+
     @Override
     public Status create(Organisation organisation) {
         Status result = Status.Success;
         try {
             Session session = this.sessionFactory.getCurrentSession();
             Criteria cr = session.createCriteria(Organisation.class);
-             
-            session.save(organisation);
-            
-
+            System.out.println(session.save(organisation));
         } catch (Exception e) {
             result = Status.Error_Occured;
         }
-    return result;
+        return result;
     }
-    
+
     @Override
-    public Organisation getByDomain(String domain){
+    public Organisation getByDomain(String domain) {
         Session session = this.sessionFactory.getCurrentSession();
         Criteria cr = session.createCriteria(Organisation.class).add(
-        Restrictions.eq("domain",domain));
+                Restrictions.eq("domain", domain));
         Organisation organisation = (Organisation) cr.uniqueResult();
         return organisation;
     }
-    
+
     @Override
-    public Organisation getByName(String orgName){
+    public Organisation getByName(String orgName) {
         Session session = this.sessionFactory.getCurrentSession();
-     // Criteria query
-     Criteria cr = session.createCriteria(Organisation.class).add(
-     Restrictions.eq("orgName",orgName));
-     Organisation organisation = (Organisation) cr.uniqueResult();
-     return organisation;
+        // Criteria query
+        Criteria cr = session.createCriteria(Organisation.class).add(
+                Restrictions.eq("orgName", orgName));
+        Organisation organisation = (Organisation) cr.uniqueResult();
+        return organisation;
     }
 
     @Override
@@ -67,7 +61,6 @@ public class OrganisationDAOImpl implements OrganisationDAO {
         List<Organisation> organisation = cr.list();
         return organisation;
     }
-    
 
     @Override
     public List<String> getAllOrganisationDomains() {
@@ -78,15 +71,14 @@ public class OrganisationDAOImpl implements OrganisationDAO {
         List<String> organisationDomains = cr.list();
         return organisationDomains;
     }
-    
+
     @Override
     public Organisation getByLogin(LogIn login) {
-    Session session = this.sessionFactory.getCurrentSession();
-           // Criteria query
-           Criteria cr = session.createCriteria(Organisation.class).add(
-                   Restrictions.eq("username", login));
-           Organisation organisation =  (Organisation) cr.uniqueResult();
-           return organisation;
+        Session session = this.sessionFactory.getCurrentSession();
+        // Criteria query
+        Criteria cr = session.createCriteria(Organisation.class).add(
+                Restrictions.eq("username", login));
+        Organisation organisation = (Organisation) cr.uniqueResult();
+        return organisation;
     }
-
 }

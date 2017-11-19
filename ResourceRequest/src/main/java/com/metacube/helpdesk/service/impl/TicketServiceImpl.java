@@ -13,10 +13,13 @@ import com.metacube.helpdesk.dao.TicketApprovalDAO;
 import com.metacube.helpdesk.dao.TicketDAO;
 import com.metacube.helpdesk.dao.TicketHistoryDAO;
 import com.metacube.helpdesk.dto.TicketDTO;
+import com.metacube.helpdesk.model.Employee;
 import com.metacube.helpdesk.model.Ticket;
 import com.metacube.helpdesk.model.TicketApproval;
 import com.metacube.helpdesk.model.TicketHistory;
+import com.metacube.helpdesk.service.EmployeeService;
 import com.metacube.helpdesk.service.LoginService;
+import com.metacube.helpdesk.service.TeamService;
 import com.metacube.helpdesk.service.TicketService;
 import com.metacube.helpdesk.utility.Constants;
 import com.metacube.helpdesk.utility.Designation;
@@ -46,7 +49,33 @@ public class TicketServiceImpl implements TicketService {
     @Resource
     TicketService ticketService;
     @Resource
+    EmployeeService employeeService;
+    @Resource
+    TeamService teamService;
+    @Resource
     LoginService loginService;
+
+    public Response validateTicketObject(TicketDTO ticketDTO) {
+        if (Validation.isNull(ticketDTO.getRequesterName())
+                || Validation.isEmpty(ticketDTO.getRequesterName())
+                || Validation.isNull(ticketDTO.getRequestedFor())
+                || Validation.isEmpty(ticketDTO.getRequestedFor())
+                || Validation.isNull(ticketDTO.getRequestType())
+                || Validation.isEmpty(ticketDTO.getRequestType())
+                || Validation.isNull(ticketDTO.getPriority())
+                || Validation.isEmpty(ticketDTO.getPriority())
+                || Validation.isNull(ticketDTO.getStatus())
+                || Validation.isEmpty(ticketDTO.getStatus())
+                || Validation.isNull(ticketDTO.getLastUpdatedByUsername())
+                || Validation.isEmpty(ticketDTO.getLastUpdatedByUsername())
+                || Validation.isNull(ticketDTO.getLastDateOfUpdate())
+                || Validation.isNull(ticketDTO.getRequestDate())
+                || Validation.isNull(ticketDTO.getTeamName())
+                || Validation.isEmpty(ticketDTO.getTeamName())) {
+            return new Response(0, null, "Please fill all required fields");
+        }
+        return null;
+    }
 
     @Override
     public TicketDTO modelToDto(Ticket ticket) {
@@ -98,50 +127,74 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Response saveTicket(String authorisationTokenFromLogin,
-            String username, TicketDTO ticketDTO) {
-        if (!Validation.validateHeaders(authorisationTokenFromLogin, username)) {
-            return new Response(0, null, "One or more header is missing");
-        }
-        if (loginService.authenticateRequest(authorisationTokenFromLogin,
-                username)) {
-            ticketDTO.setLastUpdatedByUsername(username);
-            ticketDTO.setRequesterName(username);
-            if (ticketDTO.getTeamName() == null) {
-                if (employeeDAO
-                        .getEmployee(loginDAO.get(ticketDTO.getRequesterName()))
-                        .getDesignation().equals(Designation.Manager)) {
-                    String[] splittedUsername = username.split("@");
-                    String teamName = "TEAM " + splittedUsername[0];
-                    ticketDTO.setTeamName(teamName);
-                    ticketDTO.setStatus(Constants.TICKET_APPROVED);
-                } else {
-                    return new Response(1, authorisationTokenFromLogin,
-                            "You are not authorize to generate ticket");
-                }
+    public Response saveTicket(String username, TicketDTO ticketDTO) {
+        ticketDTO.setLastUpdatedByUsername(username);
+        ticketDTO.setRequesterName(username);
+        ticketDTO.setLastDateOfUpdate(new Date());
+        ticketDTO.setRequestDate(new Date());
+        if (ticketDTO.getTeamName() == null) {
+            if (employeeDAO
+                    .getEmployee(loginDAO.get(ticketDTO.getRequesterName()))
+                    .getDesignation().equals(Designation.Manager)) {
+                String[] splittedUsername = username.split("@");
+                String teamName = "TEAM " + splittedUsername[0];
+                ticketDTO.setTeamName(teamName);
+                ticketDTO.setStatus(Constants.TICKET_APPROVED);
+            } else {
+                return new Response(0, null,
+                        MessageConstants.ACCESS_DENIED_TO_GENERATE_TICKET);
             }
-            Ticket ticket = dtoToModel(ticketDTO);
-            ticket.setLastDateOfUpdate(new Date());
-            ticket.setRequestDate(new Date());
-            int ticketNo = ticketDAO.saveTicket(ticket);
-            ticket.setTicketNo(ticketNo);
-            saveTicketApproval(ticket);
-            return new Response(0, authorisationTokenFromLogin,
-                    "Generated Ticket Successfully");
         }
-        return new Response(0, null, MessageConstants.UNAUTHORISED_USER);
+        Response response = validateTicketObject(ticketDTO);
+        if (response != null) {
+            return response;
+        }
+        if (teamDAO.getTeamByName(ticketDTO.getTeamName()) == null) {
+            return new Response(0, null, MessageConstants.TEAM_NOT_EXIST);
+        }
+        System.out.println(teamService.getAllEmployeesUnderHead(
+                ticketDTO.getRequesterName()).toString());
+        System.out.println(teamService.getAllEmployeesUnderHead(
+                ticketDTO.getRequesterName()).contains(
+                ticketDTO.getRequestedFor()));
+        if (!(teamService
+                .getAllEmployeesUnderHead(ticketDTO.getRequesterName())
+                .contains(employeeService.modelToDto(employeeDAO
+                        .getEmployee(loginDAO.get(ticketDTO.getRequestedFor())))))) {
+            return new Response(
+                    0,
+                    null,
+                    MessageConstants.ACCESS_DENIED_TO_GENERATE_TICKET_FOR_EMPLOYEE);
+        }
+        Ticket ticket = dtoToModel(ticketDTO);
+        int ticketNo = ticketDAO.saveTicket(ticket);
+        if (ticketNo == 0) {
+            return new Response(0, null,
+                    MessageConstants.TICKET_GENERATION_FAILED);
+        }
+        ticket.setTicketNo(ticketNo);
+        if (!saveTicketApproval(ticket).equals(Status.Success)) {
+            return new Response(0, null,
+                    MessageConstants.TICKET_GENERATION_FAILED);
+        }
+        return new Response(1, null,
+                MessageConstants.GENERATED_TICKET_SUCCESSFULLY);
     }
 
     @Override
-    public Status saveTicketHistory(Ticket ticket) {
-        TicketHistory ticketHistory = new TicketHistory();
-        ticketHistory.setTicket(ticket);
-        ticketHistory.setPreviousStatus(ticket.getStatus());
-        ticketHistory.setPreviousPriority(ticket.getPriority());
-        ticketHistory.setPreviousComment(ticket.getComment());
-        ticketHistory.setLastUpdatedBy(ticket.getLastUpdatedBy());
-        ticketHistory.setLastDateOfUpdate(ticket.getLastDateOfUpdate());
-        return ticketHistoryDAO.saveTicketHistory(ticketHistory);
+    public Status saveTicketHistory(int ticketNo) {
+        Ticket ticket = ticketDAO.getTicket(ticketNo);
+        if (ticket != null) {
+            TicketHistory ticketHistory = new TicketHistory();
+            ticketHistory.setTicket(ticket);
+            ticketHistory.setPreviousStatus(ticket.getStatus());
+            ticketHistory.setPreviousPriority(ticket.getPriority());
+            ticketHistory.setPreviousComment(ticket.getComment());
+            ticketHistory.setLastUpdatedBy(ticket.getLastUpdatedBy());
+            ticketHistory.setLastDateOfUpdate(ticket.getLastDateOfUpdate());
+            return ticketHistoryDAO.saveTicketHistory(ticketHistory);
+        }
+        return Status.Failure;
     }
 
     @Override
@@ -165,10 +218,9 @@ public class TicketServiceImpl implements TicketService {
         List<TicketDTO> allTicketsDTO = new ArrayList<TicketDTO>();
         if (loginService.authenticateRequest(authorisationTokenFromLogin,
                 username)) {
+            Employee employee = employeeDAO.getEmployee(loginDAO.get(username));
             List<Ticket> allTickets = ticketDAO
-                    .getTicketsOfEmployeeBasedOnStatus(
-                            employeeDAO.getEmployee(loginDAO.get(username)),
-                            status);
+                    .getTicketsOfEmployeeBasedOnStatus(employee, status);
             for (Ticket ticket : allTickets) {
                 allTicketsDTO.add(modelToDto(ticket));
             }
@@ -178,42 +230,31 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Response updateTicket(String authorisationTokenFromLogin,
-            String username, TicketDTO ticketDTO) {
-        Ticket ticket = ticketDAO.getTicket(ticketDTO.getTicketNo());
-        if (ticket != null) {
-            System.out.println("ticket is not null");
-            if (saveTicketHistory(ticket).equals(Status.Success)) {
-                System.out.println("History saved");
-                ticketDTO.setLastUpdatedByUsername(username);
-                ticketDTO.setLastDateOfUpdate(new Date());
-                ticketDTO.setTeamName(ticket.getCorrespondingTeam()
-                        .getTeamName());
-                ticketDTO.setRequestDate(ticket.getRequestDate());
-                // dto to model
-                ticket.setPriority(ticketDTO.getPriority());
-                ticket.setSeatLocation(ticketDTO.getSeatLocation());
-                ticket.setRequestType(ticketDTO.getRequestType());
-                ticket.setComment(ticketDTO.getComment());
-                ticket.setRequestedResource(ticketDTO.getRequestedResource());
-                ticket.setRequester(employeeDAO.getEmployee(loginDAO
-                        .get(ticketDTO.getRequesterName())));
-                ticket.setRequestedFor(employeeDAO.getEmployee(loginDAO
-                        .get(ticketDTO.getRequestedFor())));
-                ticket.setStatus(ticketDTO.getStatus());
-                ticket.setLastDateOfUpdate(ticketDTO.getLastDateOfUpdate());
-                ticket.setRequestDate(ticketDTO.getRequestDate());
-                ticket.setLastUpdatedBy(ticketDTO.getLastUpdatedByUsername());
-                ticket.setCorrespondingTeam(teamDAO.getTeamByName(ticketDTO
-                        .getTeamName()));
-                if (ticketDAO.updateTicket(ticket).equals(Status.Success)) {
-                    System.out.println("ticket update error");
-                    return new Response(0, authorisationTokenFromLogin,
-                            "Ticket has been updated successfully");
-                }
-            }
+    public Response updateTicket(String username, TicketDTO ticketDTO) {
+        if (Validation.isNull(ticketDTO.getTicketNo())) {
+            return new Response(0, null, "Please specify ticket number");
         }
-        return new Response(0, null, "Ticket with this ticket no not exist");
+        Response response = validateTicketObject(ticketDTO);
+        if (response != null) {
+            return response;
+        }
+        if (teamDAO.getTeamByName(ticketDTO.getTeamName()) == null) {
+            return new Response(0, null, MessageConstants.TEAM_NOT_EXIST);
+        }
+        if (saveTicketHistory(ticketDTO.getTicketNo()).equals(Status.Success)) {
+            ticketDTO.setLastUpdatedByUsername(username);
+            ticketDTO.setLastDateOfUpdate(new Date());
+            if (ticketDAO.updateTicket(dtoToModel(ticketDTO)).equals(
+                    Status.Success)) {
+                return new Response(1, null,
+                        MessageConstants.TICKET_UPDATED_SUCCESSFULLY);
+            } else {
+                new Response(0, null, MessageConstants.TICKET_UPDATION_FAILED);
+            }
+        } else {
+            new Response(0, null, "Unable to save ticket history");
+        }
+        return new Response(0, null, MessageConstants.TICKET_NOT_EXIST);
     }
 
     @Override
@@ -221,6 +262,9 @@ public class TicketServiceImpl implements TicketService {
             String authorisationTokenFromLogin, String username,
             String employeeName) {
         List<TicketDTO> allTicketsDTO = new ArrayList<TicketDTO>();
+        if (employeeName == null) {
+            return allTicketsDTO;
+        }
         if (loginService.authenticateRequest(authorisationTokenFromLogin,
                 username)) {
             List<Ticket> allTickets = ticketDAO
@@ -240,6 +284,8 @@ public class TicketServiceImpl implements TicketService {
         List<TicketDTO> allTicketsDTO = new ArrayList<TicketDTO>();
         if (loginService.authenticateRequest(authorisationTokenFromLogin,
                 username)) {
+            // Pending to check that status belongs from set of predefined
+            // status : Status to be made enumeration
             List<Ticket> allTickets = ticketApprovalDAO
                     .getTicketsOfApproverBasedOnStatus(
                             employeeDAO.getEmployee(loginDAO.get(username)),
@@ -258,6 +304,7 @@ public class TicketServiceImpl implements TicketService {
         List<TicketDTO> allTicketsDTO = new ArrayList<TicketDTO>();
         if (loginService.authenticateRequest(authorisationTokenFromLogin,
                 username)) {
+            // status validation need to be added
             List<Ticket> allTickets = ticketApprovalDAO
                     .getAllHelpdeskStatusBasedTickets(status);
             for (Ticket ticket : allTickets) {
@@ -269,12 +316,13 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Response ticketUpdateApprovalChange(
-            String authorisationTokenFromLogin, String username,
+    public Response ticketUpdateApprovalChange(String username,
             TicketDTO ticketDTO) {
         TicketApproval approvalObjectForCurrentTicket = ticketApprovalDAO
                 .get(ticketDTO.getTicketNo());
-        System.out.println(ticketDTO.getTicketNo());
+        if (approvalObjectForCurrentTicket == null) {
+            return new Response(0, null, "Unable to fetch this ticket");
+        }
         if (username.equals(approvalObjectForCurrentTicket.getApprover()
                 .getUsername().getUsername())
                 || username.toLowerCase().contains("helpdesk")
@@ -283,35 +331,62 @@ public class TicketServiceImpl implements TicketService {
                     .getStatus());
             approvalObjectForCurrentTicket.setHelpdeskApprovalStatus(ticketDTO
                     .getStatus());
-            ticketApprovalDAO.update(approvalObjectForCurrentTicket);
+            if (!ticketApprovalDAO.update(approvalObjectForCurrentTicket)
+                    .equals(Status.Success)) {
+                return new Response(0, null, "Unable to update this ticket");
+            }
         }
-        return updateTicket(authorisationTokenFromLogin, username, ticketDTO);
+        return updateTicket(username, ticketDTO);
     }
 
     @Override
     public List<TicketStatusCount> getAllTicketCountOnStatus(
             String authorisationToken, String username) {
-        return ticketDAO.getTicketCountForStatusOfEmployee(employeeDAO
-                .getEmployee(loginDAO.get(username)));
+        if (loginService.authenticateRequest(authorisationToken, username)) {
+            Employee employee = employeeDAO.getEmployee(loginDAO.get(username));
+            if (!Validation.isNull(employee)) {
+                return ticketDAO.getTicketCountForStatusOfEmployee(employee);
+            }
+        }
+        return new ArrayList<TicketStatusCount>();
     }
 
     @Override
     public TicketDTO getTicket(String authorisationToken, String username,
             TicketDTO ticketDTO) {
-        return modelToDto(ticketDAO.getTicket(ticketDTO.getTicketNo()));
+        if (loginService.authenticateRequest(authorisationToken, username)) {
+            if (Validation.isNull(ticketDTO.getTicketNo())) {
+                return new TicketDTO();
+            }
+            Ticket ticket = ticketDAO.getTicket(ticketDTO.getTicketNo());
+            if (ticket == null) {
+                return new TicketDTO();
+            }
+            return modelToDto(ticket);
+        }
+        return new TicketDTO();
     }
 
     @Override
     public List<TicketStatusCount> getAllStatusBasedTicketsCountForApprover(
             String authorisationToken, String username) {
-        return ticketApprovalDAO
-                .getTicketsCountOfApproverBasedOnStatus(employeeDAO
-                        .getEmployee(loginDAO.get(username)));
+        if (loginService.authenticateRequest(authorisationToken, username)) {
+            Employee employee = employeeDAO.getEmployee(loginDAO.get(username));
+            if (employee != null) {
+                return ticketApprovalDAO
+                        .getTicketsCountOfApproverBasedOnStatus(employee);
+            }
+        }
+        return new ArrayList<TicketStatusCount>();
     }
 
     @Override
     public List<TicketStatusCount> getAllStatusBasedTicketsCountForHelpdesk(
             String authorisationToken, String username) {
-        return ticketApprovalDAO.getTicketsCountOfHelpDeskBasedOnStatus();
+        if (loginService.authenticateRequest(authorisationToken, username)) {
+            return ticketApprovalDAO.getTicketsCountOfHelpDeskBasedOnStatus();
+        } else {
+            return new ArrayList<TicketStatusCount>();
+        }
     }
 }

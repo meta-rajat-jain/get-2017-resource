@@ -57,7 +57,8 @@ public class LoginServiceImpl implements LoginService {
                 if (!loginDTO.isEnabled()) {
                     return new LoginResponse(new Response(status,
                             authorisationToken,
-                            "Please first Verify your account"), employeeType);
+                            MessageConstants.YOUR_EMAIL_IS_NOT_VARIFIED),
+                            employeeType);
                 }
                 if (loginDTO.getUsername().equals(loginId)
                         && loginDTO.getPassword().equals(
@@ -299,6 +300,11 @@ public class LoginServiceImpl implements LoginService {
             e.printStackTrace();
         }
         return new Response(0, null, "verification url is not correct");
+    }
+
+    @Override
+    public LogIn getLogin(String username) {
+        return loginDAO.get(username);
     }
 
     @Override

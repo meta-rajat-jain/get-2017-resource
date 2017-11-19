@@ -12,6 +12,7 @@ import com.metacube.helpdesk.model.ItResource;
 import com.metacube.helpdesk.model.ResourceCategory;
 import com.metacube.helpdesk.service.LoginService;
 import com.metacube.helpdesk.service.ResourceService;
+import com.metacube.helpdesk.utility.Validation;
 
 @Service("resourceService")
 public class ResourceServiceImpl implements ResourceService {
@@ -96,6 +97,9 @@ public class ResourceServiceImpl implements ResourceService {
     public List<ResourceDTO> getResourcesBasedOnCategory(
             String authorisationToken, String username, String categoryName) {
         List<ResourceDTO> allCategoryBasedResources = new ArrayList<ResourceDTO>();
+        if (Validation.isNull(categoryName) || Validation.isEmpty(categoryName)) {
+            return allCategoryBasedResources;
+        }
         if (loginService.authenticateRequest(authorisationToken, username)) {
             for (ItResource resource : resourceDAO
                     .getAllCategoryBasedResources(resourceCategoryDAO
