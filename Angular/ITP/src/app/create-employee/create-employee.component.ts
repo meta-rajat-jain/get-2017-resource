@@ -57,10 +57,9 @@ export class CreateEmployeeComponent implements OnInit {
 
   registerEmployee(name:string,username:string,password:string,contactNo:number){
     let input = username.split("@");
-    console.log(username);
-   console.log(input[0]);
+
     let domain = input[1];
-    console.log("in domain" + domain);
+
     this.userService.signUp(name,password,username,contactNo,domain).then(
       response =>{ this.authentication = response;
                    if(this.authentication.statusCode ==1){

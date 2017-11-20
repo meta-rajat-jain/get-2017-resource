@@ -19,7 +19,7 @@ export class CustomValidators{
       const isValid=/^[A-Z0-9._%+-]+@ +[A-Z0-9.-]/.test(form.value);
           if(isValid){
            const email=  form.value;
-             console.log(email);
+          
             let emailId = email.value;
              let input = emailId.split("@");
              let error = null;

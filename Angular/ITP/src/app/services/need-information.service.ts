@@ -22,9 +22,9 @@ export class NeedInformationService {
     }
   
     getTicket(ticketNumber:number){
-        console.log(ticketNumber);
+      
         let ticketNo = { "ticketNo" : ticketNumber} ;
-        console.log(JSON.stringify(ticketNo));
+      
         return this.http.post(this.needInformationOfTicket,JSON.stringify(ticketNo))
         .toPromise()
         .then(response =>  response.json() as Ticket )
@@ -32,14 +32,22 @@ export class NeedInformationService {
         }
         updateRequest(ticketNo:number,username:string,requestedFor:string,priority:string,requestType:string,resource:RequestedResource,comment:string,locn:string,team:string,status:string,requestDate:Date): Promise<Authentication> {
             let  date:any;
-            console.log(resource + comment + locn + team);
+            
            date =  new Date(); 
            date=Date.now();
-             let requestedResource:RequestedResource={
-                 resourceId:resource.resourceId,
-                 resourceName:resource.resourceName,
-                 resourceCategoryName:resource.resourceCategoryName
-                 }
+           let requestedResource: RequestedResource ;
+           if(requestType == "Maintenance"){
+              requestedResource = {
+             resourceId: null,
+             resourceName: null,
+             resourceCategoryName: null
+               }    }
+           else{
+           requestedResource = {
+             resourceId: resource.resourceId,
+             resourceName: resource.resourceName,
+             resourceCategoryName: resource.resourceCategoryName
+            } };
               let request : Ticket={
                ticketNo:ticketNo,
                requesterName:username,
@@ -55,7 +63,7 @@ export class NeedInformationService {
                lastDateOfUpdate: date,
                requestDate:requestDate
                }
-               console.log(request);
+               
              
                  return this.http.post(this.updateTicket,request)
                  .toPromise()
@@ -63,16 +71,24 @@ export class NeedInformationService {
                  .catch(this.handleError);
          }
          needInfoRequest(ticketNo:number,username:string,requestedFor:string,priority:string,requestType:string,resource:RequestedResource,comment:string,locn:string,team:string,requestDate:Date): Promise<Authentication> {
-            console.log(resource + comment + locn + team);
+           
             let  date:any;
-            console.log(resource + comment + locn + team);
+            
            date =  new Date(); 
            date=Date.now();
-             let requestedResource:RequestedResource={
-                 resourceId:resource.resourceId,
-                 resourceName:resource.resourceName,
-                 resourceCategoryName:resource.resourceCategoryName
-                 }
+           let requestedResource: RequestedResource ;
+           if(requestType == "Maintenance"){
+              requestedResource = {
+             resourceId: null,
+             resourceName: null,
+             resourceCategoryName: null
+               }    }
+           else{
+           requestedResource = {
+             resourceId: resource.resourceId,
+             resourceName: resource.resourceName,
+             resourceCategoryName: resource.resourceCategoryName
+            } };
               let request : Ticket={
                ticketNo:ticketNo,
                requesterName:username,
@@ -88,7 +104,7 @@ export class NeedInformationService {
                lastDateOfUpdate: date,
                requestDate:requestDate
                }
-               console.log(request);
+            
              
                  return this.http.post(this.updateTicket,request)
                  .toPromise()

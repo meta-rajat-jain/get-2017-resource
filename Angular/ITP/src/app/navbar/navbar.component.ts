@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
     this.authenticationHeader = JSON.parse(
       localStorage.getItem("authenticationObject")
     );
-    console.log(this.authenticationHeader.username);
+
     let name = this.authenticationHeader.username.split("@");
     this.username = name[0];
     this.type = localStorage.getItem('employeeType');

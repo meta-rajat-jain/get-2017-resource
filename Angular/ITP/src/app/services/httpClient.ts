@@ -28,7 +28,7 @@ export class HttpClient {
     let params: URLSearchParams = new URLSearchParams();
     params.set("resourceCategory", resourceType);
     let options = new RequestOptions({ headers: headers, search: params });
-    console.log(options);
+    
     return this.http.get(url, options);
   }
 

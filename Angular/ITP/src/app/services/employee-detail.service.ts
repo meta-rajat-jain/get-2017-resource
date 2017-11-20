@@ -25,7 +25,7 @@ export class EmployeeDetailService {
     }
 
     getEmployeeDetail(username:string):Promise<Employee>{
-        console.log("in username" + username);
+       
         let login:Login={
             username:username,
             password:"",
@@ -46,7 +46,7 @@ export class EmployeeDetailService {
     }
     updateEmployee(name:string,contactNo:number,employee:Employee,username:string):Promise<Authentication>{
         this.authenticationHeader = JSON.parse(localStorage.getItem('authenticationObject'));
-      console.log(employee);
+   
         let login:Login={
             username:username,
             authorisationToken:'',

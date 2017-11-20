@@ -8,7 +8,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { SocialLoginModule, AuthServiceConfig } from "angular4-social-login";
 import { GoogleLoginProvider } from "angular4-social-login";
-import { GoogleSignInComponent } from "angular-google-signin";
 import { AdminComponent } from "./admin/admin.component";
 import { OrderListModule } from "primeng/primeng";
 import { FilterPipe } from "./filter.pipe";
@@ -69,7 +68,6 @@ export function provideConfig() {
   declarations: [
     AppComponent,
     HomeComponent,
-    GoogleSignInComponent,
     AdminComponent,
     FilterPipe,
     EmployeeDetailComponent,

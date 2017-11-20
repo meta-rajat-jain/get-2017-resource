@@ -39,7 +39,7 @@ export class MemberComponent implements OnInit {
     this.getCount();
     this.memberService.getUserInformation().then(response=>{this.loggedInUser=response;});
     this.authenticationHeader=JSON.parse(localStorage.getItem('authenticationObject'));
-    console.log(this.authenticationHeader.username);
+
     let name = this.authenticationHeader.username.split('@');
     this.username = name[0];
     this.emailId = this.authenticationHeader.username;
@@ -48,50 +48,48 @@ export class MemberComponent implements OnInit {
     getCount():void{
       this.memberService.getCounts().then(response => {
         this.ticketCount = response;
-        console.log(this.ticketCount);
-        console.log("length" );
-        console.log( this.ticketCount.length);
+
         for(let ticket of this.ticketCount){
           if(ticket.status == 'Open'){
-            console.log(ticket.count);
+           
             this.OpenCount= ticket.count;
           }
           else if(ticket.status == 'InProgress'){
-            console.log(ticket.count);
+            
             this.InProgressCount= ticket.count;
           }
           else if(ticket.status == 'Closed'){
-            console.log(ticket.count);
+            
             this.ClosedCount= ticket.count;
           }
           else if(ticket.status == 'NeedInfo'){
-            console.log(ticket.count);
+           
             this.NeedInfoCount= ticket.count;
           }
           else if(ticket.status == 'Approved'){
-            console.log(ticket.count);
+          
             this.ApprovedCount= ticket.count;
           }
           else{
-            console.log(ticket.status);
+        
           }
         }
       });
     }
   Request(priority,requestType,resourceType,resource,team,comment,location):void{
-    this.memberService.makeRequest(this.authenticationHeader.username,this.authenticationHeader.username,priority,requestType,this.selectedResource,comment,location,this.selectedTeam.teamName).then(response =>{console.log(response);window.location.reload();});
+    this.memberService.makeRequest(this.authenticationHeader.username,this.authenticationHeader.username,priority,requestType,this.selectedResource,comment,location,this.selectedTeam.teamName).then(response =>{window.location.reload();});
     }
 
    
   
     getRequestsInProgress(type:string):void{
-      console.log(type);
+      
       this.status = 'Inprogress';
       this.router.navigate(['requestDetail',this.status,type]);
     }
     getRequestsOpen(type:string):void{
       this.status = 'Open';
-      console.log(type);
+     
       this.router.navigate(['requestDetail',this.status,type]);
     }
     getRequestsNeedInfo(type:string):void{
@@ -105,6 +103,9 @@ export class MemberComponent implements OnInit {
     getRequestsApproved(type:string):void{
       this.status = 'Approved';
       this.router.navigate(['requestDetail',this.status,type]);
+    }
+    goToRequestTab(type:string):void{
+      this.router.navigate(['requestResource',type]); 
     }
  
 }

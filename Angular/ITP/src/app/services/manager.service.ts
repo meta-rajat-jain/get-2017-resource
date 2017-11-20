@@ -28,16 +28,16 @@ export class ManagerService {
 
     createTeam(teamName:string,headName:string): Promise<Authentication> {
         this.authenticationHeader = JSON.parse(localStorage.getItem('authenticationObject'));
-        console.log(this.authenticationHeader);
+        
         let username = this.authenticationHeader.username.split('@');
         let empName = username[0];
-        console.log("in here" + username[0] +"yo" +  username[1]);
+        
         let team :Team ={
             teamName:teamName,
             orgDomain:username[1],
             teamHeadUsername:headName
         }
-        console.log(team);
+      
         return this.http.post(this.createTeamUrl,team)
             .toPromise()
             .then(response => response.json() as Authentication )
@@ -51,10 +51,7 @@ export class ManagerService {
             .catch(this.handleError);
     }
     getTeamsUnderManager(){
-        console.log("in get Teams"+JSON.parse(localStorage.getItem('authenticationObject')).username);
- 
-           
-        return this.http.get(this.getTeamsUrl)
+    return this.http.get(this.getTeamsUrl)
         .toPromise()
         .then(response => response.json() as Team[] )
         .catch(this.handleError);

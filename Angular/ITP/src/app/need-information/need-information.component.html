@@ -2,7 +2,7 @@
  <app-navbar> </app-navbar>
  <div  *ngIf="operation=='Edit'">
    <div *ngIf="ticket">
-       <div class="container" style="min-height:100%">
+       <div class="container" >
          <div class="row main" >
              <div class="main-login main-center">
                <div class="panel-title text-center">
@@ -37,6 +37,8 @@
                          </div>
                      </div>
                    </div>
+
+                   <div *ngIf="requestType == 'New' ">
                    <div class="form-group">
                      <label for="priority" class="cols-sm-2 control-label">Resource Type</label>
                      <div class="cols-sm-10">
@@ -63,12 +65,13 @@
                          </div>
                      </div>
                    </div>
+                  </div>
                    <div class="form-group">
                      <label for="confirm" class="cols-sm-2 control-label">Comment</label>
                      <div class="cols-sm-10">
                          <div class="input-group">
                            <span class="input-group-addon"><i  class="fa fa-pencil comment"  aria-hidden="true" ></i></span>
-                           <textarea name="comment" id="textarea" placeholder="Ticket Description" required #comment></textarea>
+                           <textarea name="comment" id="textarea" placeholder="Ticket Description" [(ngModel)]="ticket.comment" required #comment></textarea>
                          </div>
                      </div>
                    </div>
@@ -77,7 +80,7 @@
                      <div class="cols-sm-10">
                          <div class="input-group">
                            <span class="input-group-addon"><i  class="fa fa-pencil comment"  aria-hidden="true" ></i></span>
-                           <textarea name="locn" id="textarea" placeholder="Seat Location" required #locn></textarea>
+                           <textarea name="locn" id="textarea" placeholder="Seat Location" [(ngModel)]="ticket.seatLocation" required #locn></textarea>
                          </div>
                      </div>
                    </div>
@@ -89,7 +92,7 @@
                             <span>
                                 <select  name="status" required class="form-control"  required #status>
                                     <option value="Open" [ngValue]="status">Open</option>
-                                    <option *ngIf="type!='Member'" value="Close" [ngValue]="status">Closed</option>
+                                    <option *ngIf="type!='Member'" value="Closed" [ngValue]="status">Closed</option>
                                     <option *ngIf="type!='Member'" value="Approved" [ngValue]="status">Approved</option>
                                     <option *ngIf="type=='Helpdesk'"value="In-Progress" [ngValue]="status">In-Progress</option>
                                     <option *ngIf="type=='Helpdesk'"value="Need Information" [ngValue]="status">Need Information</option>
@@ -178,7 +181,7 @@
                       <div class="cols-sm-10">
                           <div class="input-group">
                             <span class="input-group-addon"><i  class="fa fa-pencil comment"  aria-hidden="true" ></i></span>
-                            <textarea name="comment" id="textarea" placeholder="Ticket Description" required #comment></textarea>
+                            <textarea name="comment" id="textarea" placeholder="Ticket Description" [(ngModel)] ="ticket.comment" required #comment></textarea>
                           </div>
                       </div>
                     </div>

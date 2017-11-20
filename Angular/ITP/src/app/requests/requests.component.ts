@@ -30,8 +30,7 @@ export class RequestsComponent implements OnInit {
 
  
     this.sub = this.route.params.subscribe(params=>{
-      console.log(params['type']);
-      console.log(params['status']);
+
       this.type = params['type'];
       this.status = params['status'];
     });
@@ -41,19 +40,15 @@ export class RequestsComponent implements OnInit {
   }
 init():void{
 
-   console.log(this.type);
- 
-   console.log(this.status);
  
   this.requestsService.getRequests(this.status,this.type).then(response => this.tickets = response);
 }
   approve(ticket:Ticket,type:string):void{
-   console.log(ticket,type);
-    this.requestsService.approveTicket(ticket,type).then(response => {console.log(response);location.reload(true)});
+ 
+    this.requestsService.approveTicket(ticket,type).then(response => {location.reload(true)});
   }
   needInfo(ticket:Ticket,operation:string):void{
-    console.log(ticket);
-    console.log( operation);
+
     this.router.navigate(['needInformation',ticket.ticketNo,this.type,operation]);
   }
   decline(ticket:Ticket,type:string):void{

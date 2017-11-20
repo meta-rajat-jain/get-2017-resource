@@ -14,11 +14,11 @@ import { ManagerService } from "../services/manager.service";
 })
 export class HelpdeskComponent implements OnInit {
   title:string;
-  OpenCount:number;
-  InProgressCount:number;
-  ClosedCount:number;
-  NeedInfoCount:number;
-  ApprovedCount:number;
+  OpenCount:number=0;
+  InProgressCount:number=0;
+  ClosedCount:number=0;
+  NeedInfoCount:number=0;
+  ApprovedCount:number=0;
   ticketCount:TicketStatusCount[]=[];
   status:string;
   type:string;
@@ -35,7 +35,7 @@ export class HelpdeskComponent implements OnInit {
 
     this.authenticationHeader=JSON.parse(localStorage.getItem('authenticationObject'));
     this.emailId = this.authenticationHeader.username;
-    console.log(this.authenticationHeader.username);
+
     let name = this.authenticationHeader.username.split('@');
     this.username = name[0];
     this.username = this.username.toUpperCase();
@@ -44,41 +44,39 @@ export class HelpdeskComponent implements OnInit {
   getCount():void{
     this.helpDeskService.getCounts().then(response => {
       this.ticketCount = response;
-      console.log(this.ticketCount);
-      console.log("length" );
-      console.log( this.ticketCount.length);
+
       for(let ticket of this.ticketCount){
         if(ticket.status == 'Open'){
-          console.log(ticket.count);
+        
           this.OpenCount= ticket.count;
         }
         else if(ticket.status == 'InProgress'){
-          console.log(ticket.count);
+         
           this.InProgressCount= ticket.count;
         }
         else if(ticket.status == 'Closed'){
-          console.log(ticket.count);
+        
           this.ClosedCount= ticket.count;
         }
         else if(ticket.status == 'NeedInfo'){
-          console.log(ticket.count);
+       
           this.NeedInfoCount= ticket.count;
         }
         else if(ticket.status == 'Approved'){
-          console.log(ticket.count);
+         
           this.ApprovedCount= ticket.count;
         }
       }
     });
   }
   getRequestsInProgress(type:string):void{
-    console.log(type);
+    
     this.status = 'Inprogress';
     this.router.navigate(['requestDetail',this.status,type]);
   }
   getRequestsOpen(type:string):void{
     this.status = 'Open';
-    console.log(type);
+ 
     this.router.navigate(['requestDetail',this.status,type]);
   }
   getRequestsNeedInfo(type:string):void{

@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <div *ngIf="loggedInUser">
-   <body class="dashboard">
+   <div class="dashboard">
       <div class="tab-content">
          <div class="tab-pane in active" id="section1">
             <div *ngIf="loggedInUser">
@@ -40,6 +40,19 @@
                            </div>
                         </div>
                         <div class="row">
+                                <div class="col-sm-4">
+                                        <div class="chart-wrapper">
+                                                
+                                                <div class="chart-stage">
+                                                        <a (click)="goToRequestTab('Member')">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="175px" height="175px" >
+                                                        <circle cx="100" cy="100" r="90" fill="#F2F2F2"/>
+                                                        <polygon points="40,70,80,70,80,30,110,30,110,70,150,70,150,100,110,100,110,140,80,140,80,100,40,100,40,70 " style="fill:teal; "/>
+                                                        </svg>
+                                                        </a>
+                                                </div>
+                                             </div>
+                                       </div>
                            <div class="col-sm-4">
                               <div class="chart-wrapper">
                                  <div class="chart-title">
@@ -76,6 +89,8 @@
                                  </div>
                               </div>
                            </div>
+                        </div>
+                        <div class="row">
                            <div class="col-sm-4">
                               <div class="chart-wrapper">
                                  <div class="chart-title">
@@ -83,7 +98,7 @@
                                  </div>
                                  <div class="chart-stage">
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                       <img class="img-responsive" src="assets/images/needInformation.png">
+                                       <img class="img-responsive" src="./assets/images/info.png">
                                     </div>
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                                        <a class="status" (click)="getRequestsNeedInfo('Member')"> My Request: {{NeedInfoCount}} </a>
@@ -94,8 +109,8 @@
                                  </div>
                               </div>
                            </div>
-                        </div>
-                        <div class="row">
+                       
+                      
                            <div class="col-sm-4">
                               <div class="chart-wrapper">
                                  <div class="chart-title">
@@ -114,6 +129,7 @@
                                  </div>
                               </div>
                            </div>
+                         
                            <div class="col-sm-4">
                               <div class="chart-wrapper">
                                  <div class="chart-title">
@@ -139,5 +155,5 @@
             </div>
          </div>
       </div>
-   </body>
+    </div>
 </div>

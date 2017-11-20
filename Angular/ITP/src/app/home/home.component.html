@@ -6,8 +6,8 @@
 				<div class="col-md-12 col-md-offset-0 text-center">
 				<div class="display-t">
 					<div class="display-tc animate-box" data-animate-effect="fadeIn">
-						<h1>Request Manager</h1>
-						<h2>Manage Your Requested Resources Here!</h2>
+						<h1>METAREQ</h1>
+						<h2>Manage Your Resources Here!</h2>
 						<p>
 							<a href="#" class="btn btn-white btn-outline btn-lg" data-toggle="modal" data-target="#myModal">Get Started</a>
 						</p>
@@ -70,7 +70,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 				<div class="info">
-					<h1>Login Form</h1>
+					<h1>Login</h1>
 				</div>
 				</div>
 				<div class="modal-body">
@@ -89,13 +89,14 @@
 						<span><button type="button" class="btn btn-default buttons" data-dismiss="modal" (click)="login(username.value , password.value)">Login</button></span><br>	
 						or<br>
 						<span>
-							<button type="button" class="btn google-button"><i class="fa fa-google-plus left"  data-dismiss="modal" (click)="onSignIn()"></i> Google +</button>
+							<button type="button" class="btn google-button"><i class="fa fa-google-plus left"  data-dismiss="modal" (click)="onSignIn()"></i></button>
+							<p  style="color:red" *ngIf="errorMessage">{{errorMessage}}</p>
 							<h5>Not registered? <a routerLink="/signup" routerLinkActive="active" data-dismiss="modal">Create an account</a></h5>
 						</span>
 					</form>
 					<h5 class="message"><a (click)="forgetPassword()" data-dismiss="modal">Forgot Password?</a></h5>
 				</div>
-				<p  style="color:red" *ngIf="errorMessage">{{errorMessage}}</p>
+				
 				</div>
 				<div class="modal-footer">
 				<span><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></span>

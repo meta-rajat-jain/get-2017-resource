@@ -28,15 +28,15 @@ export class SignupComponent implements OnInit {
   private user: SocialUser;
   private loggedIn: boolean;
   private authenticationObject: Authentication;
-  private reactiveForm: FormGroup;
-  private reactiveFormOrganisation: FormGroup;
+   reactiveForm: FormGroup;
+   reactiveFormOrganisation: FormGroup;
   private username: string;
   private password: string;
   private Title: string = "This field is required";
   private selectedDomain: string;
   private checkDomainNames: string[];
-  private domainTitle: string ;
-  private errorMessage: string;
+  domainTitle: string ;
+   errorMessage: string;
   constructor(
     private userService: UserService,
     private router: Router,
@@ -140,7 +140,7 @@ this.reactiveFormOrganisation = this.fb.group({
           this.userService.saveUser(authenticationHeader);
           this.errorMessage = this.authenticationObject.message;
           this.reactiveForm.reset();
-          this.router.navigate(['']);
+          
         } else {
           this.errorMessage = this.authenticationObject.message;
         }
@@ -173,7 +173,7 @@ this.reactiveFormOrganisation = this.fb.group({
           this.errorMessage =
             "Valid Credentials" + this.authenticationObject.message;
             this.reactiveForm.reset();
-            location.reload();
+            
         } else {
           this.errorMessage =
             "Invalid Credentials" + this.authenticationObject.message;

@@ -60,7 +60,7 @@ export class ManagerComponent implements OnInit {
     this.authenticationHeader = JSON.parse(
       localStorage.getItem("authenticationObject")
     );
-    console.log(this.authenticationHeader.username);
+ 
     let name = this.authenticationHeader.username.split("@");
     this.username = name[0];
     this.getCount();
@@ -72,24 +72,22 @@ export class ManagerComponent implements OnInit {
   getCount(): void {
     this.memberService.getCounts().then(response => {
       this.ticketCount = response;
-      console.log(this.ticketCount);
-      console.log("length");
-      console.log(this.ticketCount.length);
+
       for (let ticket of this.ticketCount) {
         if (ticket.status == "Open") {
-          console.log(ticket.count);
+       
           this.OpenCount = ticket.count;
         } else if (ticket.status == "InProgress") {
-          console.log(ticket.count);
+        
           this.InProgressCount = ticket.count;
         } else if (ticket.status == "Closed") {
-          console.log(ticket.count);
+       
           this.ClosedCount = ticket.count;
         } else if (ticket.status == "NeedInfo") {
-          console.log(ticket.count);
+          
           this.NeedInfoCount = ticket.count;
         } else if (ticket.status == "Approved") {
-          console.log(ticket.status + ticket.count);
+          
           this.ApprovedCount = ticket.count;
         }
       }
@@ -98,24 +96,22 @@ export class ManagerComponent implements OnInit {
   getTeamCount(): void {
     this.memberService.getTeamCounts().then(response => {
       this.ticketCountTeam = response;
-      console.log(this.ticketCountTeam);
-      console.log("length");
-      console.log(this.ticketCountTeam.length);
+
       for (let ticket of this.ticketCountTeam) {
         if (ticket.status == "Open") {
-          console.log(ticket.status + ticket.count);
+         
           this.teamOpenCount = ticket.count;
         } else if (ticket.status == "InProgress") {
-          console.log(ticket.count);
+         
           this.teamInProgressCount = ticket.count;
         } else if (ticket.status == "Closed") {
-          console.log(ticket.count);
+         
           this.teamClosedCount = ticket.count;
         } else if (ticket.status == "NeedInfo") {
-          console.log(ticket.count);
+         
           this.teamNeedInfoCount = ticket.count;
         } else if (ticket.status == "Approved") {
-          console.log(ticket.status + ticket.count);
+         
           this.teamApprovedCount = ticket.count;
         }
       }
@@ -124,13 +120,13 @@ export class ManagerComponent implements OnInit {
 
 
   getRequestsInProgress(type: string): void {
-    console.log(type);
+  
     this.status = "Inprogress";
     this.router.navigate(["requestDetail", this.status, type]);
   }
   getRequestsOpen(type: string): void {
     this.status = "Open";
-    console.log(type);
+  
     this.router.navigate(["requestDetail", this.status, type]);
   }
   getRequestsNeedInfo(type: string): void {
@@ -145,5 +141,9 @@ export class ManagerComponent implements OnInit {
     this.status = "Approved";
     this.router.navigate(["requestDetail", this.status, type]);
   }
+  goToRequestTab(type:string):void{
+    this.router.navigate(['requestResource',type]); 
+  }
+
  
 }

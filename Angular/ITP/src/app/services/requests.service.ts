@@ -38,7 +38,7 @@ export class RequestsService {
         .catch(this.handleError);
     } else if (type == "Team") {
       const url = `${this.getRequestTeam}/${status}`;
-      console.log(url);
+      
       return this.http
         .get(url)
         .toPromise()
@@ -46,7 +46,7 @@ export class RequestsService {
         .catch(this.handleError);
     } else if (type == "Member") {
       const url = `${this.getRequestMember}/${status}`;
-      console.log(url);
+  
       return this.http
         .get(url)
         .toPromise()
@@ -54,7 +54,7 @@ export class RequestsService {
         .catch(this.handleError);
     } else if (type == "Helpdesk") {
       const url = `${this.getRequestHelpdesk}/${status}`;
-      console.log(url);
+      
       return this.http
         .get(url)
         .toPromise()

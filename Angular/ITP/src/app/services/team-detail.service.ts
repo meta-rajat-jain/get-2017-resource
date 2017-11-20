@@ -35,7 +35,7 @@ export class TeamDetailService {
             "employeeDTO" : employee , 
             "teamDTO" : {"teamName":teamName}
         }
-            console.log(JSON.stringify(employeeTeamDetail));
+           
         return this.http.post(this.addToTeamUrl,JSON.stringify(employeeTeamDetail) )
         .toPromise()
         .then(response => response.json() as Authentication)

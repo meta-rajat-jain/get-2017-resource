@@ -1,6 +1,8 @@
-<nav class="navbar navbar-default" style="background-image:url(assets/images/img_bg_1.jpg); width:100%">
+<nav class="navbar navbar-default" >
+		<img class="image img-responsive pull-left " src="assets/images/logo.jpg">
 	<div class="container">
 		 <ul class="nav nav-tabs">
+				
 				<li  *ngIf="type=='Admin'"><a routerLink="/adminDashboard" routerLinkActive="active">Home</a></li>
 				<li  *ngIf="type=='Member'"><a routerLink="/memberDashboard" routerLinkActive="active">Home</a></li>
 				<li  *ngIf="type=='Manager'"><a routerLink="/managerDashboard" routerLinkActive="active">Home</a></li>
@@ -10,7 +12,7 @@
 					 <span class="caret"></span></a>
 					 <ul class="dropdown-menu">
 							<li><a routerLink="/createEmployee" routerLinkActive="active">Create Employee</a></li>
-							<li><a routerLink="/employee" routerLinkActive="active">Edit Employee Details</a></li>
+							<li><a routerLink="/employee" routerLinkActive="active">View Employee Details</a></li>
 					 </ul>
 				</li>
 				<li class="dropdown" *ngIf="type=='Manager'">

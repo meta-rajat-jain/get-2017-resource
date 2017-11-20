@@ -1,5 +1,6 @@
-<body class="dashboard" >
+
     <app-navbar></app-navbar>
+    <div class="dashboard" >
     <div class="tab-pane in active" id="section1">
        <div class="container">
           <div class="row">
@@ -15,12 +16,19 @@
                                <img class="img-responsive" src="assets/images/userIcon.png">
                             </div>
                             <div class ="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <div *ngIf="loggedInUser">
                                <div class="chart-stage" >
-                                  <h5><span><b>Name:</b></span> <span>{{username}}</span></h5>
-                                  <h5><span><b>EmailID:</b> </span> <span></span>{{emailId}}</h5>
-                                  <h5><span><b>Designation: </b></span><span>Helpdesk</span></h5>
-                                  <h5><span><b>Organisation Domain:</b> </span><span>{{domain}}</span></h5>
-                               </div>
+                                    <h5><span class="pull-left"><b>Name:</b></span> <span class="pull-left">{{loggedInUser.name}}</span></h5>
+                                    <br>
+                                    <h5><span class="pull-left"><b>EmailID:</b> </span> <span class="pull-left">{{loggedInUser.login.username}}</span></h5>
+                                    <br>
+                                    <h5><span class="pull-left"><b>Designation: </b></span><span class="pull-left">{{loggedInUser.designation}}</span></h5>
+                                    <br>
+                                    <h5><span class="pull-left"><b>Contact Number:</b> </span> <span class="pull-left">{{loggedInUser.contactNumber}}</span></h5>
+                                    <br>
+                                    <h5><span class="pull-left"><b>Organisation Domain:</b> </span><span class="pull-left">{{loggedInUser.orgDomain}}</span></h5>
+                                    <br>   </div>
+                                    </div>
                             </div>
                          </div>
                          <div class="chart-notes">
@@ -72,7 +80,7 @@
                          </div>
                          <div class="chart-stage">
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                               <img class="img-responsive" src="assets/images/needInformation.png">
+                               <img class="img-responsive" src="assets/images/info.png">
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                                <a class="status"  (click)="getRequestsNeedInfo('Helpdesk')">My Request: {{NeedInfoCount}}</a>
@@ -126,4 +134,4 @@
         </div>
       </div>
   </div>
-</body>
+</div>

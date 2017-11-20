@@ -37,7 +37,7 @@ export class EmployeeDetailComponent implements OnInit {
     this.authenticationHeader = JSON.parse(
       localStorage.getItem("authenticationObject")
     );
-    console.log("in username" + this.authenticationHeader.username);
+
     this.name = this.authenticationHeader.username;
     this.getEmployeeDetail();
     this.reactiveForm = this.fb.group({
@@ -63,10 +63,9 @@ export class EmployeeDetailComponent implements OnInit {
   getEmployeeDetail(): void {
     this.sub = this.route.params.subscribe(params => {
       this.id = params["type"];
-      console.log(this.id);
+
     });
-    console.log("After");
-    console.log(this.id);
+
     this.getId();
     this.route.paramMap
       .switchMap((params: ParamMap) =>
@@ -76,20 +75,19 @@ export class EmployeeDetailComponent implements OnInit {
 
     this.sub = this.route.params.subscribe(params => {
       this.username = params["username"];
-      console.log(this.username);
+  
     });
   }
 
   getId(): void {
-    console.log("in method");
-    console.log(this.id);
+ 
   }
   updateEmployee(name: string, contactNo: number) {
-    console.log(this.employee);
+   
     this.employeeDetail
       .updateEmployee(name, contactNo, this.employee, this.username)
       .then(response => {
-        console.log(response);
+       
         this.router.navigate(["/adminDashboard"]);
       });
   }

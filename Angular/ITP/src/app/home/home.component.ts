@@ -26,14 +26,14 @@ export class HomeComponent implements OnInit {
   private user: SocialUser;
   private loggedIn: boolean;
   private authenticationObject: Authentication;
-  private reactiveForm: FormGroup;
+ reactiveForm: FormGroup;
   private username: string;
   private password: string;
   private Title: string = "This field is required";
   private selectedDomain: string;
   private checkDomainNames: string[];
   private domainTitle: string;
-  private errorMessage: string;
+ errorMessage: string;
   constructor(
     private userService: UserService,
     private router: Router,
@@ -81,15 +81,12 @@ export class HomeComponent implements OnInit {
           this.router.navigate(["/adminDashboard"]);
         } else if (this.responseObject.employeeType.toString() == "Helpdesk") {
           this.router.navigate(["/helpDeskDashboard"]);
-        } else {
-          this.router.navigate([""]);
-        }
+        } 
         this.errorMessage = "";
       } else {
         this.errorMessage =
           "Invalid Credentials" + this.responseObject.response.message;
-        this.router.navigate(["/"]);
-      }
+       }
     });
   }
   onSignIn() {
@@ -98,7 +95,7 @@ export class HomeComponent implements OnInit {
 
   signInWithGoogle(user: SocialUser): void {
     this.userService.authenticateGoogleUser(user).then(response => {
-      console.log(response);
+
       this.responseObject = response;
       let authenticationHeader: AuthenticatedHeader = {
         username: user.email,

@@ -9,12 +9,13 @@
   .navbar-default{
       border: 0px;
       border-radius:0px;
-      box-shadow: 1px 1px 1px 1px saddlebrown;;
+      box-shadow: 1px 1px 1px 1px lightgrey;
     }
     
     .navbar{
       min-height:0px;
       margin-bottom: 0px;
+      background-color: teal;
     }
     .nav-tabs{
       color:white !important;
@@ -72,7 +73,7 @@
 
       .glyphicon-user{
         font-size: 16px;
-        color:#df7407;
+        color:teal;
         padding: 3px;
         }
         .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
@@ -90,4 +91,15 @@
           .dropdown-toggle{
           margin-right:180px;
           }
+        }
+        @media screen and (max-width: 568px) {
+          .img{
+          size: 25%;
+          }
+        }
+        .image{
+          height:22px;
+          vertical-align: middle;
+          margin-left: 10px;
+          margin-top:15px;
         }

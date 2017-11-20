@@ -35,23 +35,17 @@ export class TeamDetailComponent implements OnInit {
        
    
       this.sub = this.route.params.subscribe(params=>{
-        console.log(params['teamName']);
-        console.log(params['operation']);
+
         this.teamName = params['teamName'];
         this.operation = params['operation'];
       });
-      this.init();
+      
       this.getEmployeesToAdd();
-       this.teamService.getTeamsDetail(this.teamName).then(response =>  { console.log(response); this.teamEmployees = response});
+       this.teamService.getTeamsDetail(this.teamName).then(response =>    this.teamEmployees = response);
     }
-  init():void{
-  
-     console.log(this.teamName);
-   
-     console.log(this.operation);
-  }
+
   addToTeam(employee:Employee):void{
-   this.teamService.addToTeam(employee,this.teamName).then(response => {console.log(response);this.location.back()});
+   this.teamService.addToTeam(employee,this.teamName).then(response => this.location.back());
   }
   getEmployeesToAdd():void{
     this.teamService.getEmployeesToAdd(this.teamName).then(response => {
@@ -61,7 +55,7 @@ export class TeamDetailComponent implements OnInit {
           this.employees[index++] = employee;
         }
     }
-    console.log(this.employees);
+    
   });
     
   }

@@ -32,7 +32,7 @@ export class TeamComponent implements OnInit {
     this.authenticationHeader = JSON.parse(
       localStorage.getItem("authenticationObject")
     );
-    console.log(this.authenticationHeader.username);
+    
     let name = this.authenticationHeader.username.split("@");
     this.username = name[0];
     this.getTeamsUnderManager();
@@ -52,13 +52,12 @@ export class TeamComponent implements OnInit {
   getTeamsUnderManager(): void {
     this.managerService.getTeamsUnderManager().then(response => {
       this.teamsUnderManager = response;
-      console.log(response);
+    
     });
   }
 
   manageTeam(team: Team, operation: string): void {
-    console.log(team);
-    console.log(operation);
+
     this.router.navigate(["/teamDetailComponent", team.teamName, operation]);
   }
   goBack(): void {

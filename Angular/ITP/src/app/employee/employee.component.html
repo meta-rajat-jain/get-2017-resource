@@ -2,12 +2,33 @@
 <div class="main-content">
    <div *ngIf='employees'>
       <div *ngIf="employees.length >= 1">
+          
          <div class="searchBar">
-            <input  id="search-bar" [(ngModel)]="searchText"  placeholder="Search Employee " >
+                   <input  id="search-bar" [(ngModel)]="searchText"  placeholder="Search Employee " >
          </div>
+        
+         
          <div class="container">
+                <div class="col-sm-6 col-md-4">
+                        <div class="chart-wrapper">
+                                
+                                <div class="chart-stage">
+                                        <a routerLink="/createEmployee" routerLinkActive="active">
+                                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="175px" height="175px" >
+                                        <circle cx="100" cy="100" r="90" fill="#F2F2F2"/>
+                                        <polygon points="40,70,80,70,80,30,110,30,110,70,150,70,150,100,110,100,110,140,80,140,80,100,40,100,40,70 " style="fill:teal; "/>
+                                        </svg>
+                                        </a>
+                                </div>
+                              
+                               
+                             </div>
+
+
+                       </div>
             <div class="col-sm-6 col-md-4 manager-list" *ngFor="let employee of employees| filter : searchText| orderBy: key : reverse |paginate: { itemsPerPage: 9 , currentPage: p };">
-               <div class="chart-wrapper">
+              
+                    <div class="chart-wrapper">
                   <div class="chart-title">
                      {{employee.name}}
                   </div>
@@ -42,4 +63,5 @@
       </div>
    </div>
 </div>
+
 <pagination-controls (pageChange)="p = $event"></pagination-controls>

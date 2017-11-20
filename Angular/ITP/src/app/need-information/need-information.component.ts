@@ -18,6 +18,9 @@ export class NeedInformationComponent implements OnInit {
   ticket: Ticket;
   operation: string;
   authenticationHeader: AuthenticatedHeader;
+  requestType:string;
+  comment:string;
+  locn:string;
   constructor(
     private needInformationService: NeedInformationService,
     private route: ActivatedRoute,
@@ -32,15 +35,17 @@ export class NeedInformationComponent implements OnInit {
       this.ticketNo = params["ticketNo"];
       this.type = params["type"];
       this.operation = params["operation"];
-      console.log(this.ticketNo);
+ 
       this.init();
     });
   }
   init(): void {
-    console.log("it is called");
+   
     this.needInformationService.getTicket(this.ticketNo).then(response => {
-      console.log(response);
+    
       this.ticket = response;
+      this.requestType = this.ticket.requestType;
+
     });
   }
   editRequest(priority, comment, location, status): void {
@@ -59,7 +64,7 @@ export class NeedInformationComponent implements OnInit {
         this.ticket.requestDate
       )
       .then(response => {
-        console.log(response);
+      
         this.location.back();
       });
   }
@@ -78,7 +83,7 @@ export class NeedInformationComponent implements OnInit {
         this.ticket.requestDate
       )
       .then(response => {
-        console.log(response);
+       
         this.location.back();
       });
   }

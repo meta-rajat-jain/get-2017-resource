@@ -33,6 +33,7 @@ export class AdminComponent implements OnInit {
     this.username = name[0];
     this.getManagers();
   }
+
   logOut(): void {
     this.logoutService.logOut().then(response => {
       this.authentication = response;

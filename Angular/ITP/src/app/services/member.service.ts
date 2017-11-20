@@ -46,7 +46,7 @@ export class MemberService {
     team: string
   ): Promise<Authentication> {
     let date: any;
-    console.log(resource + comment + locn + team);
+  
     date = new Date();
     date = Date.now();
     let status: string;
@@ -55,11 +55,19 @@ export class MemberService {
     } else {
       status = "Open";
     }
-    let requestedResource: RequestedResource = {
+    let requestedResource: RequestedResource ;
+    if(requestType == "Maintenance"){
+       requestedResource = {
+      resourceId: null,
+      resourceName: null,
+      resourceCategoryName: null
+        }    }
+    else{
+    requestedResource = {
       resourceId: resource.resourceId,
       resourceName: resource.resourceName,
       resourceCategoryName: resource.resourceCategoryName
-    };
+     } };
     let request: Ticket = {
       ticketNo: 0,
       requesterName: username,
@@ -76,9 +84,7 @@ export class MemberService {
       requestDate: date
     };
 
-    console.log(request);
-    console.log(this.headers);
-    console.log(".................." + this.makeRequestUrl);
+
     return this.http
       .post(this.makeRequestUrl, request)
       .toPromise()
@@ -118,7 +124,7 @@ export class MemberService {
     return this.http
       .get(this.getTeamsOfEmp)
       .toPromise()
-      .then(response => response.json() as Team[])
+      .then(response => { response.json() as Team[]})
       .catch(this.handleError);
   }
   getUserInformation() {

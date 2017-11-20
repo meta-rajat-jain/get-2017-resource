@@ -5,7 +5,7 @@
          <h2>Managers</h2>
          <br>
          <div class="row">
-            <div class="col-sm-6 col-md-4 manager-list" *ngFor="let manager of managers | paginate: { itemsPerPage: 1, currentPage: p };">
+            <div class="col-sm-6 col-md-4 manager-list" *ngFor="let manager of managers | paginate: { itemsPerPage: 6, currentPage: p };">
                <div class="chart-wrapper">
                   <div class="chart-title">
                      {{manager.name}}

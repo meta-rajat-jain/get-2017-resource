@@ -26,7 +26,7 @@ authorisationToken:""
 }
 return this.http.post(this.forgetPasswordUrl,login)
 .toPromise()
-.then(response =>{ console.log(response);response.json() as Authentication} )
+.then(response =>{ response.json() as Authentication} )
 .catch(this.handleError);
 }
 private handleError(error: any): Promise<any> {

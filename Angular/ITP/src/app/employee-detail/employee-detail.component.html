@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="main-content">
-   <div *ngIf="id=='false'">
-      <div  style="background-image:url(assets/images/img_bg_1.jpg); width:100%">
+   <div *ngIf="id">
+      <div >
          <div class="container" style="min-height:100%">
             <div class="row main" >
                <div class="main-login main-center">
@@ -40,7 +40,7 @@
                      </div>
                      <div class="button-container">
                         <span><button type="submit"  class="btn btn-default login-button" (click)="goBack()">Go Back</button></span>
-                        <span><button type="submit"  class="btn btn-default login-button"(click)="updateEmployee(usernameEmp.value,contactnoEmp.value)">Register</button></span>
+                        <span><button type="submit"  class="btn btn-default login-button"(click)="updateEmployee(usernameEmp.value,contactnoEmp.value)">Update</button></span>
                      </div>
                   </form>
                </div>

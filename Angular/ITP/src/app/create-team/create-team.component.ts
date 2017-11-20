@@ -41,13 +41,13 @@ export class CreateTeamComponent implements OnInit {
     this.authenticationHeader = JSON.parse(
       localStorage.getItem("authenticationObject")
     );
-    console.log(this.authenticationHeader.username);
+ 
     let name = this.authenticationHeader.username.split("@");
     this.username = name[0];
    
   }
   createTeam(teamName: string, headName: string): void {
-    console.log(teamName + headName);
+
     if(headName === ""){
       headName = null;
     }
@@ -70,10 +70,9 @@ export class CreateTeamComponent implements OnInit {
     this.adminService.getEmployees().then(response => {
       this.employees = response;
      for (let emp of this.employees) {
-        console.log("before if" + headName);
-        console.log(emp.login.username);
+
         if (headName == emp.login.username) {
-          console.log(headName + "==" + emp.login.username);
+
           this.title = "";
           break;
         } else {

@@ -28,7 +28,7 @@ body {
   content: "";
 }
 a {
-  color: #F85A16;
+  color: teal;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
@@ -36,7 +36,7 @@ a {
 a:hover,
 a:active,
 a:focus {
-  color: #F85A16;
+  color: teal;
   outline: none;
   text-decoration: none;
   cursor: pointer;
@@ -46,15 +46,15 @@ p {
 }
 ::-webkit-selection {
   color: #fff;
-  background: #F85A16;
+  background: teal;
 }
 ::-moz-selection {
   color: #fff;
-  background: #F85A16;
+  background: teal;
 }
 ::selection {
   color: #fff;
-  background: #F85A16;
+  background: teal;
 }
 .gtco-container {
   margin: 0px 10px 0px 10px;
@@ -250,7 +250,7 @@ p {
 .btn-white:focus,
 .btn-white:active {
   color: white;
-  background: #F85A16!important;
+  background: teal!important;
 }
 .btn-white.btn-outline:hover,
 .btn-white.btn-outline:focus,
@@ -314,7 +314,7 @@ h1 {
 }
 .form .buttons {
   outline: 0;
-  background: #df7407;
+  background: teal;
   width: 45%;
   border: 0;
   padding: 15px;
@@ -330,7 +330,7 @@ h1 {
 }
 .google-button {
   outline: 0;
-  background: #d34836;
+  background: teal;
   width: 45%;
   border: 0;
   padding: 15px;
@@ -350,7 +350,7 @@ h1 {
   font-size: 12px;
 }
 .form .message a {
-  color: #df7407;
+  color: teal;
   text-decoration: none;
 }
 .form .register-form {
@@ -388,7 +388,7 @@ h1 {
   text-decoration: none;
 }
 .info span .fa {
-  color: #df7407;
+  color: teal;
 }
 .modal-body {
   background: rgba(255, 255, 255, 0.9);
