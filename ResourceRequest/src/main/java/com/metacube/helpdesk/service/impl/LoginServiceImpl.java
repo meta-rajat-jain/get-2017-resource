@@ -21,7 +21,6 @@ import com.metacube.helpdesk.utility.MessageConstants;
 import com.metacube.helpdesk.utility.Response;
 import com.metacube.helpdesk.utility.SimpleMD5;
 import com.metacube.helpdesk.utility.Status;
-import com.metacube.helpdesk.utility.Validation;
 
 @Service("loginService")
 public class LoginServiceImpl implements LoginService {
@@ -42,15 +41,6 @@ public class LoginServiceImpl implements LoginService {
         String authorisationToken = null;
         String message = null;
         Designation employeeType = Designation.InvalidAccount;
-        if (Validation.isNull(loginId) || Validation.isNull(password)
-                || Validation.isEmpty(loginId) || Validation.isEmpty(password)) {
-            return new LoginResponse(new Response(status, authorisationToken,
-                    "Please specify username or password"), employeeType);
-        }
-        if (!Validation.validateInput(loginId, Constants.EMAILREGEX)) {
-            return new LoginResponse(new Response(status, authorisationToken,
-                    "Incorrect format of email"), employeeType);
-        }
         LoginDTO loginDTO = modelToDto(loginDAO.get(loginId));
         if (loginDTO != null) {
             try {
@@ -77,17 +67,18 @@ public class LoginServiceImpl implements LoginService {
                         Employee emp = employeeDAO.getEmployee(loginDAO
                                 .get(loginId));
                         if (emp != null) {
-                            if (emp.getStatus() == "inactive") {
+                            if (emp.getStatus().equals(
+                                    Constants.EMPLOYEE_STATUS_INACTIVE)) {
                                 status = 0;
                                 message = "This user acoount is currently inactive , contact your administrator for assistance";
                             }
                         }
                         employeeType = getAccountType(loginId);
-                    } else {
-                        status = 0;
-                        authorisationToken = null;
-                        message = MessageConstants.CURRENT_PASSWORD_IS_NOT_CORRECT;
                     }
+                } else {
+                    status = 0;
+                    authorisationToken = null;
+                    message = MessageConstants.CURRENT_PASSWORD_IS_NOT_CORRECT;
                 }
             } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
                 e.printStackTrace();
@@ -170,7 +161,7 @@ public class LoginServiceImpl implements LoginService {
         }
         if (!login.getEnabled()) {
             return new Response(0, authorisationToken,
-                    "This account is not verified : Verify first to change password");
+                    MessageConstants.YOUR_EMAIL_IS_NOT_VARIFIED);
         }
         try {
             if (login.getPassword().equals(
@@ -195,11 +186,11 @@ public class LoginServiceImpl implements LoginService {
     public Response forgotPassword(String usernameForForgotPassword) {
         LogIn login = loginDAO.get(usernameForForgotPassword);
         if (login == null) {
-            return new Response(0, null, "No such username exists");
+            return new Response(0, null, MessageConstants.USERNAME_NOT_EXIST);
         }
         if (!login.getEnabled()) {
             return new Response(0, null,
-                    "This account is not verified : Verify first to make any request");
+                    MessageConstants.YOUR_EMAIL_IS_NOT_VARIFIED);
         }
         String randomPassword = Double.toString(Math.random() * 100);
         mailSend.sendMail(Constants.DEFAULT_MAIL_SENDER,
@@ -277,29 +268,24 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public Response logOut(String authorisationToken, String username) {
-        if (authenticateRequest(authorisationToken, username)) {
-            return loginDAO.destroyAuthorisationToken(authorisationToken,
-                    username);
-        }
-        return new Response(0, authorisationToken,
-                MessageConstants.UNAUTHORISED_USER);
+    public Response logOut(String username) {
+        return loginDAO.destroyAuthorisationToken(username);
     }
 
     @Override
-    public Response enableLogIn(String username, String hashUsername) {
+    public String enableLogIn(String username, String hashUsername) {
         LogIn loginObj = loginDAO.get(username);
         try {
             if (hashUsername
                     .equals(SimpleMD5.hashingWithConstantSalt(username))) {
                 loginObj.setEnabled(true);
                 loginDAO.update(loginObj);
-                return new Response(1, null, "Account Successfully verified");
+                return "Congratulations! Your account has been verified successfully";
             }
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             e.printStackTrace();
         }
-        return new Response(0, null, "verification url is not correct");
+        return "verification url is not correct";
     }
 
     @Override

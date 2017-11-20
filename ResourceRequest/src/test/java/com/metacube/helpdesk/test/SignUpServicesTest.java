@@ -2,6 +2,8 @@ package com.metacube.helpdesk.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +19,7 @@ import com.metacube.helpdesk.service.LoginService;
 import com.metacube.helpdesk.service.OrganisationService;
 import com.metacube.helpdesk.utility.MessageConstants;
 import com.metacube.helpdesk.utility.Response;
+import com.metacube.helpdesk.utility.SimpleMD5;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "test-config.xml" })
@@ -260,6 +263,30 @@ public class SignUpServicesTest {
         response = employeeService.create(employeeDto);
         int statusCode = 1;
         assertEquals(statusCode, response.getStatusCode());
+        try {
+            loginService.enableLogIn(EMPLOYEE1_USERNAME,
+                    SimpleMD5.hashingWithConstantSalt(EMPLOYEE1_USERNAME));
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            e.printStackTrace();
+        }
+        assertEquals(MessageConstants.VERIFICATION_MAIL_SENT,
+                response.getMessage());
+    }
+
+    @Test
+    public void test04_CreateEmployee7ValidCredentials() {
+        EmployeeDTO employeeDto = new EmployeeDTO();
+        employeeDto.setName("Gaurav Tak");
+        employeeDto.setContactNumber(EMPLOYEE_CONTACT_NUMBER);
+        employeeDto.setOrgDomain(EMPLOYEE_ORG_DOMAIN);
+        LoginDTO loginDto = new LoginDTO();
+        loginDto.setUsername("gaurav.tak@metacube.com");
+        loginDto.setPassword(EMPLOYEE_PASSWORD);
+        employeeDto.setLogin(loginDto);
+        Response response = new Response();
+        response = employeeService.create(employeeDto);
+        int statusCode = 1;
+        assertEquals(statusCode, response.getStatusCode());
         assertEquals(MessageConstants.VERIFICATION_MAIL_SENT,
                 response.getMessage());
     }
@@ -278,6 +305,12 @@ public class SignUpServicesTest {
         response = employeeService.create(employeeDto);
         int statusCode = 1;
         assertEquals(statusCode, response.getStatusCode());
+        try {
+            loginService.enableLogIn(EMPLOYEE2_USERNAME,
+                    SimpleMD5.hashingWithConstantSalt(EMPLOYEE2_USERNAME));
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            e.printStackTrace();
+        }
         assertEquals(MessageConstants.VERIFICATION_MAIL_SENT,
                 response.getMessage());
     }
@@ -296,6 +329,12 @@ public class SignUpServicesTest {
         response = employeeService.create(employeeDto);
         int statusCode = 1;
         assertEquals(statusCode, response.getStatusCode());
+        try {
+            loginService.enableLogIn(EMPLOYEE3_USERNAME,
+                    SimpleMD5.hashingWithConstantSalt(EMPLOYEE3_USERNAME));
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            e.printStackTrace();
+        }
         assertEquals(MessageConstants.VERIFICATION_MAIL_SENT,
                 response.getMessage());
     }
@@ -314,6 +353,12 @@ public class SignUpServicesTest {
         response = employeeService.create(employeeDto);
         int statusCode = 1;
         assertEquals(statusCode, response.getStatusCode());
+        try {
+            loginService.enableLogIn(EMPLOYEE4_USERNAME,
+                    SimpleMD5.hashingWithConstantSalt(EMPLOYEE4_USERNAME));
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            e.printStackTrace();
+        }
         assertEquals(MessageConstants.VERIFICATION_MAIL_SENT,
                 response.getMessage());
     }
@@ -332,6 +377,12 @@ public class SignUpServicesTest {
         response = employeeService.create(employeeDto);
         int statusCode = 1;
         assertEquals(statusCode, response.getStatusCode());
+        try {
+            loginService.enableLogIn(EMPLOYEE5_USERNAME,
+                    SimpleMD5.hashingWithConstantSalt(EMPLOYEE5_USERNAME));
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            e.printStackTrace();
+        }
         assertEquals(MessageConstants.VERIFICATION_MAIL_SENT,
                 response.getMessage());
     }
@@ -350,6 +401,12 @@ public class SignUpServicesTest {
         response = employeeService.create(employeeDto);
         int statusCode = 1;
         assertEquals(statusCode, response.getStatusCode());
+        try {
+            loginService.enableLogIn(EMPLOYEE6_USERNAME,
+                    SimpleMD5.hashingWithConstantSalt(EMPLOYEE6_USERNAME));
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            e.printStackTrace();
+        }
         assertEquals(MessageConstants.VERIFICATION_MAIL_SENT,
                 response.getMessage());
     }
@@ -367,7 +424,13 @@ public class SignUpServicesTest {
         Response response = new Response();
         response = employeeService.create(employeeDto);
         int statusCode = 1;
-        // assertEquals(statusCode, response.getStatusCode());
+        assertEquals(statusCode, response.getStatusCode());
+        try {
+            loginService.enableLogIn("anushtha.gupta@metacube.com", SimpleMD5
+                    .hashingWithConstantSalt("anushtha.gupta@metacube.com"));
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            e.printStackTrace();
+        }
         assertEquals(MessageConstants.VERIFICATION_MAIL_SENT,
                 response.getMessage());
     }
@@ -390,7 +453,7 @@ public class SignUpServicesTest {
     }
 
     @Test
-    public void test04_CreateEmployeeWhenUsernameAlreadyExist() {
+    public void test05_CreateEmployeeWhenUsernameAlreadyExist() {
         EmployeeDTO employeeDto = new EmployeeDTO();
         employeeDto.setName(EMPLOYEE1_NAME);
         employeeDto.setContactNumber(EMPLOYEE_CONTACT_NUMBER);
@@ -408,7 +471,7 @@ public class SignUpServicesTest {
     }
 
     @Test
-    public void test04_CreateEmployeeWhenInconsistentUsernameAndOrg() {
+    public void test05_CreateEmployeeWhenInconsistentUsernameAndOrg() {
         EmployeeDTO employeeDto = new EmployeeDTO();
         employeeDto.setName("Rajat Jain");
         employeeDto.setContactNumber(EMPLOYEE_CONTACT_NUMBER);

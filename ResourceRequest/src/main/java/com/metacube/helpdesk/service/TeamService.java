@@ -20,20 +20,16 @@ public interface TeamService {
 
     Status addEmployeeToTeam(Employee employee, Team team);
 
-    List<EmployeeDTO> getEmployeesByTeamName(String authorisationToken,
-            String username, String teamName);
+    List<EmployeeDTO> getEmployeesByTeamName(String username, String teamName);
 
-    List<EmployeeDTO> getEmployeesNotInPaticularTeam(String authorisationToken,
-            String username, String teamName);
+    List<EmployeeDTO> getEmployeesNotInPaticularTeam(String username,
+            String teamName);
 
-    List<TeamDTO> getTeamsByEmployee(String authorisationTokenFromLogin,
-            String username, String username2);
+    List<TeamDTO> getTeamsByEmployee(String username, String username2);
 
-    List<TeamDTO> getAllTeamsUnderManager(String authorisationToken,
-            String username);
-
-    Set<EmployeeDTO> getAllEmployeesUnderHead(String username,
-            String authorisationToken);
+    List<TeamDTO> getAllTeamsUnderManager(String username);
 
     Set<EmployeeDTO> getAllEmployeesUnderHead(String username);
+
+    Response validateTeamObject(TeamDTO teamDTO);
 }

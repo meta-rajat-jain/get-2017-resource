@@ -29,66 +29,29 @@ public class AdminServiceTest {
     static final String ADMIN_CONTACT_NUMBER = "9876543210";
     static final String ORG_DOMAIN = "metacube.com";
     static final String ORG_HELPDESK = "ithelpdesk@metacube.com";
-    static final String ADMIN_AUTHORISATION_TOKEN = "c06f126dd6d510afe0bfe4d0191dd38c";
     static final String EMPLOYEE_TO_ADD_MANAGER = "shubham.sharma@metacube.com";
 
     @Test
     public void test20_getAllManagersWhenNoManager() {
-        assertEquals(
-                0,
-                employeeService.getAllManagers(ADMIN_AUTHORISATION_TOKEN,
-                        ADMIN_USERNAME).size());
+        assertEquals(0, employeeService.getAllManagers(ADMIN_USERNAME).size());
     }
 
     @Test
     public void test21_getAllEmployee() {
         List<EmployeeDTO> employees = new ArrayList<EmployeeDTO>();
-        assertEquals(
-                7,
-                employeeService.getAllEmployees(ADMIN_AUTHORISATION_TOKEN,
-                        ADMIN_USERNAME).size());
-    }
-
-    @Test
-    public void test21_getAllEmployeeWhenLoggedInUserIsInvalid() {
-        assertEquals(
-                0,
-                employeeService.getAllEmployees("46819809dnknkjodeiujhkj30930",
-                        ADMIN_USERNAME).size());
+        assertEquals(7, employeeService.getAllEmployees(ADMIN_USERNAME).size());
     }
 
     @Test
     public void test21_getAllEmployeeLoggedInUserIsUnauthorize() {
-        assertEquals(
-                0,
-                employeeService.getAllEmployees(
-                        "c06f126dd6d510afe0bfe4d0191dd38c",
-                        "udit.saxena@metacube.com").size());
-    }
-
-    @Test
-    public void test22_addManagerWhenUsernameNotThere() {
-        Response response = employeeService.addManager(
-                ADMIN_AUTHORISATION_TOKEN, ADMIN_USERNAME, null);
-        int statusCode = 0;
-        assertEquals(statusCode, response.getStatusCode());
-        assertEquals(MessageConstants.INVALID_USERNAME, response.getMessage());
-    }
-
-    @Test
-    public void test22_addManagerLoggedInUserIsUnauthorize() {
-        Response response = employeeService.addManager(
-                "c06f126dd6d510afe0bfe4d0191dd38c", "udit.saxena@metacube.com",
-                EMPLOYEE_TO_ADD_MANAGER);
-        int statusCode = 0;
-        assertEquals(statusCode, response.getStatusCode());
-        assertEquals(MessageConstants.UNAUTHORISED_USER, response.getMessage());
+        assertEquals(0,
+                employeeService.getAllEmployees("udit.saxena@metacube.com")
+                        .size());
     }
 
     @Test
     public void test22_addManagerWhenEmployeeToBeAddedAsManagerNotExist() {
-        Response response = employeeService.addManager(
-                ADMIN_AUTHORISATION_TOKEN, ADMIN_USERNAME,
+        Response response = employeeService.addManager(ADMIN_USERNAME,
                 "rajat.jain@metacube.com");
         int statusCode = 2;
         assertEquals(statusCode, response.getStatusCode());
@@ -97,8 +60,7 @@ public class AdminServiceTest {
 
     @Test
     public void test23_addManager() {
-        Response response = employeeService.addManager(
-                ADMIN_AUTHORISATION_TOKEN, ADMIN_USERNAME,
+        Response response = employeeService.addManager(ADMIN_USERNAME,
                 EMPLOYEE_TO_ADD_MANAGER);
         int statusCode = 1;
         // assertEquals(statusCode, response.getStatusCode());
@@ -108,10 +70,7 @@ public class AdminServiceTest {
 
     @Test
     public void test24_getAllManagerWhenManagerIsThere() {
-        assertEquals(
-                1,
-                employeeService.getAllManagers(ADMIN_AUTHORISATION_TOKEN,
-                        ADMIN_USERNAME).size());
+        assertEquals(1, employeeService.getAllManagers(ADMIN_USERNAME).size());
     }
 
     @Test
@@ -143,20 +102,14 @@ public class AdminServiceTest {
 
     @Test
     public void test25_deleteEmployee() {
-        assertEquals(
-                7,
-                employeeService.getAllEmployees(ADMIN_AUTHORISATION_TOKEN,
-                        ADMIN_USERNAME).size());
+        assertEquals(7, employeeService.getAllEmployees(ADMIN_USERNAME).size());
         Response response = employeeService.deleteEmployee(
                 "shreya.bordia@metacube.com", ADMIN_USERNAME);
         int statusCode = 1;
         assertEquals(statusCode, response.getStatusCode());
         assertEquals(MessageConstants.EMPLOYEE_DELETED_SUCCESSFULLY,
                 response.getMessage());
-        assertEquals(
-                6,
-                employeeService.getAllEmployees(ADMIN_AUTHORISATION_TOKEN,
-                        ADMIN_USERNAME).size());
+        assertEquals(6, employeeService.getAllEmployees(ADMIN_USERNAME).size());
     }
 
     @Test
@@ -206,7 +159,7 @@ public class AdminServiceTest {
         Response response = employeeService.updateEmployee(employeeDto,
                 ADMIN_USERNAME);
         int statusCode = 1;
-        // assertEquals(statusCode, response.getStatusCode());
+        assertEquals(statusCode, response.getStatusCode());
         assertEquals(MessageConstants.EMPLOYEE_UPDATED_SUCCESSFULLY,
                 response.getMessage());
     }

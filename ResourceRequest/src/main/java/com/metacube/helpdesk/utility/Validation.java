@@ -14,8 +14,9 @@ public class Validation {
     }
 
     public static boolean isEmpty(String dataToBeCheck) {
+        String updatedDataToBeCheck = dataToBeCheck.trim();
         boolean flag = false;
-        if (dataToBeCheck.length() == 0) {
+        if (updatedDataToBeCheck.length() == 0) {
             flag = true;
         }
         return flag;

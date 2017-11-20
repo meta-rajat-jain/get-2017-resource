@@ -44,8 +44,7 @@ public class LoginDAOImpl implements LoginDAO {
     }
 
     @Override
-    public Response destroyAuthorisationToken(String authorisationToken,
-            String username) {
+    public Response destroyAuthorisationToken(String username) {
         Session session = this.sessionFactory.getCurrentSession();
         LogIn login = get(username);
         login.setAuthorisationToken(null);

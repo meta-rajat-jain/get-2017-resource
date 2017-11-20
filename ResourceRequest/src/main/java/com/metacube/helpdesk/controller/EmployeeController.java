@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.metacube.helpdesk.dto.EmployeeDTO;
 import com.metacube.helpdesk.model.Team;
 import com.metacube.helpdesk.service.EmployeeService;
+import com.metacube.helpdesk.service.LoginService;
 import com.metacube.helpdesk.service.TeamService;
 import com.metacube.helpdesk.utility.Validation;
 
@@ -25,37 +26,81 @@ public class EmployeeController {
     EmployeeService employeeService;
     @Resource
     TeamService teamService;
+    @Resource
+    LoginService loginService;
 
+    /**
+     * This method return set of team in which employee is a member
+     * 
+     * @param authorisationToken
+     * @param username
+     * @param employeeDto
+     * @return
+     */
     @RequestMapping(value = "/getTeamsByEmployee", method = RequestMethod.POST)
     public @ResponseBody Set<Team> getEmployeeHead(
             @RequestHeader(value = "authorisationToken") String authorisationToken,
             @RequestHeader(value = "username") String username,
             @RequestBody EmployeeDTO employeeDto) {
+        // validate headers
         if (!Validation.validateHeaders(authorisationToken, username)) {
             return new HashSet<Team>();
         }
-        return employeeService.getEmployeeTeams(authorisationToken, username,
-                employeeDto.getLogin().getUsername());
+        // authenticate headers logged in credentials are correct or not
+        if (!loginService.authenticateRequest(authorisationToken, username)) {
+            return new HashSet<Team>();
+        }
+        // If required data is not specified
+        if (Validation.isNull(employeeDto.getLogin().getUsername())
+                || Validation.isEmpty(employeeDto.getLogin().getUsername())) {
+            return new HashSet<Team>();
+        }
+        // calls service method
+        return employeeService.getEmployeeTeams(username, employeeDto
+                .getLogin().getUsername());
     }
 
+    /**
+     * @param authorisationToken
+     * @param username
+     * @return set of all employees under the particular head
+     */
     @RequestMapping(value = "/getEmployeesUnderHead", method = RequestMethod.GET)
     public @ResponseBody Set<EmployeeDTO> getEmployeeHead(
             @RequestHeader(value = "authorisationToken") String authorisationToken,
             @RequestHeader(value = "username") String username) {
+        // validate headers
         if (!Validation.validateHeaders(authorisationToken, username)) {
             return new HashSet<EmployeeDTO>();
         }
-        return teamService.getAllEmployeesUnderHead(username,
-                authorisationToken);
+        // authenticate headers logged in credentials are correct or not
+        if (!loginService.authenticateRequest(authorisationToken, username)) {
+            return new HashSet<EmployeeDTO>();
+        }
+        // calls service method
+        return teamService.getAllEmployeesUnderHead(username);
     }
 
+    /**
+     * return complete detail of the logged in user
+     * 
+     * @param authorisationToken
+     * @param username
+     * @return
+     */
     @RequestMapping(value = "/getEmployeeDetails", method = RequestMethod.GET)
     public @ResponseBody EmployeeDTO getEmployeeDetails(
             @RequestHeader(value = "authorisationToken") String authorisationToken,
             @RequestHeader(value = "username") String username) {
+        // validate headers
         if (!Validation.validateHeaders(authorisationToken, username)) {
             return new EmployeeDTO();
         }
-        return employeeService.getEmployeeDetails(authorisationToken, username);
+        // authenticate headers logged in credentials are correct or not
+        if (!loginService.authenticateRequest(authorisationToken, username)) {
+            return new EmployeeDTO();
+        }
+        // calls service method
+        return employeeService.getEmployeeDetails(username);
     }
 }

@@ -18,10 +18,12 @@ import com.metacube.helpdesk.dto.PasswordDTO;
 import com.metacube.helpdesk.service.EmployeeService;
 import com.metacube.helpdesk.service.LoginService;
 import com.metacube.helpdesk.service.OrganisationService;
+import com.metacube.helpdesk.utility.Constants;
+import com.metacube.helpdesk.utility.Designation;
 import com.metacube.helpdesk.utility.LoginResponse;
+import com.metacube.helpdesk.utility.MessageConstants;
 import com.metacube.helpdesk.utility.Response;
 import com.metacube.helpdesk.utility.Validation;
-import com.metacube.helpdesk.vo.GetResponse;
 
 @CrossOrigin
 @Controller
@@ -50,36 +52,78 @@ public class LoginController {
             return new LoginResponse(new Response(0, null,
                     "Required Data Not Found with your Request"), null);
         }
+        // Null check
+        if (Validation.isNull(loginDTO.getUsername())
+                || Validation.isNull(loginDTO.getPassword())
+                || Validation.isEmpty(loginDTO.getUsername())
+                || Validation.isEmpty(loginDTO.getPassword())) {
+            return new LoginResponse(new Response(0, null,
+                    "Please specify required fields"),
+                    Designation.InvalidAccount);
+        }
+        // Enter mail id is in correct format or not
+        if (!Validation.validateInput(loginDTO.getUsername(),
+                Constants.EMAILREGEX)) {
+            return new LoginResponse(new Response(0, null,
+                    "Incorrect format of email"), Designation.InvalidAccount);
+        }
+        // calls service method
         return loginService.loginAuthentication(loginDTO.getUsername(),
                 loginDTO.getPassword());
     }
 
+    /**
+     * method providing service to change password to the user
+     * 
+     * @param authorisationToken
+     * @param username
+     * @param passwordDTO
+     * @return response object
+     */
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
     public @ResponseBody Response changePassword(
             @RequestHeader(value = "authorisationToken") String authorisationToken,
             @RequestHeader(value = "username") String username,
             @RequestBody PasswordDTO passwordDTO) {
+        // null check
         if (Validation.isNull(passwordDTO)) {
             return new Response(0, null,
                     "Required Data Not Found with your Request");
         }
+        // calls service change password functionality
         return loginService.changePassword(authorisationToken, username,
                 passwordDTO.getUsername(), passwordDTO.getPrevPassword(),
                 passwordDTO.getNewPassword());
     }
 
+    /**
+     * this method will give a random password to the user at his mail
+     * 
+     * @param loginDTO
+     * @return
+     */
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
     public @ResponseBody Response forgotPasword(@RequestBody LoginDTO loginDTO) {
+        // null check
         if (Validation.isNull(loginDTO)) {
             return new Response(0, null,
                     "Required Data Not Found with your Request");
         }
+        // calls service method
         return loginService.forgotPassword(loginDTO.getUsername());
     }
 
+    /**
+     * Method to check that user is authorize or not on the basis of employee
+     * type
+     * 
+     * @param loginDTO
+     * @return
+     */
     @RequestMapping(value = "/accessVerification", method = RequestMethod.POST)
     public @ResponseBody LoginResponse accessVerification(
             @RequestBody LoginDTO loginDTO) {
+        // null check
         if (Validation.isNull(loginDTO)) {
             return new LoginResponse(new Response(0, null,
                     "Required Data Not Found with your Request"), null);
@@ -90,15 +134,40 @@ public class LoginController {
                 loginService.getAccountType(loginDTO.getUsername()));
     }
 
+    /**
+     * performs logout functionality
+     * 
+     * @param authorisationToken
+     * @param username
+     * @return
+     */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public @ResponseBody Response logOut(
             @RequestHeader(value = "authorisationToken") String authorisationToken,
             @RequestHeader(value = "username") String username) {
-        return loginService.logOut(authorisationToken, username);
+        // To check if headers are null or not
+        if (!Validation.validateHeaders(authorisationToken, username)) {
+            return new Response(0, authorisationToken,
+                    MessageConstants.REQUIRED_DATA_NOT_SPECIFIED);
+        }
+        // authenticate the log in credentials
+        if (loginService.authenticateRequest(authorisationToken, username)) {
+            return loginService.logOut(username);
+        }
+        // if fails return message as logged in user
+        return new Response(0, authorisationToken,
+                MessageConstants.UNAUTHORISED_USER);
     }
 
+    /**
+     * method to create employee or sign up it
+     * 
+     * @param employee
+     * @return
+     */
     @RequestMapping(value = "/signup/employee", method = RequestMethod.POST)
     public @ResponseBody Response signUpEmp(@RequestBody EmployeeDTO employee) {
+        // null check
         if (Validation.isNull(employee)) {
             return new Response(0, null,
                     "Required Data Not Found with your Request");
@@ -106,19 +175,21 @@ public class LoginController {
         return employeeService.create(employee);
     }
 
+    /**
+     * method to sign up organisation
+     * 
+     * @param organisation
+     * @return
+     */
     @RequestMapping(value = "/signup/organisation", method = RequestMethod.POST)
     public @ResponseBody Response signUpOrg(
             @RequestBody OrganisationDTO organisation) {
+        // null check
         if (Validation.isNull(organisation)) {
             return new Response(0, null,
                     "Required Data Not Found with your Request");
         }
         return organisationService.create(organisation);
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public @ResponseBody String gtestController() {
-        return "This is a controller test";
     }
 
     // for requests of external login
@@ -128,18 +199,26 @@ public class LoginController {
         return loginService.verifyExternalLogin(username);
     }
 
+    /**
+     * to check that the verification link is verified by valid user or not and
+     * set employee as enable on the basis of that
+     * 
+     * @param username
+     * @param hashUsername
+     * @return
+     */
     @RequestMapping(value = "/verifySignUp/{hashed}", method = RequestMethod.GET)
-    public @ResponseBody Response verificationSignUp(
+    public @ResponseBody String verificationSignUp(
             @RequestParam("username") String username,
             @PathVariable("hashed") String hashUsername) {
         return loginService.enableLogIn(username, hashUsername);
     }
 
-    @RequestMapping(value = "/getOrganisation", method = RequestMethod.GET)
-    public @ResponseBody GetResponse<List<OrganisationDTO>> getAllOrgs() {
-        return organisationService.getAllOrganisation();
-    }
-
+    /**
+     * return list of all the organisation domains registered
+     * 
+     * @return
+     */
     @RequestMapping(value = "/getOrganisationDomains", method = RequestMethod.GET)
     public @ResponseBody List<String> getAllOrgsDomains() {
         return organisationService.getAllOrganisationDomains();

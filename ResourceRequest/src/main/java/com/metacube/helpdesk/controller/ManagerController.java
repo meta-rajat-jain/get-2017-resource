@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.metacube.helpdesk.dto.EmpTeamDTO;
 import com.metacube.helpdesk.dto.EmployeeDTO;
 import com.metacube.helpdesk.dto.TeamDTO;
+import com.metacube.helpdesk.service.LoginService;
 import com.metacube.helpdesk.service.TeamService;
+import com.metacube.helpdesk.utility.MessageConstants;
 import com.metacube.helpdesk.utility.Response;
 import com.metacube.helpdesk.utility.Validation;
 
@@ -24,6 +26,8 @@ public class ManagerController {
 
     @Resource
     TeamService teamService;
+    @Resource
+    LoginService loginService;
 
     // gets all teams under a manager
     @RequestMapping(value = "/getAllTeams", method = RequestMethod.GET)
@@ -33,8 +37,11 @@ public class ManagerController {
         if (!Validation.validateHeaders(authorisationToken, username)) {
             return new ArrayList<TeamDTO>();
         }
-        return teamService
-                .getAllTeamsUnderManager(authorisationToken, username);
+        // to authenticate that logeed in credentials are correct or not
+        if (!loginService.authenticateRequest(authorisationToken, username)) {
+            return new ArrayList<TeamDTO>();
+        }
+        return teamService.getAllTeamsUnderManager(username);
     }
 
     /**
@@ -54,8 +61,15 @@ public class ManagerController {
                 && Validation.isNull(team)) {
             return new ArrayList<EmployeeDTO>();
         }
-        return teamService.getEmployeesByTeamName(authorisationToken, username,
-                team.getTeamName());
+        // to authenticate that logeed in credentials are correct or not
+        if (!loginService.authenticateRequest(authorisationToken, username)) {
+            return new ArrayList<EmployeeDTO>();
+        }
+        if (Validation.isNull(team.getTeamName())
+                || Validation.isEmpty(team.getTeamName())) {
+            return new ArrayList<EmployeeDTO>();
+        }
+        return teamService.getEmployeesByTeamName(username, team.getTeamName());
     }
 
     /**
@@ -75,8 +89,16 @@ public class ManagerController {
                 && Validation.isNull(team)) {
             return new ArrayList<EmployeeDTO>();
         }
-        return teamService.getEmployeesNotInPaticularTeam(authorisationToken,
-                username, team.getTeamName());
+        // to authenticate that logeed in credentials are correct or not
+        if (!loginService.authenticateRequest(authorisationToken, username)) {
+            return new ArrayList<EmployeeDTO>();
+        }
+        if (Validation.isNull(team.getTeamName())
+                || Validation.isEmpty(team.getTeamName())) {
+            return new ArrayList<EmployeeDTO>();
+        }
+        return teamService.getEmployeesNotInPaticularTeam(username,
+                team.getTeamName());
     }
 
     /**
@@ -96,8 +118,16 @@ public class ManagerController {
                 && Validation.isNull(employeeDto)) {
             return new ArrayList<TeamDTO>();
         }
-        return teamService.getTeamsByEmployee(authorisationToken, username,
-                employeeDto.getLogin().getUsername());
+        // to authenticate that logeed in credentials are correct or not
+        if (!loginService.authenticateRequest(authorisationToken, username)) {
+            return new ArrayList<TeamDTO>();
+        }
+        if (Validation.isNull(employeeDto.getLogin().getUsername())
+                || Validation.isEmpty(employeeDto.getLogin().getUsername())) {
+            return new ArrayList<TeamDTO>();
+        }
+        return teamService.getTeamsByEmployee(username, employeeDto.getLogin()
+                .getUsername());
     }
 
     /**
@@ -115,25 +145,76 @@ public class ManagerController {
         if (!Validation.validateHeaders(authorisationToken, username)) {
             return new ArrayList<TeamDTO>();
         }
-        return teamService.getTeamsByEmployee(authorisationToken, username,
-                username);
+        // to authenticate that logged in credentials are correct or not
+        if (!loginService.authenticateRequest(authorisationToken, username)) {
+            return new ArrayList<TeamDTO>();
+        }
+        return teamService.getTeamsByEmployee(username, username);
     }
 
+    /**
+     * method to create team and setting it manager and head user name
+     * 
+     * @param username
+     * @param teamDTO
+     * @return response on the basis of status
+     */
     @RequestMapping(value = "/createTeam", method = RequestMethod.POST)
     public @ResponseBody Response createTeam(
             @RequestHeader(value = "username") String username,
             @RequestBody TeamDTO teamDTO) {
+        // null check
+        if (Validation.isNull(teamDTO)) {
+            return new Response(0, null,
+                    MessageConstants.REQUIRED_DATA_NOT_SPECIFIED);
+        }
+        teamDTO.setManagerUsername(username);
+        if (teamDTO.getTeamHeadUsername() == null) {
+            teamDTO.setTeamHeadUsername(username);
+        }
+        // validate team object
+        Response response = teamService.validateTeamObject(teamDTO);
+        if (response != null) {
+            return response;
+        }
+        // calls service method
         return teamService.createTeam(username, teamDTO);
     }
 
+    /**
+     * method to add particular employee to particular team
+     * 
+     * @param username
+     * @param empTeamDTo
+     * @return
+     */
     @RequestMapping(value = "/addEmployeeToTeam", method = RequestMethod.POST)
     public @ResponseBody Response addEmployeeToTeam(
             @RequestHeader(value = "username") String username,
             @RequestBody EmpTeamDTO empTeamDTo) {
+        // if null
         if (empTeamDTo == null) {
             return new Response(0, null,
-                    "One or more required data is missing with request ");
+                    MessageConstants.REQUIRED_DATA_NOT_SPECIFIED);
         }
+        // null check if employee or team object is not there
+        if (Validation.isNull(empTeamDTo.getEmployeeDTO())
+                || Validation.isNull(empTeamDTo.getEmployeeDTO())) {
+            return new Response(0, null,
+                    MessageConstants.REQUIRED_DATA_NOT_SPECIFIED);
+        }
+        if (Validation.isNull(empTeamDTo.getEmployeeDTO().getLogin()
+                .getUsername())
+                || Validation.isNull(empTeamDTo.getTeamDTO().getTeamName())) {
+            return new Response(0, null,
+                    MessageConstants.REQUIRED_DATA_NOT_SPECIFIED);
+        }
+        if (Validation.isEmpty(empTeamDTo.getEmployeeDTO().getLogin()
+                .getUsername())
+                || Validation.isEmpty(empTeamDTo.getTeamDTO().getTeamName())) {
+            return new Response(0, null, MessageConstants.INVALID_CREDENTIALS);
+        }
+        // calls service method
         return teamService.addEmployeeToTeam(empTeamDTo, username);
     }
 }

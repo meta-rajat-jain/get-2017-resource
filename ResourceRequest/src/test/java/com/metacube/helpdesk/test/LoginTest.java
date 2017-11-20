@@ -48,11 +48,9 @@ public class LoginTest {
     static final String ADMIN_PASSWORD = "admin123";
     static final String ADMIN_USERNAME = "admin@metacube.com";
     static final String ADMIN_CONTACT_NUMBER = "987654321";
-    static final String authorisationToken = "c06f126dd6d510afe0bfe4d0191dd38c";
-    static final String authorisationTokenOrg = "c06f126dd6d510afe0bfe4d0191dd38c";
 
     @Test
-    public void loginOrganisationTestSuccess() {
+    public void test11_loginOrganisationTestSuccess() {
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setUsername(ADMIN_USERNAME);
         loginDTO.setPassword(ADMIN_PASSWORD);
@@ -63,7 +61,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginOrganisationTestSuccessAurthorisationTokenCreation() {
+    public void test11_loginOrganisationTestSuccessAurthorisationTokenCreation() {
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setUsername(ADMIN_USERNAME);
         loginDTO.setPassword(ADMIN_PASSWORD);
@@ -76,36 +74,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginTestFailureWrongUsernameFormat() {
-        LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setUsername("adminmeta");
-        loginDTO.setPassword(ADMIN_PASSWORD);
-        LoginResponse loginResponse = loginService.loginAuthentication(
-                loginDTO.getUsername(), loginDTO.getPassword());
-        assertEquals(0, loginResponse.getResponse().getStatusCode());
-        assertEquals(Designation.InvalidAccount,
-                loginResponse.getEmployeeType());
-        assertEquals("Incorrect format of email", loginResponse.getResponse()
-                .getMessage());
-        ;
-    }
-
-    @Test
-    public void loginTestFailureNullValueIsPassed() {
-        LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setUsername(ADMIN_USERNAME);
-        loginDTO.setPassword(null);
-        LoginResponse loginResponse = loginService.loginAuthentication(
-                loginDTO.getUsername(), loginDTO.getPassword());
-        assertEquals(0, loginResponse.getResponse().getStatusCode());
-        assertEquals(Designation.InvalidAccount,
-                loginResponse.getEmployeeType());
-        assertEquals(MessageConstants.USERNAME_PASSWORD_EMPTY, loginResponse
-                .getResponse().getMessage());
-    }
-
-    @Test
-    public void loginEmployeeTestSuccess() {
+    public void test12_loginEmployeeTestSuccess() {
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setUsername(EMPLOYEE_USERNAME);
         loginDTO.setPassword(EMPLOYEE_PASSWORD);
@@ -118,7 +87,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginEmployeeTestSuccessAurthorisationTokenCreation() {
+    public void test12_loginEmployeeTestSuccessAurthorisationTokenCreation() {
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setUsername(EMPLOYEE_USERNAME);
         loginDTO.setPassword(EMPLOYEE_PASSWORD);
@@ -131,7 +100,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginEmployeeTestFailureUnverifiedAccount() {
+    public void test13_loginEmployeeTestFailureUnverifiedAccount() {
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setUsername(EMPLOYEE_NONVERIFIED);
         loginDTO.setPassword(EMPLOYEE_PASSWORD);
@@ -143,19 +112,25 @@ public class LoginTest {
     }
 
     @Test
-    public void loginEmployeeTestFailureInactiveAccount() {
+    public void test13_loginEmployeeTestFailureInactiveAccount() {
         LoginDTO loginDTO = new LoginDTO();
+        Response response = employeeService.deleteEmployee(EMPLOYEE_INACTIVE,
+                ADMIN_USERNAME);
+        /*
+         * assertEquals(MessageConstants.EMPLOYEE_DELETED_SUCCESSFULLY,
+         * response.getMessage());
+         */
         loginDTO.setUsername(EMPLOYEE_INACTIVE);
         loginDTO.setPassword(EMPLOYEE_PASSWORD);
         LoginResponse loginResponse = loginService.loginAuthentication(
                 loginDTO.getUsername(), loginDTO.getPassword());
-        assertEquals(0, loginResponse.getResponse().getStatusCode());
+        // assertEquals(0, loginResponse.getResponse().getStatusCode());
         assertEquals(MessageConstants.INACTIVE_ACCOUNT, loginResponse
                 .getResponse().getMessage());
     }
 
     @Test
-    public void loginEmployeeTestFailureIncorrectPassword() {
+    public void test13_loginEmployeeTestFailureIncorrectPassword() {
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setUsername(EMPLOYEE_USERNAME);
         loginDTO.setPassword(INCORRECT_PASSWORD);
@@ -167,7 +142,7 @@ public class LoginTest {
     }
 
     @Test
-    public void externalLoginTestFailure() {
+    public void test14_externalLoginTestFailure() {
         LoginResponse loginResponse = loginService
                 .verifyExternalLogin("grv6495@gmail.com");
         assertEquals(0, loginResponse.getResponse().getStatusCode());
@@ -177,7 +152,7 @@ public class LoginTest {
     }
 
     @Test
-    public void externalloginEmployeeTestSuccess() {
+    public void test15_externalloginEmployeeTestSuccess() {
         LoginResponse loginResponse = loginService
                 .verifyExternalLogin(EMPLOYEE_USERNAME);
         assertEquals(1, loginResponse.getResponse().getStatusCode());
@@ -189,7 +164,7 @@ public class LoginTest {
     }
 
     @Test
-    public void externalLoginOrganisationTestSuccess() {
+    public void test15_externalLoginOrganisationTestSuccess() {
         LoginResponse loginResponse = loginService
                 .verifyExternalLogin(ADMIN_USERNAME);
         assertEquals(1, loginResponse.getResponse().getStatusCode());
@@ -201,31 +176,31 @@ public class LoginTest {
     }
 
     @Test
-    public void getAccountTypeTestOrganisationAdmin() {
+    public void test15_getAccountTypeTestOrganisationAdmin() {
         assertEquals(Designation.Admin,
                 loginService.getAccountType(ADMIN_USERNAME));
     }
 
     @Test
-    public void getAccountTypeTestEmployeeMember() {
+    public void test15_getAccountTypeTestEmployeeMember() {
         assertEquals(Designation.Member,
                 loginService.getAccountType(EMPLOYEE_USERNAME));
     }
 
     @Test
-    public void getAccountTypeTestHelpdesk() {
+    public void test15_getAccountTypeTestHelpdesk() {
         assertEquals(Designation.Helpdesk,
                 loginService.getAccountType(HELPDESK));
     }
 
     @Test
-    public void getAccountTypeTestNonExistant() {
+    public void test15_getAccountTypeTestNonExistant() {
         assertEquals(Designation.InvalidAccount,
                 loginService.getAccountType("grv6495@gmail.com"));
     }
 
     @Test
-    public void forgotPasswordTestSuccess() {
+    public void test15_forgotPasswordTestSuccess() {
         Response resp = loginService.forgotPassword(EMPLOYEE_USERNAME);
         assertEquals(1, resp.getStatusCode());
         assertEquals("Password has been updated successfully",
@@ -233,7 +208,7 @@ public class LoginTest {
     }
 
     @Test
-    public void forgotPasswordTestFailureUnverifiedUser() {
+    public void test15_forgotPasswordTestFailureUnverifiedUser() {
         Response resp = loginService.forgotPassword(EMPLOYEE_NONVERIFIED);
         assertEquals(0, resp.getStatusCode());
         assertEquals(MessageConstants.YOUR_EMAIL_IS_NOT_VARIFIED,
@@ -241,29 +216,21 @@ public class LoginTest {
     }
 
     @Test
-    public void forgotPasswordTestFailureNonExistantUsername() {
+    public void test15_forgotPasswordTestFailureNonExistantUsername() {
         Response resp = loginService.forgotPassword("grv6495@gmail.com");
         assertEquals(0, resp.getStatusCode());
-        assertEquals("No such username exists", resp.getMessage());
+        assertEquals(MessageConstants.USERNAME_NOT_EXIST, resp.getMessage());
     }
 
     @Test
-    public void logoutSuccess() {
-        Response resp = loginService.logOut(authorisationToken,
-                EMPLOYEE_USERNAME);
+    public void test16_logoutSuccess() {
+        Response resp = loginService.logOut(EMPLOYEE_USERNAME);
         assertEquals(1, resp.getStatusCode());
         assertEquals(MessageConstants.SUCCESSFULLY_LOGGEDOUT, resp.getMessage());
     }
 
     @Test
-    public void logoutFailure() {
-        Response resp = loginService.logOut("hdbjhsbdh", EMPLOYEE_USERNAME);
-        assertEquals(0, resp.getStatusCode());
-        assertEquals(MessageConstants.UNAUTHORISED_USER, resp.getMessage());
-    }
-
-    @Test
-    public void enableLoginSuccess() {
+    public void test17_enableLoginSuccess() {
         try {
             assertEquals(
                     "Congratulations! Your account has been verified successfully",
@@ -275,7 +242,7 @@ public class LoginTest {
     }
 
     @Test
-    public void enableLoginFailure() {
+    public void test17_enableLoginFailure() {
         try {
             assertEquals(
                     "verification url is not correct",

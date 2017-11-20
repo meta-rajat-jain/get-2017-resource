@@ -116,7 +116,7 @@ public class TicketDAOImpl extends GenericDAO implements TicketDAO {
         Status result = Status.Success;
         try {
             Session session = this.sessionFactory.getCurrentSession();
-            session.saveOrUpdate(ticket);
+            session.update(ticket);
         } catch (Exception e) {
             e.printStackTrace();
             result = Status.Error_Occured;

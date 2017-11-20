@@ -51,7 +51,7 @@ public class Ticket implements Serializable {
     @Column(name = "comment")
     private String comment;
     @ManyToOne
-    @JoinColumn(name = "requestedResource", nullable = false)
+    @JoinColumn(name = "requestedResource")
     private ItResource requestedResource;
     @Column(name = "lastDateOfUpdate", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)

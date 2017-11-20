@@ -12,8 +12,7 @@ public interface LoginDAO {
 
     Status create(LogIn login);
 
-    Response destroyAuthorisationToken(String authorisationToken,
-            String username);
+    Response destroyAuthorisationToken(String username);
 
     Status update(LogIn login);
 }

@@ -20,7 +20,7 @@ public interface LoginService {
 
     Boolean authenticateRequest(String authorizationToken, String userName);
 
-    Response logOut(String authorisationToken, String username);
+    Response logOut(String username);
 
     Response checkPassword(String authorisationToken, String username,
             String currentPassword) throws NoSuchAlgorithmException,
@@ -34,7 +34,7 @@ public interface LoginService {
 
     Response forgotPassword(String usernameForForgotPassword);
 
-    Response enableLogIn(String username, String hashUsername);
+    String enableLogIn(String username, String hashUsername);
 
     LogIn createLogIn(LoginDTO loginDto);
 

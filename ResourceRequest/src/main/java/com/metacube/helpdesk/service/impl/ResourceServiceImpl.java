@@ -80,33 +80,25 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<ResourceCategoryDTO> getAllResourceCategory(
-            String authorisationToken, String username) {
+    public List<ResourceCategoryDTO> getAllResourceCategory() {
         List<ResourceCategoryDTO> allResourceCategoriesDTO = new ArrayList<ResourceCategoryDTO>();
-        if (loginService.authenticateRequest(authorisationToken, username)) {
-            for (ResourceCategory resourceCategory : resourceCategoryDAO
-                    .getAllResourceCategory()) {
-                allResourceCategoriesDTO.add(modelToDto(resourceCategory));
-            }
-            return allResourceCategoriesDTO;
+        for (ResourceCategory resourceCategory : resourceCategoryDAO
+                .getAllResourceCategory()) {
+            allResourceCategoriesDTO.add(modelToDto(resourceCategory));
         }
         return allResourceCategoriesDTO;
     }
 
     @Override
-    public List<ResourceDTO> getResourcesBasedOnCategory(
-            String authorisationToken, String username, String categoryName) {
+    public List<ResourceDTO> getResourcesBasedOnCategory(String categoryName) {
         List<ResourceDTO> allCategoryBasedResources = new ArrayList<ResourceDTO>();
         if (Validation.isNull(categoryName) || Validation.isEmpty(categoryName)) {
             return allCategoryBasedResources;
         }
-        if (loginService.authenticateRequest(authorisationToken, username)) {
-            for (ItResource resource : resourceDAO
-                    .getAllCategoryBasedResources(resourceCategoryDAO
-                            .getResourceCategoryByName(categoryName))) {
-                allCategoryBasedResources.add(modelToDto(resource));
-            }
-            return allCategoryBasedResources;
+        for (ItResource resource : resourceDAO
+                .getAllCategoryBasedResources(resourceCategoryDAO
+                        .getResourceCategoryByName(categoryName))) {
+            allCategoryBasedResources.add(modelToDto(resource));
         }
         return allCategoryBasedResources;
     }

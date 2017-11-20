@@ -18,75 +18,38 @@ public class ResourceServiceTest {
     @Autowired
     ResourceService resourceService;
     static final String EMPLOYEE_USERNAME = "udit.saxena@metacube.com";
-    static final String EMPLOYEE_AUTHORISATION_TOKEN = "c06f126dd6d510afe0bfe4d0191dd38c";
-
-    @Test
-    public void test30_getAllResourcesCategoryWhenLoggedInUserIsInvalid() {
-        assertEquals(
-                0,
-                resourceService.getAllResourceCategory("b789003ghjk678999900",
-                        EMPLOYEE_USERNAME).size());
-    }
 
     @Test
     public void test30_getAllResourcesCategoryWhenLoggedInUserIsvalid() {
-        assertEquals(
-                3,
-                resourceService.getAllResourceCategory(
-                        EMPLOYEE_AUTHORISATION_TOKEN, EMPLOYEE_USERNAME).size());
-    }
-
-    @Test
-    public void test30_getAllResourcesCategoryBasedResourcesWhenLoggedInUserIsInvalid() {
-        assertEquals(
-                0,
-                resourceService.getResourcesBasedOnCategory(
-                        "b789003ghjk678999900", EMPLOYEE_USERNAME, "Hardware")
-                        .size());
+        assertEquals(3, resourceService.getAllResourceCategory().size());
     }
 
     @Test
     public void test30_getAllResourcesCategoryBasedResourcesWhenCategoryIsNull() {
-        assertEquals(
-                0,
-                resourceService.getResourcesBasedOnCategory(
-                        EMPLOYEE_AUTHORISATION_TOKEN, EMPLOYEE_USERNAME, null)
-                        .size());
+        assertEquals(0, resourceService.getResourcesBasedOnCategory(null)
+                .size());
     }
 
     @Test
     public void test30_getAllResourcesCategoryBasedResourcesWhenCategoryIsEmpty() {
-        assertEquals(
-                0,
-                resourceService.getResourcesBasedOnCategory(
-                        EMPLOYEE_AUTHORISATION_TOKEN, EMPLOYEE_USERNAME, "")
-                        .size());
+        assertEquals(0, resourceService.getResourcesBasedOnCategory("").size());
     }
 
     @Test
     public void test30_getAllResourcesCategoryBasedResourcesWhenCategoryIsHardware() {
-        assertEquals(
-                5,
-                resourceService.getResourcesBasedOnCategory(
-                        EMPLOYEE_AUTHORISATION_TOKEN, EMPLOYEE_USERNAME,
-                        "Hardware").size());
+        assertEquals(4, resourceService.getResourcesBasedOnCategory("Hardware")
+                .size());
     }
 
     @Test
     public void test30_getAllResourcesCategoryBasedResourcesWhenCategoryIsSoftware() {
-        assertEquals(
-                3,
-                resourceService.getResourcesBasedOnCategory(
-                        EMPLOYEE_AUTHORISATION_TOKEN, EMPLOYEE_USERNAME,
-                        "Software").size());
+        assertEquals(2, resourceService.getResourcesBasedOnCategory("Software")
+                .size());
     }
 
     @Test
     public void test30_getAllResourcesCategoryBasedResourcesWhenCategoryIsNetwork() {
-        assertEquals(
-                1,
-                resourceService.getResourcesBasedOnCategory(
-                        EMPLOYEE_AUTHORISATION_TOKEN, EMPLOYEE_USERNAME,
-                        "Network").size());
+        assertEquals(1, resourceService.getResourcesBasedOnCategory("Network")
+                .size());
     }
 }

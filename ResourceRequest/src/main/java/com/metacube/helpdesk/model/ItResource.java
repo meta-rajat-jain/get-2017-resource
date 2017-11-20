@@ -28,6 +28,13 @@ public class ItResource implements Serializable {
     public ItResource() {
     }
 
+    public ItResource( int resourceId, String resourceName,
+            ResourceCategory resourceCategory ) {
+        this.resourceId = resourceId;
+        this.resourceName = resourceName;
+        this.resourceCategory = resourceCategory;
+    }
+
     public ItResource( String resourceName, ResourceCategory resourceCategory ) {
         this.resourceName = resourceName;
         this.resourceCategory = resourceCategory;
