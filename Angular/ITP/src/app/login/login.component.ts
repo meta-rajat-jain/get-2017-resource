@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         null,
         Validators.compose([Validators.required, Validators.email])
       ],
-      password: [null, Validators.required],
+      password: [null, Validators.required,Validators.minLength(8)],
     });
   }
   ngOnInit() {
@@ -83,13 +83,13 @@ export class LoginComponent implements OnInit {
         } else if (this.responseObject.employeeType.toString() == "Helpdesk") {
           this.router.navigate(["/helpDeskDashboard"]);
         } else {
-          this.router.navigate([" "]);
+          this.errorMessage = this.responseObject.response.message;
         }
+        this.reactiveForm.reset();
         this.errorMessage = "";
       } else {
         this.errorMessage =
           "Invalid Credentials" + this.responseObject.response.message;
-        this.router.navigate([" "]);
       }
     });
   }

@@ -25,11 +25,11 @@ export class MemberComponent implements OnInit {
   resourceValues:RequestedResource[]=[];
   teamsOfEmployee:Team[]=[];
   status:string;
-  OpenCount:number;
-  InProgressCount:number;
-  ClosedCount:number;
-  NeedInfoCount:number;
-  ApprovedCount:number;
+  OpenCount:number=0;
+  InProgressCount:number=0;
+  ClosedCount:number=0;
+  NeedInfoCount:number=0;
+  ApprovedCount:number=0;
   ticketCount:TicketStatusCount[]=[];
   loggedInUser:Employee;
   constructor(private fb: FormBuilder,private router:Router,private memberService:MemberService) { }

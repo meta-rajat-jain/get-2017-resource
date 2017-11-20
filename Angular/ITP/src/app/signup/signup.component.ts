@@ -29,12 +29,13 @@ export class SignupComponent implements OnInit {
   private loggedIn: boolean;
   private authenticationObject: Authentication;
   private reactiveForm: FormGroup;
+  private reactiveFormOrganisation: FormGroup;
   private username: string;
   private password: string;
   private Title: string = "This field is required";
   private selectedDomain: string;
   private checkDomainNames: string[];
-  private domainTitle: string;
+  private domainTitle: string ;
   private errorMessage: string;
   constructor(
     private userService: UserService,
@@ -78,46 +79,47 @@ export class SignupComponent implements OnInit {
           Validators.pattern("^[7-9][0-9]{9}$")
         ])
       ],
-
-      orgContactNo: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(10),
-          Validators.pattern("^[7-9][0-9]{9}$")
-        ])
-      ],
-      orgName: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.pattern("[A-Za-z]+ *[A-Za-z ]+$")
-        ])
-      ],
-      orgEmail: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.email
-        ])
-      ],
-      orgPassword: [
-        null,
-        Validators.compose([Validators.required, Validators.minLength(8)])
-      ],
-      orgDomainName: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(1),
-          Validators.pattern(
-            "^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9].[a-zA-Z]{2,6}$"
-          )
-        ])
-      ]
     });
+this.reactiveFormOrganisation = this.fb.group({
+  orgContactNo: [
+    null,
+    Validators.compose([
+      Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(10),
+      Validators.pattern("^[7-9][0-9]{9}$")
+    ])
+  ],
+  orgName: [
+    null,
+    Validators.compose([
+      Validators.required,
+      Validators.pattern("[A-Za-z]+ *[A-Za-z ]+$")
+    ])
+  ],
+  orgEmail: [
+    null,
+    Validators.compose([
+      Validators.required,
+      Validators.minLength(1),
+      Validators.email
+    ])
+  ],
+  orgPassword: [
+    null,
+    Validators.compose([Validators.required, Validators.minLength(8)])
+  ],
+  orgDomainName: [
+    null,
+    Validators.compose([
+      Validators.required,
+      Validators.minLength(1),
+      Validators.pattern(
+        "^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9].[a-zA-Z]{2,6}$"
+      )
+    ])
+  ]
+});
   }
   ngOnInit() {
     this.userService.getOrganisation();
@@ -137,6 +139,7 @@ export class SignupComponent implements OnInit {
         if (this.authenticationObject.statusCode == 1) {
           this.userService.saveUser(authenticationHeader);
           this.errorMessage = this.authenticationObject.message;
+          this.reactiveForm.reset();
           this.router.navigate(['']);
         } else {
           this.errorMessage = this.authenticationObject.message;
@@ -169,7 +172,8 @@ export class SignupComponent implements OnInit {
           this.userService.saveUser(authenticationHeader);
           this.errorMessage =
             "Valid Credentials" + this.authenticationObject.message;
-            this.router.navigate(['']);
+            this.reactiveForm.reset();
+            location.reload();
         } else {
           this.errorMessage =
             "Invalid Credentials" + this.authenticationObject.message;
@@ -177,17 +181,17 @@ export class SignupComponent implements OnInit {
       });
   }
   checkOrganisation(email: string): void {
+    this.domainTitle="NO such domain exists";
     this.checkDomainNames = this.userService.getDomainNames();
     let input = email.split("@");
     for (let domain of this.checkDomainNames) {
-      if (input[1] === domain) {
+      if (input[1] == domain) {
         this.domainTitle = "";
         break;
       } else {
         this.domainTitle = "Your Organisation is not registered with us";
       }
     }
-    console.log(this.domainTitle + "in domain Title after setting its value");
   }
   displayForm(type: string): void {
     var x = document.getElementById("organisation");

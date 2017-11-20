@@ -1,78 +1,41 @@
 <div class="main-content">
-<!-- <nav class="navbar navbar-default" style="background-image:url(assets/images/img_bg_1.jpg); width:100%">
-  
-  <div class="container">
-   
-    <ul class="nav nav-tabs">
-      <li ><a routerLink="/managerDashboard" routerLinkActive="active">Request-Tab</a></li>
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Team
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a routerLink="/createTeam" routerLinkActive="active">Create New Team</a></li>
-          <li><a routerLink="/teamUnderManager" routerLinkActive="active" (click)="getTeamsUnderManager();">Edit Existing Team </a></li>
-        </ul>
-      </li>
-      <li ><a (click)="goToRequestTab('Manager');" >New Request</a></li>
-      <li class="pull-right">
-        <span class="glyphicon glyphicon-user img-circle user-image"></span>
-        <span class="dropdown">
-        <span class=" dropdown-toggle" data-toggle="dropdown">{{username}}
-        <span class="caret"></span></span>
-        <ul class="dropdown-menu">
-        <li><a (click)="changePassword('change')">Change Password</a></li>
-        <li><a (click)="logOut()">Log Out</a></li>
-        </ul>
-        </span>
-        </li>
-    </ul>
-    
-  </div>
-</nav> -->
-<app-navbar></app-navbar>
-<div  style="background-image:url(assets/images/img_bg_1.jpg); width:100%">
-  <div class="container">
-      <div class="row main" style="min-height:100%">
-       
-        <div class="main-login main-center">
-           
-                <div class="panel-title text-center">
-                    <h1 class="title">Create Team</h1>
-                    <hr />
-             </div> 
-          <form  id="employee" class="form-horizontal" method="post" action="#">
-           
-              <div class="form-group">
-                  <label for="password" class="cols-sm-2 control-label">Team Name</label>
-                  <div class="cols-sm-10">
-                    <div class="input-group">
-                      <span class="input-group-addon"></span>
-                      <input type="text" #teamName name="teamName" class="form-control" id="nme" required />
+        <app-navbar></app-navbar>
+        <div  style="background-image:url(assets/images/img_bg_1.jpg); width:100%">
+           <div class="container">
+              <div class="row main" style="min-height:100%">
+                 <div class="main-login main-center">
+                    <div class="panel-title text-center">
+                       <h1 class="title">Create Team</h1>
+                       <hr />
                     </div>
-                  </div>
-                </div>
-  
-                
-            <div class="form-group">
-              <label for="email" class="cols-sm-2 control-label">Team head Email</label>
-              <div class="cols-sm-10">
-                <div class="input-group">
-                  <span class="input-group-addon"></span>
-                  <input type="text" #headName name="headName" class="form-control" id="nme" required  (change)="checkEmployee(headName.value)" />
-                  <p class="domain_message" *ngIf="title">{{title}}</p>
-                  
-                </div>
+                    <form  id="employee" class="form-horizontal"[formGroup] ="reactiveForm">
+                       <div class="form-group">
+                          <label for="password" class="cols-sm-2 control-label">Team Name</label>
+                          <div class="cols-sm-10">
+                             <div class="input-group">
+                                <span class="input-group-addon"></span>
+                                <input type="text" #teamName name="teamName" formControlName="teamName" class="form-control" id="nme" required />
+                             </div>
+                             <h6 class="error" *ngIf="!reactiveForm.controls['teamName'].valid && reactiveForm.controls['teamName'].touched">Invalid Team Name</h6>
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label for="email" class="cols-sm-2 control-label">Team head Email</label>
+                          <div class="cols-sm-10">
+                             <div class="input-group">
+                                <span class="input-group-addon"></span>
+                                <input type="text" #headName name="headName" class="form-control" id="nme" required  (change)="checkEmployee(headName.value)" />
+                                <p class="domain_message" *ngIf="title">{{title}}</p>
+                             </div>
+                          </div>
+                       </div>
+                       <div class="form-group ">
+                          <button type="button" class="btn btn-default btn-lg btn-block login-button" (click)="createTeam(teamName.value,headName.value)" >Create</button>
+                       </div>
+                       <p style="color:Red">{{teamMessage}}</p>
+                    </form>
+                 </div>
               </div>
-            </div>
-  
-           
-            <div class="form-group ">
-              <button type="button" class="btn btn-default btn-lg btn-block login-button" (click)="createTeam(teamName.value,headName.value)" >Create</button>
-            </div>
-           <p style="color:Red">{{teamMessage}}</p>
-          </form>
+           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+     </div>

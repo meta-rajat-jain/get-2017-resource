@@ -3,12 +3,14 @@ import { Router } from "@angular/router";
 import { AuthenticatedHeader } from "../Model/authenticatedHeader";
 import { Authentication } from "../Model/Authentication";
 import { Employee } from "../Model/signEmp";
-import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { Team } from "../Model/team";
 import { ManagerService } from "../services/manager.service";
 import { AdminService } from "../services/admin.service";
 import { Location } from '@angular/common';
-
+import { FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl } from '@angular/forms';
 @Component({
   selector: 'app-create-team',
   templateUrl: './create-team.component.html',
@@ -28,7 +30,12 @@ export class CreateTeamComponent implements OnInit {
     private router: Router,
     private adminService: AdminService,
     private location:Location
-  ) {}
+  ) {
+    this.reactiveForm = this.fb.group({
+      'teamName'  : [null,Validators.compose([Validators.required,Validators.minLength(1),Validators.pattern('[A-Za-z]+ *[A-Za-z ]+$')])]
+    });
+    
+  }
 
   ngOnInit() {
     this.authenticationHeader = JSON.parse(
@@ -59,16 +66,6 @@ export class CreateTeamComponent implements OnInit {
     });
   }
 
-  logOut() {
-    this.managerService.logOut().then(response => {
-      this.authentication = response;
-      if (this.authentication.statusCode == 1) {
-        localStorage.clear();
-        localStorage.removeItem("authenticationObject");
-        this.router.navigate([""]);
-      }
-    });
-  }
   checkEmployee(headName: string): void {
     this.adminService.getEmployees().then(response => {
       this.employees = response;

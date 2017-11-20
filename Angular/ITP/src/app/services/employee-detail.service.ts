@@ -61,8 +61,7 @@ export class EmployeeDetailService {
             status:employee.status,
             login:login
           }
-          console.log("After");
-          console.log(emp);
+
           return this.http.post(this.updateEmployeeUrl,emp)
           .toPromise()
           .then(response =>   response.json() as Authentication)

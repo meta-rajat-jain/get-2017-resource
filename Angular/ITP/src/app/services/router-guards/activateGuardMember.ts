@@ -11,6 +11,6 @@ authorised:boolean;
 
 constructor(private userService:UserService,private http:Http,private router:Router) {}
 canActivate(){
-return this.userService.getMember();
+return this.userService.getMember().delay(500);
 }
 }

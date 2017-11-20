@@ -1,158 +1,121 @@
-
 <body class="dashboard" >
-<!--   <nav class="navbar navbar-default" style="background-image:url(assets/images/img_bg_1.jpg); width:100%">
-    
-      <div class="container">
-       
-        <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" href="#section1">Request-Tab</a></li>
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Team
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a data-toggle="tab" href="#createEmployee">Create New Team</a></li>
-              <li><a data-toggle="tab" href="#editEmployee">Edit Existing Team</a></li>
-            </ul>
-          </li>
-          <li class="pull-right">
-            <span class="glyphicon glyphicon-user img-circle user-image"></span>
-            <span class="dropdown">
-            <span class=" dropdown-toggle" data-toggle="dropdown">{{username}}
-            <span class="caret"></span></span>
-            <ul class="dropdown-menu">
-            <li><a (click)="changePassword('change')">Change Password</a></li>
-            <li><a (click)="logOut()">Log Out</a></li>
-            </ul>
-            </span>
-            </li>
-        </ul>
-        
-      </div>
-    </nav> -->
     <app-navbar></app-navbar>
     <div class="tab-content">
-      <div class="tab-pane in active" id="section1">
-      
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-sm-3">
-              <div class="chart-wrapper">
-                <div class="chart-title">
-                  Cell Title
+       <div class="tab-pane in active" id="section1">
+          <div class="container-fluid">
+             <div class="row">
+                <div class="col-sm-3">
+                   <div class="chart-wrapper">
+                      <div class="chart-title">
+                         Cell Title
+                      </div>
+                      <div class="chart-stage">
+                         <img data-src="holder.js/100%x650/white">
+                      </div>
+                      <div class="chart-notes">
+                         Notes about this chart
+                      </div>
+                   </div>
                 </div>
-                <div class="chart-stage">
-                  <img data-src="holder.js/100%x650/white">
+                <div class="col-sm-9">
+                   <div class="row">
+                      <div class="col-sm-12">
+                         <div class="chart-wrapper">
+                            <div class="chart-title">
+                               Employee Info
+                            </div>
+                            <div class="chart-stage">
+                            </div>
+                            <div class="chart-notes">
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="row">
+                      <div class="col-sm-4">
+                         <div class="chart-wrapper">
+                            <div class="chart-title">
+                               Open
+                            </div>
+                            <div class="chart-stage">
+                               <img class="img-responsive" src="assets/images/open.png">
+                            </div>
+                            <div class="chart-notes">
+                               Opened Requests
+                            </div>
+                         </div>
+                      </div>
+                      <div class="col-sm-4">
+                         <div class="chart-wrapper">
+                            <div class="chart-title">
+                               In-Progress
+                            </div>
+                            <div class="chart-stage">
+                               <img class="img-responsive" src="assets/images/Progress.png">
+                            </div>
+                            <div class="chart-notes">
+                               Requests in progress
+                            </div>
+                         </div>
+                      </div>
+                      <div class="col-sm-4">
+                         <div class="chart-wrapper">
+                            <div class="chart-title">
+                               Need Additional Information
+                            </div>
+                            <div class="chart-stage">
+                               <img class="img-responsive" src="assets/images/needInformation.png">
+                            </div>
+                            <div class="chart-notes">
+                               Requests which require additional Information
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="row">
+                      <div class="col-sm-4">
+                         <div class="chart-wrapper">
+                            <div class="chart-title">
+                               Requests Reopened
+                            </div>
+                            <div class="chart-stage">
+                               <img class="img-responsive" src="assets/images/reopened.png">
+                            </div>
+                            <div class="chart-notes">
+                               Requests which are reopened
+                            </div>
+                         </div>
+                      </div>
+                      <div class="col-sm-4">
+                         <div class="chart-wrapper">
+                            <div class="chart-title">
+                               Approved requests
+                            </div>
+                            <div class="chart-stage">
+                               <img class="img-responsive" src="assets/images/approved.png">
+                            </div>
+                            <div class="chart-notes">
+                               Requests which are approvd
+                            </div>
+                         </div>
+                      </div>
+                      <div class="col-sm-4">
+                         <div class="chart-wrapper">
+                            <div class="chart-title">
+                               Requests which are closed
+                            </div>
+                            <div class="chart-stage">
+                               <img class="img-responsive" src="assets/images/closed.png">
+                            </div>
+                            <div class="chart-notes">
+                               Closed requests
+                            </div>
+                         </div>
+                      </div>
+                   </div>
                 </div>
-                <div class="chart-notes">
-                  Notes about this chart
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-9">
-              <div class="row">
-                <div class="col-sm-12">
-                  <div class="chart-wrapper">
-                    <div class="chart-title">
-                     Employee Info
-                    </div>
-                    <div class="chart-stage">
-                    
-                      
-                    </div>
-                    <div class="chart-notes">
-                     
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-4">
-                  <div class="chart-wrapper">
-                    <div class="chart-title">
-                     Open
-                    </div>
-                    <div class="chart-stage">
-                      <img class="img-responsive" src="assets/images/open.png">
-                    </div>
-                    <div class="chart-notes">
-                      Opened Requests
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="chart-wrapper">
-                    <div class="chart-title">
-                      In-Progress
-                    </div>
-                    <div class="chart-stage">
-                      <img class="img-responsive" src="assets/images/Progress.png">
-                    </div>
-                    <div class="chart-notes">
-                      Requests in progress
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="chart-wrapper">
-                    <div class="chart-title">
-                      Need Additional Information
-                    </div>
-                    <div class="chart-stage">
-                      <img class="img-responsive" src="assets/images/needInformation.png">
-                    </div>
-                    <div class="chart-notes">
-                      Requests which require additional Information
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-4">
-                  <div class="chart-wrapper">
-                    <div class="chart-title">
-                     Requests Reopened
-                    </div>
-                    <div class="chart-stage">
-                      <img class="img-responsive" src="assets/images/reopened.png">
-                    </div>
-                    <div class="chart-notes">
-                     Requests which are reopened
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="chart-wrapper">
-                    <div class="chart-title">
-                      Approved requests
-                    </div>
-                    <div class="chart-stage">
-                      <img class="img-responsive" src="assets/images/approved.png">
-                    </div>
-                    <div class="chart-notes">
-                     Requests which are approvd
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="chart-wrapper">
-                    <div class="chart-title">
-                     Requests which are closed
-                    </div>
-                    <div class="chart-stage">
-                      <img class="img-responsive" src="assets/images/closed.png">
-                    </div>
-                    <div class="chart-notes">
-                     Closed requests
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+             </div>
           </div>
-        </div>
-       </div></div>
-      
-       
-      </body>
-     
-      
+       </div>
+    </div>
+ </body>

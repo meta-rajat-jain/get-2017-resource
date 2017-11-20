@@ -1,56 +1,36 @@
-<!-- <nav class="navbar navbar-default" style="background-image:url(assets/images/img_bg_1.jpg); width:100%">
-  
-  <div class="container">
-   
-    <ul class="nav nav-tabs">
-      <li ><a routerLink="/managerDashboard" routerLinkActive="active">Request-Tab</a></li>
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Team
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a routerLink="/createTeam" routerLinkActive="active">Create New Team</a></li>
-          <li><a routerLink="/teamUnderManager" routerLinkActive="active" (click)="getTeamsUnderManager();">Edit Existing Team </a></li>
-        </ul>
-      </li>
-      <li ><a (click)="goToRequestTab('Manager');" >New Request</a></li>
-      <li class="pull-right">
-        <span class="glyphicon glyphicon-user img-circle user-image"></span>
-        <span class="dropdown">
-        <span class=" dropdown-toggle" data-toggle="dropdown">{{username}}
-        <span class="caret"></span></span>
-        <ul class="dropdown-menu">
-        <li><a (click)="changePassword('change')">Change Password</a></li>
-        <li><a (click)="logOut()">Log Out</a></li>
-        </ul>
-        </span>
-        </li>
-    </ul>
-    
-  </div>
-</nav> -->
 <app-navbar></app-navbar>
-<div class="main-content">
-<div class="container">
-  <div class="col-sm-6 col-md-4 manager-list" *ngFor="let team of teamsUnderManager| filter : searchText">
-    <div class="chart-wrapper">
-      <div class="chart-title">
-        {{team.teamName}}
+<div class="main-content" *ngIf = 'teamsUnderManager'>
+   <div *ngIf="teamsUnderManager.length >= 1 " class="main-content">
+      <div class="container">
+         <div class="col-sm-6 col-md-4 manager-list" *ngFor="let team of teamsUnderManager| filter : searchText">
+            <div class="chart-wrapper">
+               <div class="chart-title">
+                  {{team.teamName}}
+               </div>
+               <div class="chart-stage">
+                  <div id="grid-1-1">
+                     {{team.teamHeadUsername}}
+                  </div>
+               </div>
+               <div class="chart-notes">
+                  <button class="btn btn-default" data-toggle="tooltip"  title=" Add Team Member" (click)="manageTeam(team,'Add')"><span class="glyphicon glyphicon-plus "  ></span></button>
+                  <button  class="btn btn-default" data-toggle="tooltip"  title=" View Details of the Team" (click)="manageTeam(team,'Detail')"><span class="glyphicon glyphicon-list-alt"></span></button>
+               </div>
+            </div>
+         </div>
       </div>
-      <div class="chart-stage">
-        <div id="grid-1-1">
-          {{team.teamHeadUsername}}
-          
-        </div>
+   </div>
+   <div *ngIf="teamsUnderManager.length == 0 ">
+      <div class="container">
+         <div class="row " style="min-height:100%">
+            <div class="main">
+               <div class="panel-title text-center">
+                  <h1 class="title"><b>NO</b></h1>
+                  <h1><b>TEAMS WERE ADDED</b></h1>
+                  <hr />
+               </div>
+            </div>
+         </div>
       </div>
-      <div class="chart-notes">
-      
-        <button class="btn btn-default" data-toggle="tooltip"  title=" Add Team Member" (click)="manageTeam(team,'Add')"><span class="glyphicon glyphicon-plus "  ></span></button>
-          <button  class="btn btn-default" data-toggle="tooltip"  title=" View Details of the Team" (click)="manageTeam(team,'Detail')"><span class="glyphicon glyphicon-list-alt"></span></button>
-     
-      </div>
-      </div>
-    </div>
- 
-  </div>
-  <button class="btn btn-default" data-toggle="tooltip"  title="Back" (click)="goBack()"><span class="	glyphicon glyphicon-chevron-left "  >Back</span></button>
+   </div>
 </div>

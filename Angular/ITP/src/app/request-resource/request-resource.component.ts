@@ -8,6 +8,7 @@ import { Employee } from "../Model/signEmp";
 import { ManagerService } from "../services/manager.service";
 import { Location } from "@angular/common";
 import { RequestResourceService } from "../services/requestrsource.service";
+import { NgForm } from '@angular/forms';
 @Component({
   selector: "app-request-resource",
   templateUrl: "./request-resource.component.html",
@@ -27,6 +28,8 @@ export class RequestResourceComponent implements OnInit {
   username: string;
   emailId: string;
   requesterFor:string;
+  isValidFormSubmitted = false;
+  errorTitle:string;
   constructor(
     private memberService: MemberService,
     private route: ActivatedRoute,
@@ -71,7 +74,6 @@ export class RequestResourceComponent implements OnInit {
     priority: string,
     requestType: string,
     resourceType: string,
-    resource: RequestedResource,
     comment: string,
     locn: string
   ): void {
@@ -83,6 +85,9 @@ export class RequestResourceComponent implements OnInit {
     if(this.type=='Member'){
       this.requesterFor = this.authenticationHeader.username;
     }
+    console.log("in priority" + priority);
+    console.log("in priority" + requestType);
+    console.log("in priority" + resourceType);
     console.log("in comment" + comment);
     console.log("in location" + locn);
     console.log(
@@ -114,10 +119,8 @@ export class RequestResourceComponent implements OnInit {
         this.teamName
       )
       .then(response => {
-        
-       const url = this.type.toLowerCase() + 'Dashboard';
         console.log(response);
-        console.log(url);
+      location.reload(true);
         
       });
   }
@@ -138,6 +141,55 @@ export class RequestResourceComponent implements OnInit {
       }
     });
   }
+  onFormSubmit(form: NgForm) {
+	  this.isValidFormSubmitted = false;
+	  if(form.valid){
+	    this.isValidFormSubmitted = true;
+	  }  
+	  let priority: string = form.form.controls['priority'].value;	
+    let requestType:string = form.form.controls['requestType'].value;
+    let resourceType:string = form.controls['resourceType'].value;
+    let comment:string = form.form.controls['comment'].value;
+    let locn:string = form.form.controls['locn'].value;
+    console.log("in form" + form.form.controls['priority'].value);
+    console.log(form.controls['priority'].value);
+    console.log(form.form.controls['priority'].value);
+    if(priority == '' || priority == null || priority == undefined){
+      form.controls['priority'].setErrors({'incorrect': true});
+      this.isValidFormSubmitted = false;
+      this.errorTitle = "Please select a valid entry";
+      return;
+    }
+    else{
+      this.errorTitle = "";
+      form.controls['priority'].setErrors(null);
+    }
+    if(requestType == '' || requestType == null ){
+      form.controls['requestType'].setErrors({'incorrect': true});
+      this.isValidFormSubmitted = false;
+      this.errorTitle = "Please select a valid entry";
+      return;
+    }
+    else{
+      this.errorTitle = "";
+      form.controls['requestType'].setErrors(null);
+    }
+    if(resourceType == '' || resourceType == null ){
+      form.controls['resourceType'].setErrors({'incorrect': true});
+      this.isValidFormSubmitted = false;
+      this.errorTitle = "Please select a valid entry";
+      return;
+    }
+    else{
+      this.errorTitle = "";
+      form.controls['resourceType'].setErrors(null);
+    }
+    
+	  this.Request(priority,requestType,resourceType,comment,locn);
+	 
+	  
+	  
+	}
   goBack(): void {
     this.location.back();
   }

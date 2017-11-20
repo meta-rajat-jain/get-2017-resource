@@ -7,6 +7,7 @@ import { Employee } from "../Model/signEmp";
 import { Authentication } from "../Model/Authentication";
 import { AdminService } from "../services/admin.service";
 import { UserService } from "../services/user.service";
+import { LogOutService } from "../services/logout.service";
 
 @Component({
   selector: 'app-employee',
@@ -27,7 +28,17 @@ export class EmployeeComponent implements OnInit {
   type:boolean=true;
   empType:boolean;
   title:string;
-  constructor(private adminService: AdminService,private router:Router) {
+  p: number = 1;
+
+  
+  reverse: boolean = false;
+  sort(){
+  let  key: string = this.employee.name; 
+    key = key;
+    this.reverse = !this.reverse;
+  }
+
+  constructor(private adminService: AdminService,private router:Router,private logoutService: LogOutService,) {
   }
 
   ngOnInit() {
@@ -40,7 +51,7 @@ export class EmployeeComponent implements OnInit {
   
   }
   logOut(): void {
-    this.adminService.logOutUser().then(response => {
+    this.logoutService.logOut().then(response => {
       this.authentication = response;
       if (this.authentication.statusCode == 1){
         localStorage.removeItem('authenticationObject');
@@ -67,15 +78,11 @@ export class EmployeeComponent implements OnInit {
     this.adminService.deleteEmployee(employee).then(response =>{ this.authentication = response;location.reload(true);});
     }
   }
-
-  getDetails(employee:Employee):void{
-    this.type=true;
-    this.getEmployeeDetail(employee);
-  }
   addManager(employee:Employee):void{
     this.adminService.addManager(employee).then(response=>
       { 
         this.authentication = response;
+        this.router.navigate(['adminDashboard']);
         location.reload(true);
       });
   }

@@ -12,7 +12,6 @@ import { HttpClient } from "./httpClient";
 export class AdminService {
     private getManagerUrl=RequestConstants.ADMIN_REQUEST+'getAllManagers';
     private getAllEmployeeUrl=RequestConstants.ADMIN_REQUEST+'getAllEmployees';
-    private logOutUrl=RequestConstants.AUTHENTICATION_REQUEST+'logout';
     private getEmployeeUrl=RequestConstants.ADMIN_REQUEST+'updateEmployee';
     private deleteEmployeeUrl=RequestConstants.ADMIN_REQUEST+'deleteEmployee';
     private addManagerUrl=RequestConstants.ADMIN_REQUEST+'addManager';
@@ -32,12 +31,6 @@ export class AdminService {
     }
 
 
-    logOutUser(): Promise<Authentication> {
-        return this.http.get(this.logOutUrl)
-            .toPromise()
-            .then(response => response.json() as Authentication )
-            .catch(this.handleError);
-    }
     getEmployees():Promise<Employee[]>{
         return this.http.get(this.getAllEmployeeUrl)
         .toPromise()

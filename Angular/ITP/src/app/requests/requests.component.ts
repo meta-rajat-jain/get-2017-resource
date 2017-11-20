@@ -11,7 +11,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Ticket } from '../Model/Ticket';
 import { RequestsService } from "../services/requests.service";
-
+declare var $;
 @Component({
   selector: 'app-requests',
   templateUrl: './requests.component.html',
@@ -22,7 +22,8 @@ export class RequestsComponent implements OnInit {
   type:string;
   status:string;
   sub:any;
-  tickets :Ticket[]=[];
+  tickets :Ticket[];
+  p: number = 1;
   constructor(private requestsService:RequestsService, private route: ActivatedRoute,private router:Router, private location: Location) { }
 
   ngOnInit() {
@@ -35,6 +36,8 @@ export class RequestsComponent implements OnInit {
       this.status = params['status'];
     });
     this.init();
+    
+      
   }
 init():void{
 
@@ -54,7 +57,7 @@ init():void{
     this.router.navigate(['needInformation',ticket.ticketNo,this.type,operation]);
   }
   decline(ticket:Ticket,type:string):void{
-    this.requestsService.rejectTicket(ticket,type).then(response => {console.log(response);});    
+    this.requestsService.rejectTicket(ticket,type).then(response => {location.reload(true);});    
   }
 
   goBack(): void {

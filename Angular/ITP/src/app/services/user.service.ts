@@ -40,7 +40,6 @@ export class UserService {
     }
 
     getDomainNames(): string[] {
-        console.log("getting domain names: " + this.domainNames);
         return this.domainNames;
     }
 
@@ -51,7 +50,6 @@ export class UserService {
             password: password,
             authorisationToken: ""
         }
-        console.log(login);
         const url = `${this.loginUrl} `;
         return this.http.post(url, login)
             .toPromise()
@@ -61,7 +59,6 @@ export class UserService {
 
 
     saveUser(authenticated: AuthenticatedHeader) {
-        console.log(JSON.stringify(authenticated));
         localStorage.setItem('authenticationObject', JSON.stringify(authenticated));
 
     }
@@ -73,7 +70,6 @@ export class UserService {
 
 
     signUp(usernameEmp, passwordEmp, emailIdEmp, contactnoEmp, selectedDomain): Promise<Authentication> {
-        console.log("in selected doamin" + selectedDomain);
         let login: Login = {
             username: emailIdEmp,
             password: passwordEmp,
@@ -88,11 +84,8 @@ export class UserService {
             login: login
 
         }
-        console.log(JSON.stringify(signEmp));
 
-        console.log("in here######" + this.signUpEmployeeUrl);
         const url = `${this.signUpEmployeeUrl} `;
-        console.log(JSON.stringify(signEmp));
         return this.http.post(url, signEmp)
             .toPromise()
             .then(response => response.json() as Authentication)
@@ -100,7 +93,6 @@ export class UserService {
     }
 
     signUpOrganisation(usernameOrg, emailIdOrg, domainname, passwordOrg, contactnoOrg): Promise<Authentication> {
-        console.log("url" + this.signUpOrganisationUrl);
         let login: Login = {
             username: emailIdOrg,
             password: passwordOrg,
@@ -123,7 +115,6 @@ export class UserService {
         const url = `${this.signInWithGoogleUrl}`;
 
         let params: URLSearchParams = new URLSearchParams();
-        console.log("in service getting username " + user.email);
         params.set('username', user.email);
         return this.http.get(url, { search: params })
             .toPromise()
@@ -141,12 +132,10 @@ export class UserService {
             return this.http.post(this.checkUserUrl, login).map(response => {
 
                 this.responseObject = response.json();
-                console.log("empType" + this.responseObject.employeeType);
                 if (this.responseObject.employeeType == 'Admin') {
                     return true;
                 }
 
-                console.log("in else");
                 this.router.navigate(['']);
             });
         }
@@ -165,12 +154,10 @@ export class UserService {
             return this.http.post(this.checkUserUrl, login).map(response => {
 
                 this.responseObject = response.json();
-                console.log("empType" + this.responseObject.employeeType);
                 if (this.responseObject.employeeType == 'Manager') {
                     return true;
                 }
 
-                console.log("in else");
                 this.router.navigate(['']);
             });
         }
@@ -189,12 +176,10 @@ export class UserService {
             return this.http.post(this.checkUserUrl, login).map(response => {
 
                 this.responseObject = response.json();
-                console.log("empType" + this.responseObject.employeeType);
                 if (this.responseObject.employeeType == 'Member') {
                     return true;
                 }
 
-                console.log("in else");
                 this.router.navigate(['']);
             });
         }
@@ -213,12 +198,10 @@ export class UserService {
             return this.http.post(this.checkUserUrl, login).map(response => {
 
                 this.responseObject = response.json();
-                console.log("empType" + this.responseObject.employeeType);
                 if (this.responseObject.employeeType == 'Helpdesk') {
                     return true;
                 }
 
-                console.log("in else");
                 this.router.navigate(['']);
             });
         }

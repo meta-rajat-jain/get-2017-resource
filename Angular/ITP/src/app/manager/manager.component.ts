@@ -23,17 +23,17 @@ export class ManagerComponent implements OnInit {
   authentication: Authentication;
   employees: Employee[] = [];
   title: string;
-  OpenCount: number;
-  InProgressCount: number;
-  ClosedCount: number;
-  NeedInfoCount: number;
-  ApprovedCount: number;
+  OpenCount: number=0;
+  InProgressCount: number=0;
+  ClosedCount: number=0;
+  NeedInfoCount: number=0;
+  ApprovedCount: number=0;
 
-  teamOpenCount: number;
-  teamInProgressCount: number;
-  teamClosedCount: number;
-  teamNeedInfoCount: number;
-  teamApprovedCount: number;
+  teamOpenCount: number=0;
+  teamInProgressCount: number=0;
+  teamClosedCount: number=0;
+  teamNeedInfoCount: number=0;
+  teamApprovedCount: number=0;
 
   status: string;
   reactiveForm: FormGroup;

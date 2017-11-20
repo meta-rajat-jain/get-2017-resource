@@ -24,7 +24,6 @@ import { SelectModule } from "ng2-select";
 import { DropdownModule } from "primeng/primeng";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { PasswordComponent } from "./password/password.component";
-
 import { UserService } from "./services/user.service";
 import { AdminService } from "./services/admin.service";
 import { EmployeeDetailService } from "./services/employee-detail.service";
@@ -49,6 +48,10 @@ import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RequestConstants } from "./Constants/request";
+import {NgxPaginationModule} from 'ngx-pagination';
+import { Ng2OrderModule } from 'ng2-order-pipe';
+import { LogOutService } from "./services/logout.service";
+
 
 let config = new AuthServiceConfig([
   {
@@ -87,6 +90,7 @@ export function provideConfig() {
     SignupComponent,
     LoginComponent,
     NavbarComponent
+    
   ],
   imports: [
     BrowserAnimationsModule,
@@ -96,7 +100,9 @@ export function provideConfig() {
     AppRoutingModule,
     ReactiveFormsModule,
     SocialLoginModule,
-    DropdownModule
+    DropdownModule,
+    NgxPaginationModule,
+    Ng2OrderModule
   ],
   providers: [
     UserService,
@@ -113,6 +119,7 @@ export function provideConfig() {
     PasswordService,
     RequestResourceService,
     HttpClient,
+    LogOutService,
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig

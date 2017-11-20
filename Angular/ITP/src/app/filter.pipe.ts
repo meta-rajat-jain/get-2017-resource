@@ -10,7 +10,7 @@ export class FilterPipe implements PipeTransform {
     
     return searchText 
         ? items.filter(item => (item.login.username.toLowerCase().indexOf(searchText) !== -1 ||
-                                item.name.toLowerCase().indexOf(searchText) !== -1 ||
+                                item.name.indexOf(searchText) !== -1 ||
                                 item.designation.toLowerCase().indexOf(searchText) !== -1) )
         : items;
 }

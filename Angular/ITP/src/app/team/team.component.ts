@@ -19,9 +19,9 @@ export class TeamComponent implements OnInit {
   employees: Employee[] = [];
   title: string;
   status: string;
-  teamsUnderManager: Team[] = [];
+  teamsUnderManager: Team[];
   selectedTeam: Team;
-  requestedEmployee: Employee[] = [];
+  
   constructor(
     private managerService: ManagerService,
     private router: Router,

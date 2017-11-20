@@ -1,50 +1,40 @@
 <nav class="navbar navbar-default" style="background-image:url(assets/images/img_bg_1.jpg); width:100%">
-	
 	<div class="container">
-	 
-	  <ul class="nav nav-tabs">
-    
-    <li  *ngIf="type=='Admin'"><a routerLink="/adminDashboard" routerLinkActive="active">Admin</a></li>
-    <li  *ngIf="type=='Member'"><a routerLink="/memberDashboard" routerLinkActive="active">Member</a></li>
-    <li  *ngIf="type=='Manager'"><a routerLink="/managerDashboard" routerLinkActive="active">Managers</a></li>
-    <li  *ngIf="type=='Helpdesk'"><a routerLink="/helpdeskDashboard" routerLinkActive="active">HelpDesk</a></li>
-		
-		<li class="dropdown" *ngIf="type=='Admin'">
-		  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Employee
-		  <span class="caret"></span></a>
-		  <ul class="dropdown-menu">
-			<li><a routerLink="/createEmployee" routerLinkActive="active">Create Employee</a></li>
-			<li><a routerLink="/employee" routerLinkActive="active">Edit Employee Details</a></li>
-		  </ul>
-    </li>
-  
-
-    <li class="dropdown" *ngIf="type=='Manager'">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Team
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a routerLink="/createTeam" routerLinkActive="active">Create New Team</a></li>
-          <li><a routerLink="/teamUnderManager" routerLinkActive="active" >Edit Existing Team </a></li>
-        </ul>
-      </li>
-      <li *ngIf="type=='Manager'"><a (click)="goToRequestTab('Manager');" >New Request</a></li>
-    <li *ngIf="type=='Member'">
-        <a (click)="goToRequestTab('Member');">New Request</a>
-      </li>
-    
-
-		<li class="pull-right">
-		  <span class="glyphicon glyphicon-user img-circle user-image"></span>
-		  <span class="dropdown">
-		  <span class=" dropdown-toggle" data-toggle="dropdown">{{username}}
-		  <span class="caret"></span></span>
-		  <ul class="dropdown-menu">
-		  <li><a (click)="changePassword('change')">Change Password</a></li>
-		  <li><a (click)="logOut()">Log Out</a></li>
-		  </ul>
-		  </span>
-		  </li>
-	  </ul>
-	  
+		 <ul class="nav nav-tabs">
+				<li  *ngIf="type=='Admin'"><a routerLink="/adminDashboard" routerLinkActive="active">Home</a></li>
+				<li  *ngIf="type=='Member'"><a routerLink="/memberDashboard" routerLinkActive="active">Home</a></li>
+				<li  *ngIf="type=='Manager'"><a routerLink="/managerDashboard" routerLinkActive="active">Home</a></li>
+				<li  *ngIf="type=='Helpdesk'"><a routerLink="/helpdeskDashboard" routerLinkActive="active">Home</a></li>
+				<li class="dropdown" *ngIf="type=='Admin'">
+					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Employee
+					 <span class="caret"></span></a>
+					 <ul class="dropdown-menu">
+							<li><a routerLink="/createEmployee" routerLinkActive="active">Create Employee</a></li>
+							<li><a routerLink="/employee" routerLinkActive="active">Edit Employee Details</a></li>
+					 </ul>
+				</li>
+				<li class="dropdown" *ngIf="type=='Manager'">
+					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Team
+					 <span class="caret"></span></a>
+					 <ul class="dropdown-menu">
+							<li><a routerLink="/createTeam" routerLinkActive="active">Create New Team</a></li>
+							<li><a routerLink="/teamUnderManager" routerLinkActive="active" >Edit Existing Team </a></li>
+					 </ul>
+				</li>
+				<li *ngIf="type=='Manager'"><a (click)="goToRequestTab('Manager');" >New Request</a></li>
+				<li *ngIf="type=='Member'">
+					 <a (click)="goToRequestTab('Member');">New Request</a>
+				</li>
+				<li class="pull-right">
+					 <span class="glyphicon glyphicon-user img-circle user-image"></span>
+					 <span class="dropdown">
+							<span class=" dropdown-toggle" data-toggle="dropdown">{{username}}
+							<span class="caret"></span></span>
+							<ul class="dropdown-menu">
+								 <li><a (click)="logOut()">Log Out</a></li>
+							</ul>
+					 </span>
+				</li>
+		 </ul>
 	</div>
-  </nav>
+</nav>

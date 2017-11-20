@@ -1,60 +1,79 @@
 <app-navbar></app-navbar>
 <div class="main-content">
-<div *ngIf="operation == 'Detail'">
-  <b>Team Search : </b> <input [(ngModel)]="searchText"  placeholder="Search Employee " >
-  <div class="container">
-  <div class="col-sm-6 col-md-4 manager-list" *ngFor="let emp of teamEmployees| filter : searchText">
-    <div class="chart-wrapper">
-      <div class="chart-title">
-          {{emp.name}}
+   <div *ngIf="operation == 'Detail'">
+      <div *ngIf="teamEmployees.length >= 1">
+         <div class="container">
+            <div class="col-sm-6 col-md-4 manager-list" *ngFor="let emp of teamEmployees| filter : searchText">
+               <div class="chart-wrapper">
+                  <div class="chart-title">
+                     {{emp.name}}
+                  </div>
+                  <div class="chart-stage">
+                     <div id="grid-1-1">
+                        {{emp.designation}}
+                     </div>
+                  </div>
+                  <div class="chart-notes">
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
-      <div class="chart-stage">
-        <div id="grid-1-1">
-          {{emp.designation}}
-          
-        </div>
+   </div>
+   <div *ngIf="operation == 'Add'">
+      <div *ngIf="employees.length >= 1">
+         <div class="searchBar">
+            <input  id="search-bar" [(ngModel)]="searchText"  placeholder="Search Employee " >
+         </div>
+         <div class="container">
+            <div  *ngFor="let employee of employees| filter : searchText">
+               <div class="col-lg-6 col-sm-6 col-md-6 manager-list" >
+                  <div *ngIf="employee.designation != 'Manager'">
+                     <div class="chart-wrapper">
+                        <div class="chart-title">
+                           <b>Name:</b>  {{employee.name}}
+                        </div>
+                        <div class="chart-stage">
+                           <div id="grid-1-1">
+                              <b>Designation:</b> {{employee.designation}}
+                              <hr>
+                              <b>Email id:</b>{{employee.login.username}}
+                           </div>
+                        </div>
+                        <div class="chart-notes">
+                           <button  class="btn btn-default" data-toggle="tooltip" title=" Add To Team" (click)="addToTeam(employee)"><span class="glyphicon glyphicon-plus"></span></button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
-      <div class="chart-notes">
-      
-      
-      </div>
-      </div>
-      <button class="btn btn-warning pull-left" (click)="goBack()">Back</button>
-    </div>
-  </div>
-   
+   </div>
 </div>
-
-<div *ngIf="operation == 'Add'">
-  <b>Employee Search : </b> <input [(ngModel)]="searchText"  placeholder="Search Employee " >
-  
-  <div class="container">
-      <div  *ngFor="let employee of employees| filter : searchText">
-    <div class="col-lg-6 col-sm-6 col-md-6 manager-list" >
-   
-    <div *ngIf="employee.designation != 'Manager'">
-    <div class="chart-wrapper">
-      <div class="chart-title">
-        <b>Name:</b>  {{employee.name}}
+<div *ngIf="teamEmployees.length ==0 ">
+   <div class="container">
+      <div class="row " style="min-height:100%">
+         <div class="main">
+            <div class="panel-title text-center">
+               <h1 class="title"><b>NO</b></h1>
+               <h1><b>EMPLOYEES IN TEAM WERE ADDED</b></h1>
+               <hr />
+            </div>
+         </div>
       </div>
-      <div class="chart-stage">
-        <div id="grid-1-1">
-         <b>Designation:</b> {{employee.designation}}
-         <hr>
-         <b>Email id:</b>{{employee.login.username}}
-        </div>
+   </div>
+</div>
+<div *ngIf="employees.length ==0 ">
+   <div class="container">
+      <div class="row " style="min-height:100%">
+         <div class="main">
+            <div class="panel-title text-center">
+               <h1 class="title"><b>NO</b></h1>
+               <h1><b>EMPLOYEES ARE THERE TO BE ADDED</b></h1>
+               <hr />
+            </div>
+         </div>
       </div>
-      <div class="chart-notes">
-        <button  class="btn btn-default" data-toggle="tooltip" title=" Add To Team" (click)="addToTeam(employee)"><span class="glyphicon glyphicon-plus"></span></button>
-      </div>
-      </div>
-     
-    </div>
-    </div>
-    </div>
-   
-  </div>
-  <button class="btn btn-warning pull-left" (click)="goBack()">Back</button> 
-     
-  </div>
+   </div>
 </div>

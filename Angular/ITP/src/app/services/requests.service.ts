@@ -30,15 +30,9 @@ export class RequestsService {
 }
   getRequests(status: string, type: string): Promise<Ticket[]> {
     if (type == "Manager") {
-      let params: URLSearchParams = new URLSearchParams();
-      console.log("in service getting status and type" + status + type);
-      params.set("status", status);
-      let options = new RequestOptions({
-        headers: this.headers,
-        search: params
-      });
+      const url = `${this.getRequestMember}/${status}`;
       return this.http
-        .get(this.getRequestManager)
+        .get(url)
         .toPromise()
         .then(response => response.json() as Ticket[])
         .catch(this.handleError);

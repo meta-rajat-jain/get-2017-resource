@@ -1,295 +1,265 @@
 <app-navbar></app-navbar>
 <body class="dashboard" >
-  
-  <div class="tab-content">
-    <div class="tab-pane in active" id="section1">
-    
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-sm-3">
-            <div class="chart-wrapper">
-              <div class="chart-title">
-                Cell Title
-              </div>
-              <div class="chart-stage">
-                Employee Information
-              </div>
-              <div class="chart-notes">
-                Notes about this chart
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-9">
+   <div class="tab-content">
+      <div class="tab-pane in active" id="section1">
+         <div class="container">
             <div class="row">
-              <div class="col-sm-12">
-                <div class="chart-wrapper">
-                  <div class="chart-title">
-                   Employee Info
-                  </div>
-                  <div class="chart-stage">
-                    <div class ="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                      <img class="img-responsive" src="assets/images/userIcon.png">
-                  </div>
-                  <div class ="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                    <div *ngIf="loggedInUser">
-                      <div class="chart-stage" >
-                      <h5><span class="pull-left"><b>Name:</b></span> <span class="pull-left">{{loggedInUser.name}}</span></h5><br>
-                      <h5><span class="pull-left"><b>EmailID:</b> </span> <span class="pull-left">{{loggedInUser.login.username}}</span></h5><br>
-                      <h5><span class="pull-left"><b>Designation: </b></span><span class="pull-left">{{loggedInUser.designation}}</span></h5><br>
-                      <h5><span class="pull-left"><b>Contact Number:</b> </span> <span class="pull-left">{{loggedInUser.contactNumber}}</span></h5><br>
-                      <h5><span class="pull-left"><b>Organisation Domain:</b> </span><span class="pull-left">{{loggedInUser.orgDomain}}</span></h5><br>
-                      </div>
-                      </div>
-                  </div>
-                    
-                  </div>
-                  <div class="chart-notes">
-                   
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="chart-wrapper">
-                  <div class="chart-title">
-                   Open
-                   
-                  </div>
-                  <div class="chart-stage">
-                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                    <img class="img-responsive" src="assets/images/open.png">
-                  </div>
-                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                   <a class="status"  (click)="getRequestsOpen('Team')">Team Request: {{teamOpenCount}}</a>
-                    </div>
-                  </div>
-                  <div class="chart-notes">
-                    Opened Requests
-                  </div>
-                </div>
-              </div>
-              
-              <div class="col-sm-4">
-               
-                <div class="chart-wrapper">
-                  <div class="chart-title">
-                    In-Progress
-                  </div>
-                  <div class="chart-stage">
-                    
-                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                    <img class="img-responsive" src="assets/images/Progress.png">
-                  </div>
-                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                    <a class="status"  (click)="getRequestsInProgress('Manager')">My Request: {{InProgressCount}}</a>
-                  <hr>
-                  <a class="status" (click)="getRequestsInProgress('Team')"> Team Request: {{teamInProgressCount}} </a>
-                         </div>
-                       
-                  </div>
-                  <div class="chart-notes">
-                    Requests in progress
-                  </div>
-                </div>
-              
-              </div>
-            
-              <div class="col-sm-4">
-                <div class="chart-wrapper">
-                  <div class="chart-title">
-                    Need Additional Information
-                  </div>
-                  <div class="chart-stage">
-                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                          <img class="img-responsive" src="assets/images/needInformtion.png">
-                        </div>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                            <a class="status"  (click)="getRequestsNeedInfo('Manager')">My Request: {{NeedInfoCount}}</a>
-                          <hr>
-                          <a class="status" (click)="getRequestsNeedInfo('Team')"> Team Request: {{teamNeedInfoCount}} </a>
+               <div class="col-sm-12">
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <div class="chart-wrapper">
+                           <div class="chart-title">
+                              Employee Info
+                           </div>
+                           <div class="chart-stage">
+                              <div class ="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                 <img class="img-responsive" src="assets/images/userIcon.png">
+                              </div>
+                              <div class ="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                 <div *ngIf="loggedInUser">
+                                    <div class="chart-stage" >
+                                       <h5><span class="pull-left"><b>Name:</b></span> <span class="pull-left">{{loggedInUser.name}}</span></h5>
+                                       <br>
+                                       <h5><span class="pull-left"><b>EmailID:</b> </span> <span class="pull-left">{{loggedInUser.login.username}}</span></h5>
+                                       <br>
+                                       <h5><span class="pull-left"><b>Designation: </b></span><span class="pull-left">{{loggedInUser.designation}}</span></h5>
+                                       <br>
+                                       <h5><span class="pull-left"><b>Contact Number:</b> </span> <span class="pull-left">{{loggedInUser.contactNumber}}</span></h5>
+                                       <br>
+                                       <h5><span class="pull-left"><b>Organisation Domain:</b> </span><span class="pull-left">{{loggedInUser.orgDomain}}</span></h5>
+                                       <br>
+                                    </div>
                                  </div>
-                  
+                              </div>
+                           </div>
+                           <div class="chart-notes">
+                           </div>
+                        </div>
+                     </div>
                   </div>
-                  <div class="chart-notes">
-                    Requests which require additional Information
+                  <div class="row">
+                     <div class="col-sm-4">
+                        <div class="chart-wrapper">
+                           <div class="chart-title">
+                              Open
+                           </div>
+                           <div class="chart-stage">
+                              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                 <img class="img-responsive" src="assets/images/open.png">
+                              </div>
+                              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                 <a *ngIf="OpenCount >= 1" class="status"  (click)="getRequestsOpen('Team')">My Request: {{OpenCount}}</a>
+                                 <hr>
+                                 <a class="status"  (click)="getRequestsOpen('Team')">Team Request: {{teamOpenCount}}</a>
+                              </div>
+                           </div>
+                           <div class="chart-notes">
+                              Opened Requests
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="chart-wrapper">
+                           <div class="chart-title">
+                              In-Progress
+                           </div>
+                           <div class="chart-stage">
+                              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                 <img class="img-responsive" src="assets/images/Progress.png">
+                              </div>
+                              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                 <a class="status"  (click)="getRequestsInProgress('Manager')">My Request: {{InProgressCount}}</a>
+                                 <hr>
+                                 <a class="status" (click)="getRequestsInProgress('Team')"> Team Request: {{teamInProgressCount}} </a>
+                              </div>
+                           </div>
+                           <div class="chart-notes">
+                              Requests in progress
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="chart-wrapper">
+                           <div class="chart-title">
+                              Need Additional Information
+                           </div>
+                           <div class="chart-stage">
+                              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                 <img class="img-responsive" src="assets/images/needInformtion.png">
+                              </div>
+                              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                 <a class="status"  (click)="getRequestsNeedInfo('Manager')">My Request: {{NeedInfoCount}}</a>
+                                 <hr>
+                                 <a class="status" (click)="getRequestsNeedInfo('Team')"> Team Request: {{teamNeedInfoCount}} </a>
+                              </div>
+                           </div>
+                           <div class="chart-notes">
+                              Requests which require additional Information
+                           </div>
+                        </div>
+                     </div>
                   </div>
-                </div>
-              </div>
+                  <div class="row">
+                     <div class="col-sm-4">
+                        <div class="chart-wrapper">
+                           <div class="chart-title">
+                              Approved requests
+                           </div>
+                           <div class="chart-stage">
+                              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                 <img class="img-responsive" src="assets/images/approved.png">
+                              </div>
+                              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                 <a class="status"  (click)="getRequestsApproved('Manager')">My Request: {{ApprovedCount}}</a>
+                                 <hr>
+                                 <a class="status" (click)="getRequestsApproved('Team')"> Team Request: {{teamApprovedCount}} </a>
+                              </div>
+                           </div>
+                           <div class="chart-notes">
+                              Requests which are approvd
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="chart-wrapper">
+                           <div class="chart-title">
+                              Requests which are closed
+                           </div>
+                           <div class="chart-stage">
+                              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                 <img class="img-responsive" src="assets/images/closed.png">
+                              </div>
+                              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                 <a class="status"  (click)="getRequestsClosed('Manager')">My Request: {{ClosedCount}}</a>
+                                 <hr>
+                                 <a class="status" (click)="getRequestsClosed('Team')"> Team Request: {{teamClosedCount}} </a>
+                              </div>
+                           </div>
+                           <div class="chart-notes">
+                              Closed requests
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-            <div class="row">
-              
-              <div class="col-sm-4">
-                <div class="chart-wrapper">
+         </div>
+      </div>
+      <div class="tab-pane " id="createTeam">
+         <div class="create">
+            <div class="image-container">
+               <img class="img-responsive" src="assets/images/createNewTeam.png">
+            </div>
+            <div class="fields-container">
+               <form>
+                  <h4 for="nme"><span>Enter Your Team Name</span></h4>
+                  <input type="text" #teamName name="teamName" class="question" id="nme" required />
+                  <h4 for="nme"><span>Enter Your Team Head Name</span></h4>
+                  <input type="text" #headName name="headName" class="question" id="nme" required  (change)="checkEmployee(headName.value)" />
+                  <p class="domain_message" *ngIf="title">{{title}}</p>
+                  <input type="submit" class="btn btn-default" value="Submit!" (click)="createTeam(teamName.value,headName.value)" />
+               </form>
+            </div>
+         </div>
+      </div>
+      <div class="tab-pane " id="section2">
+         <div id="container_demo">
+            <div id="wrapper" style="height:auto">
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <form >
+                     <div id="requestForm">
+                        <h1>New Request</h1>
+                        <table>
+                           <tr>
+                              <td><label for="requester" class="uname"> Requested By</label></td>
+                              <td>
+                                 <label>
+                                    <h5>{{username}}</h5>
+                                 </label>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td><label for="requestedFor" class="requestedFor">Requested For</label></td>
+                              <td> <input #requestedFor name="requestedFor" required="required" type="text" (change)="canRequest(requestedFor.value)" placeholder=" mymail"/></td>
+                           </tr>
+                           <tr>
+                              <p class="domain_message" *ngIf="title">{{title}}</p>
+                           </tr>
+                           <tr>
+                              <td> <label for="priority" class="priority" >Priority</label></td>
+                              <td>
+                                 <select #priority>
+                                    <option value="Urgent" [ngValue]="priority" selected>Urgent</option>
+                                    <option value="High" [ngValue]="priority">High</option>
+                                    <option value="Medium" [ngValue]="priority">Medium</option>
+                                    <option value="Low" [ngValue]="priority">Low</option>
+                                 </select>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td> <label for="requestType" class="requestType" >Request Type</label></td>
+                              <td>
+                                 <select #requestType>
+                                    <option value="New" [ngValue]="requestType" selected disabled>New</option>
+                                    <option value="Maintence" [ngValue]="requestType">Maintence</option>
+                                 </select>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td> <label for="resourceType" class="resourceType" >Resource Type</label></td>
+                              <td>
+                                 <select #resourceType (change)="resourceRequested(requestType.value,resourceType.value)">
+                                 <option value="Hardware" [ngValue]="resourceType" selected disabled>Hardware Provisioning</option>
+                                 <option value="Software" [ngValue]="resourceType">Software Installation</option>
+                                 <option value="Network" [ngValue]="resourceType">Network Related</option>
+                                 </select>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td> <label for="ResourceRequested" class="ResourceRequested">Resources</label></td>
+                              <td> <select [(ngModel)]="selectedResource" name="resource">
+                                 <option *ngFor="let resource of resourceValues" [ngValue]="resource" selected disabled>{{resource.resourceName}}</option>
+                                 </select>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td> <label for="comment" class="comment">Comment </label></td>
+                              <td> <textarea #comment rows="4" cols="50"></textarea></td>
+                           </tr>
+                           <tr>
+                              <td> <label for="location" class="location"> Your location </label></td>
+                              <td><input #locn name="locn" required="required" type="text" placeholder=" Your location"/></td>
+                           </tr>
+                           <tr>
+                              <td><button id="button" class="btn btn-primary " (click)="goBack()">Go Back</button></td>
+                              <td> <button id="button" class="btn btn-primary" (click)="Request(requestedFor.value,priority.value,requestType.value,resourceType.value,resource,comment.value,locn.value)">Register</button></td>
+                           </tr>
+                        </table>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="tab-pane " id="editTeam">
+         <div class="container">
+            <div class="col-sm-6 col-md-4 manager-list" *ngFor="let team of teamsUnderManager| filter : searchText">
+               <div class="chart-wrapper">
                   <div class="chart-title">
-                    Approved requests
+                     {{team.teamName}}
                   </div>
                   <div class="chart-stage">
-                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                    <img class="img-responsive" src="assets/images/approved.png">
-                  </div>
-                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                      <a class="status"  (click)="getRequestsApproved('Manager')">My Request: {{ApprovedCount}}</a>
-                    <hr>
-                    <a class="status" (click)="getRequestsApproved('Team')"> Team Request: {{teamApprovedCount}} </a>
-                           </div>
+                     <div id="grid-1-1">
+                        {{team.teamHeadUsername}}
+                     </div>
                   </div>
                   <div class="chart-notes">
-                   Requests which are approvd
+                     <button class="btn btn-default" data-toggle="tooltip"  title=" Add Team Member" (click)="manageTeam(team,'Add')"><span class="glyphicon glyphicon-plus "  ></span></button>
+                     <button  class="btn btn-default" data-toggle="tooltip"  title=" View Details of the Team" (click)="manageTeam(team,'Detail')"><span class="glyphicon glyphicon-list-alt"></span></button>
                   </div>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="chart-wrapper">
-                  <div class="chart-title">
-                   Requests which are closed
-                  </div>
-                  <div class="chart-stage">
-                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                    <img class="img-responsive" src="assets/images/closed.png">
-                  </div>
-                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                      <a class="status"  (click)="getRequestsClosed('Manager')">My Request: {{ClosedCount}}</a>
-                    <hr>
-                    <a class="status" (click)="getRequestsClosed('Team')"> Team Request: {{teamClosedCount}} </a>
-                           </div>
-                  </div>
-                  <div class="chart-notes">
-                   Closed requests
-                  </div>
-                </div>
-              </div>
+               </div>
             </div>
-          </div>
-        </div>
+         </div>
       </div>
-     </div>
-    
-     <div class="tab-pane " id="createTeam">
-    
-    <div class="create">
-      <div class="image-container">
-        <img class="img-responsive" src="assets/images/createNewTeam.png">
-      </div>
-      <div class="fields-container">
-        <form>
-          <h4 for="nme"><span>Enter Your Team Name</span></h4>
-          <input type="text" #teamName name="teamName" class="question" id="nme" required />
-         
-          
-          <h4 for="nme"><span>Enter Your Team Head Name</span></h4>
-          
-          <input type="text" #headName name="headName" class="question" id="nme" required  (change)="checkEmployee(headName.value)" />
-          <p class="domain_message" *ngIf="title">{{title}}</p>
-          <input type="submit" class="btn btn-default" value="Submit!" (click)="createTeam(teamName.value,headName.value)" />
-         
-        </form>
-      </div>
-  </div>
-    
-    </div>
-    
-    <div class="tab-pane " id="section2">
-        <div id="container_demo">
-            
-                <div id="wrapper" style="height:auto">
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <form >
-                      <div id="requestForm">
-                      <h1>New Request</h1>
-                      <table>
-                      
-                      <tr>
-                      <td><label for="requester" class="uname"> Requested By</label></td>
-                      <td><label><h5>{{username}}</h5></label></td> 
-                      </tr>
-                      
-                      <tr>
-                      <td><label for="requestedFor" class="requestedFor">Requested For</label></td>
-                     <td> <input #requestedFor name="requestedFor" required="required" type="text" (change)="canRequest(requestedFor.value)" placeholder=" mymail"/></td>
-                   
-                    </tr>
-                    <tr>  <p class="domain_message" *ngIf="title">{{title}}</p> </tr>
-                      
-                      <tr>
-                      <td> <label for="priority" class="priority" >Priority</label></td>
-                      <td><select #priority>
-                      <option value="Urgent" [ngValue]="priority" selected>Urgent</option>
-                      <option value="High" [ngValue]="priority">High</option>
-                      <option value="Medium" [ngValue]="priority">Medium</option>
-                      <option value="Low" [ngValue]="priority">Low</option>
-                      </select></td> 
-                      </tr>
-                      <tr>
-                      <td> <label for="requestType" class="requestType" >Request Type</label></td>
-                      <td> <select #requestType>
-                      <option value="New" [ngValue]="requestType" selected disabled>New</option>
-                      <option value="Maintence" [ngValue]="requestType">Maintence</option>
-                      </select></td>
-                      </tr>
-                      <tr>
-                      <td> <label for="resourceType" class="resourceType" >Resource Type</label></td>
-                      <td>
-                      <select #resourceType (change)="resourceRequested(requestType.value,resourceType.value)">
-                      <option value="Hardware" [ngValue]="resourceType" selected disabled>Hardware Provisioning</option>
-                      <option value="Software" [ngValue]="resourceType">Software Installation</option>
-                      <option value="Network" [ngValue]="resourceType">Network Related</option>
-                      </select></td>
-                      </tr>
-                      <tr>
-                      <td> <label for="ResourceRequested" class="ResourceRequested">Resources</label></td>
-                      <td> <select [(ngModel)]="selectedResource" name="resource">
-                      <option *ngFor="let resource of resourceValues" [ngValue]="resource" selected disabled>{{resource.resourceName}}</option>
-                      </select></td>
-                      </tr>
-                      <tr>
-                      <td> <label for="comment" class="comment">Comment </label></td>
-                      <td> <textarea #comment rows="4" cols="50"></textarea></td>
-                      </tr>
-                      <tr>
-                      <td> <label for="location" class="location"> Your location </label></td>
-                      <td><input #locn name="locn" required="required" type="text" placeholder=" Your location"/></td>
-                      </tr>
-                      <tr>
-                      
-                      <td><button id="button" class="btn btn-primary " (click)="goBack()">Go Back</button></td>
-                      <td> <button id="button" class="btn btn-primary" (click)="Request(requestedFor.value,priority.value,requestType.value,resourceType.value,resource,comment.value,locn.value)">Register</button></td>
-                      </tr>
-                      </table>
-                      </div>
-                      </form>
-    </div>
-  </div>
-</div>
-    </div>
-    <div class="tab-pane " id="editTeam">
-     
-      <div class="container">
-      <div class="col-sm-6 col-md-4 manager-list" *ngFor="let team of teamsUnderManager| filter : searchText">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            {{team.teamName}}
-          </div>
-          <div class="chart-stage">
-            <div id="grid-1-1">
-              {{team.teamHeadUsername}}
-              
-            </div>
-          </div>
-          <div class="chart-notes">
-          
-            <button class="btn btn-default" data-toggle="tooltip"  title=" Add Team Member" (click)="manageTeam(team,'Add')"><span class="glyphicon glyphicon-plus "  ></span></button>
-              <button  class="btn btn-default" data-toggle="tooltip"  title=" View Details of the Team" (click)="manageTeam(team,'Detail')"><span class="glyphicon glyphicon-list-alt"></span></button>
-         
-          </div>
-          </div>
-        </div>
-      </div>
-         
-         
-    </div>
-    </div>
-     
-    </body>
-   
-    
+   </div>
+</body>

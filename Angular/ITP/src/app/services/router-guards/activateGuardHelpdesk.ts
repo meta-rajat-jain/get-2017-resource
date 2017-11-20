@@ -12,6 +12,6 @@ authorised:boolean;
 constructor(private userService:UserService,private http:Http,private router:Router) {}
 canActivate(){
 
- return this.userService.getHelpDeskAuthentication();
+ return this.userService.getHelpDeskAuthentication().delay(500);
 }
 }

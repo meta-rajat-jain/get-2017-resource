@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl } from '@angular/forms';
 import { AuthenticatedHeader } from "../Model/authenticatedHeader";
 import { Employee } from "../Model/signEmp";
 import { Authentication } from "../Model/Authentication";
 import { AdminService } from "../services/admin.service";
 import { UserService } from "../services/user.service";
 import { ManagerService } from "../services/manager.service";
+import { CustomValidators } from "../Custom Validations/CustomValidation";
 
 @Component({
   selector: 'app-create-employee',
@@ -23,10 +27,11 @@ export class CreateEmployeeComponent implements OnInit {
   type:boolean=true;
   empType:boolean;
   title:string;
+  message:string='';
   constructor(private adminService: AdminService, private userService: UserService,private router:Router,private fb: FormBuilder,private managerService:ManagerService) {
     this.reactiveForm = this.fb.group({
     'empName'  : [null,Validators.compose([Validators.required,Validators.minLength(1),Validators.pattern('[A-Za-z]+ *[A-Za-z ]+$')])],
-    'empEmail'  : [null,Validators.compose([Validators.required,Validators.minLength(1)])],
+    'empEmail'  : [null,Validators.compose([Validators.required,Validators.minLength(1),CustomValidators.checkOrganisation])],
     'empPassword'  : [null,Validators.compose([Validators.required,Validators.minLength(8)])],
     'empContact'  : [null,Validators.compose([Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[7-9][0-9]{9}$')])],
     })
@@ -60,8 +65,13 @@ export class CreateEmployeeComponent implements OnInit {
       response =>{ this.authentication = response;
                    if(this.authentication.statusCode ==1){
                      this.router.navigate(['adminDashboard']);
-                     location.reload(true);
-                   }                     });
+                      this.message = this.authentication.message;
+                    }
+                    else{
+                      this.message = this.authentication.message;
+                    }
+                  
+                  });
   }
 
   checkDomain(email:string){

@@ -13,7 +13,6 @@ export class HttpClient {
     headers.append('Content-Type', 'application/json');
     headers.append('authorisationToken', authHeader.authorisationToken);
     headers.append('username', authHeader.username);    
-    console.log(headers); 
   }
 
   get(url) {
@@ -24,15 +23,11 @@ export class HttpClient {
     });
   }
   getByQuery(url,resourceType) {
-    console.log(url + resourceType);
     let headers = new Headers();
     this.createAuthorizationHeader(headers);
     let params: URLSearchParams = new URLSearchParams();
     params.set("resourceCategory", resourceType);
-    
-    
     let options = new RequestOptions({ headers: headers, search: params });
-    debugger;
     console.log(options);
     return this.http.get(url, options);
   }

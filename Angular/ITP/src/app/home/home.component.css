@@ -5,7 +5,6 @@ body {
   color: #828282;
   background: #fff;
 }
-
 #page {
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
@@ -28,44 +27,38 @@ body {
   background: rgba(0, 0, 0, 0.7);
   content: "";
 }
-
 a {
   color: #F85A16;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
 }
-a:hover, a:active, a:focus {
+a:hover,
+a:active,
+a:focus {
   color: #F85A16;
   outline: none;
   text-decoration: none;
+  cursor: pointer;
 }
-
 p {
   margin-bottom: 20px;
 }
-
 ::-webkit-selection {
   color: #fff;
   background: #F85A16;
 }
-
 ::-moz-selection {
   color: #fff;
   background: #F85A16;
 }
-
 ::selection {
   color: #fff;
   background: #F85A16;
 }
-
 .gtco-container {
-  
-  margin:0px 10px 0px 10px;
- 
+  margin: 0px 10px 0px 10px;
 }
-
 .gtco-nav {
   position: fixed;
   top: 0;
@@ -78,7 +71,7 @@ p {
 }
 @media screen and (max-width: 768px) {
   .gtco-nav {
-    padding: 20px 0;
+      padding: 20px 0;
   }
 }
 .gtco-nav #gtco-logo {
@@ -93,7 +86,6 @@ p {
   padding: 5px 10px;
   color: #fff;
 }
-
 .gtco-nav ul li {
   padding: 0;
   margin: 0;
@@ -108,15 +100,30 @@ p {
   -o-transition: 0.5s;
   transition: 0.5s;
 }
-.gtco-nav ul li a:hover, .gtco-nav ul li a:focus, .gtco-nav ul li a:active {
+@media screen and (max-width: 568px) {
+  .gtco-nav ul li a {
+      font-size: 12px;
+      padding: 10px 10px;
+  }
+}
+@media screen and (max-width: 568px) {
+  .gtco-nav ul {
+      margin-left: -54px;
+  }
+}
+@media screen and (max-width: 568px) {
+  #gtco-logo {
+      text-align: center;
+  }
+}
+.gtco-nav ul li a:hover,
+.gtco-nav ul li a:focus,
+.gtco-nav ul li a:active {
   color: white;
 }
 .gtco-nav ul li.has-dropdown {
   position: relative;
 }
-
-
-
 #gtco-header,
 #gtco-counter,
 .gtco-bg {
@@ -125,7 +132,6 @@ p {
   background-repeat: no-repeat;
   position: relative;
 }
-
 .gtco-cover {
   height: 900px;
   background-size: cover;
@@ -139,14 +145,12 @@ p {
   color: rgba(255, 255, 255, 0.7);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
-
 .gtco-cover .overlay {
   background: rgba(0, 0, 0, 1);
 }
-
 @media screen and (max-width: 768px) {
   .gtco-cover {
-    height: 600px;
+      height: 600px;
   }
 }
 .gtco-cover .display-t,
@@ -158,7 +162,7 @@ p {
 @media screen and (max-width: 768px) {
   .gtco-cover .display-t,
   .gtco-cover .display-tc {
-    height: 600px;
+      height: 600px;
   }
 }
 .gtco-cover.gtco-cover-sm {
@@ -166,7 +170,7 @@ p {
 }
 @media screen and (max-width: 768px) {
   .gtco-cover.gtco-cover-sm {
-    height: 400px;
+      height: 400px;
   }
 }
 .gtco-cover.gtco-cover-sm .display-t,
@@ -178,18 +182,16 @@ p {
 @media screen and (max-width: 768px) {
   .gtco-cover.gtco-cover-sm .display-t,
   .gtco-cover.gtco-cover-sm .display-tc {
-    height: 400px;
+      height: 400px;
   }
 }
-
-
-
 #gtco-header .display-tc,
 .gtco-cover .display-tc {
   display: table-cell !important;
   vertical-align: middle;
 }
-#gtco-header .display-tc h1, #gtco-header .display-tc h2,
+#gtco-header .display-tc h1,
+#gtco-header .display-tc h2,
 .gtco-cover .display-tc h1,
 .gtco-cover .display-tc h2 {
   margin: 0;
@@ -206,7 +208,7 @@ p {
 @media screen and (max-width: 768px) {
   #gtco-header .display-tc h1,
   .gtco-cover .display-tc h1 {
-    font-size: 40px;
+      font-size: 40px;
   }
 }
 #gtco-header .display-tc h2,
@@ -215,9 +217,6 @@ p {
   line-height: 1.5;
   margin-bottom: 30px;
 }
-
-
-
 .btn {
   margin-right: 4px;
   margin-bottom: 4px;
@@ -238,63 +237,67 @@ p {
 .btn.btn-lg {
   padding: 18px 36px !important;
 }
-.btn:hover, .btn:active, .btn:focus {
+.btn:hover,
+.btn:active,
+.btn:focus {
   box-shadow: none !important;
   outline: none !important;
 }
-
-.btn-white{
+.btn-white {
   background: rgba(0, 0, 0, 0.2);
 }
-.btn-white:hover, .btn-white:focus, .btn-white:active {
+.btn-white:hover,
+.btn-white:focus,
+.btn-white:active {
   color: white;
   background: #F85A16!important;
 }
-
-.btn-white.btn-outline:hover, .btn-white.btn-outline:focus, .btn-white.btn-outline:active {
+.btn-white.btn-outline:hover,
+.btn-white.btn-outline:focus,
+.btn-white.btn-outline:active {
   background: #fff;
   color: white;
 }
-
-.section1{
-  background:  #cccccc ;
+.section1 {
+  background: #cccccc;
 }
-.section2{
+.section2 {
   background: #e0d0b6;
 }
-.section3{
+.section3 {
   background: #dad6cb;
 }
-h1{
-  color:darkslategrey;
+h1 {
+  color: darkslategrey;
 }
 .modal {
   text-align: center;
   padding: 0!important;
 }
-
 .modal:before {
   content: '';
   display: inline-block;
   height: 100%;
   vertical-align: middle;
-  margin-right: -4px; /* Adjusts for spacing */
+  margin-right: -4px;
+  /* Adjusts for spacing */
 }
-
+@media screen and (max-width: 568px) {
+  .modal-dialog {
+      vertical-align: top;
+  }
+}
 .modal-dialog {
   display: inline-block;
   text-align: left;
   vertical-align: middle;
 }
-
-
 /*modal form css*/
-
 /* Form */
+
 .form {
   text-align: center;
 }
-
 .form input {
   outline: 0;
   background: #f2f2f2;
@@ -309,10 +312,9 @@ h1{
   box-sizing: border-box;
   font-size: 14px;
 }
-
 .form .buttons {
   outline: 0;
-  background: #df7407	;
+  background: #df7407;
   width: 45%;
   border: 0;
   padding: 15px;
@@ -326,10 +328,9 @@ h1{
   transition: all 0.3 ease;
   cursor: pointer;
 }
-
-.google-button{
+.google-button {
   outline: 0;
-  background: #d34836	;
+  background: #d34836;
   width: 45%;
   border: 0;
   padding: 15px;
@@ -349,26 +350,26 @@ h1{
   font-size: 12px;
 }
 .form .message a {
-  color: #df7407	;
+  color: #df7407;
   text-decoration: none;
 }
 .form .register-form {
   display: none;
 }
-
 .info {
   position: relative;
   z-index: 1;
   max-width: 300px;
   margin: 0 auto;
 }
-.info:before, .info:after {
+.info:before,
+.info:after {
   content: "";
   display: block;
   clear: both;
 }
 .info {
-  margin:5px auto;
+  margin: 5px auto;
   text-align: center;
 }
 .info h1 {
@@ -387,17 +388,29 @@ h1{
   text-decoration: none;
 }
 .info span .fa {
-  color: #df7407	;
+  color: #df7407;
 }
-
-.modal-body{
-  background: rgba(255,255,255,0.9);
-    position: relative;
-    padding: 0px;
+.modal-body {
+  background: rgba(255, 255, 255, 0.9);
+  position: relative;
+  padding: 0px;
 }
-#section2{
-  padding-top:55px; 
+#section2 {
+  padding-top: 55px;
+}
+#section3 {
+  padding-top: 55px;
+}
+@media screen and (max-width: 568px) {
+  .main-center {
+      margin-top: 20px;
+      max-width: 80%;
+      padding: 20px 20px;
   }
-  #section3{
-  padding-top:55px; 
+}
+@media screen and (max-width: 568px) {
+  h1.title {
+      font-size: 25px;
+      font-weight: 300;
   }
+}

@@ -1,68 +1,51 @@
 <app-navbar></app-navbar>
 <div class="main-content">
-<div *ngIf="id=='true'"> 
-
-    <div class="container" *ngIf="employee">
-        <h2>Employee Detail</h2>
-        <br>
-        <div class="row">
-          <div class="col-lg-12 col-md-3 col-sm-6 col-xs-12" >
-            <div class="card card-outline-primary mb-3 text-center">
-              <div class="card-block">
-                <h3 class="card-title">{{employee.name}}</h3>
-              <hr>  
-                <span><b>{{employee.designation}}</b></span>
-              <hr>
-              <span><b>{{employee.login.username}}</b></span>
-              <hr>
-              <span><b>{{employee.contactNumber}}</b></span>
-              
-              </div>
+   <div *ngIf="id=='false'">
+      <div  style="background-image:url(assets/images/img_bg_1.jpg); width:100%">
+         <div class="container" style="min-height:100%">
+            <div class="row main" >
+               <div class="main-login main-center">
+                  <div class="panel-title text-center">
+                     <h1 class="title">Update Employee</h1>
+                     <hr />
+                  </div>
+                  <form class="form-horizontal"  [formGroup]="reactiveForm">
+                     <div class="form-group">
+                        <label for="emailId" class="cols-sm-2" class="emailId"> Employee Email </label>
+                        <div class="cols-sm-10">
+                           <div class="input-group">
+                              {{username}}
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="usernameEmp" class="cols-sm-2" class="uname">Name </label>
+                        <div class="cols-sm-10">
+                           <div class="input-group">
+                              <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                              <input #usernameEmp class="form-control" name="usernameEmp" formControlName="empName" required="required" type="text" placeholder="myusername " />
+                           </div>
+                           <h6 class="alert" *ngIf="!reactiveForm.controls['empName'].valid && reactiveForm.controls['empName'].touched">Invalid Enter</h6>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="contactno" class="cols-sm-2" class="contactNumber"> Contact Number </label>
+                        <div class="cols-sm-10">
+                           <div class="input-group">
+                              <span class="input-group-addon"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i></span>
+                              <input #contactnoEmp name="contactnoEmp" class="form-control" required="required" formControlName="empContact" type="text" placeholder="eg. 8888-888888" />
+                           </div>
+                           <h6 class="alert" *ngIf="!reactiveForm.controls['empContact'].valid && reactiveForm.controls['empContact'].touched">"Please fill a valid contact number"</h6>
+                        </div>
+                     </div>
+                     <div class="button-container">
+                        <span><button type="submit"  class="btn btn-default login-button" (click)="goBack()">Go Back</button></span>
+                        <span><button type="submit"  class="btn btn-default login-button"(click)="updateEmployee(usernameEmp.value,contactnoEmp.value)">Register</button></span>
+                     </div>
+                  </form>
+               </div>
             </div>
-            <br><br>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-
-    <div *ngIf="id=='false'"> 
-      <section>
-        <div id="container_demo">
-          
-          <div id="wrapper" style="height:auto">
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <form [formGroup]="reactiveForm">
-        <div id="sign" >
-          <h1>Update Employee</h1>
-         
-          
-              <label for="emailId" class="emailId"> Employee Email </label>:{{username}}<br>
-              <label for="usernameEmp" class="uname"> Update Employee Name </label>
-              <input #usernameEmp name="usernameEmp" formControlName="empName" required="required" type="text" placeholder="myusername " />
-              <h6 class="alert" *ngIf="!reactiveForm.controls['empName'].valid && reactiveForm.controls['empName'].touched">Invalid Enter</h6>
-              <label for="contactno" class="contactNumber"> Employee Contact Number </label>
-              <input #contactnoEmp name="contactnoEmp" required="required" formControlName="empContact" type="text" placeholder="eg. 8888-888888" />
-              <h6 class="alert" *ngIf="!reactiveForm.controls['empContact'].valid && reactiveForm.controls['empContact'].touched">"Please fill a valid contact number"</h6>
-            
-            <br>
-            <span>
-
-              <button class="btn btn-warning" (click)="goBack()">Back</button>
-              <button id ="button" class="btn btn-primary pull-right " (click)="updateEmployee(usernameEmp.value,contactnoEmp.value)">Update</button>
-
-
-
-            </span>
-          </div>
-          </form>
-       
-      </div>
-      </div>
-    </div>
-  </section>
- 
+   </div>
 </div>
-</div>
-
-
-   

@@ -1,31 +1,45 @@
-<div class="main-content">
-
 <app-navbar></app-navbar>
-<div class="searchBar">
-   
-<input  id="search-bar" [(ngModel)]="searchText"  placeholder="Search Employee " >
-</div>
-<div class="container">
-<div class="col-sm-6 col-md-4 manager-list" *ngFor="let employee of employees| filter : searchText">
-  <div class="chart-wrapper">
-    <div class="chart-title">
-      {{employee.name}}
-    </div>
-    <div class="chart-stage">
-      <div id="grid-1-1">
-        {{employee.designation}}
-        <hr>
-        {{employee.login.username}}
+<div class="main-content">
+   <div *ngIf='employees'>
+      <div *ngIf="employees.length >= 1">
+         <div class="searchBar">
+            <input  id="search-bar" [(ngModel)]="searchText"  placeholder="Search Employee " >
+         </div>
+         <div class="container">
+            <div class="col-sm-6 col-md-4 manager-list" *ngFor="let employee of employees| filter : searchText| orderBy: key : reverse |paginate: { itemsPerPage: 9 , currentPage: p };">
+               <div class="chart-wrapper">
+                  <div class="chart-title">
+                     {{employee.name}}
+                  </div>
+                  <div class="chart-stage">
+                     <div id="grid-1-1">
+                        {{employee.designation}}
+                        <hr>
+                        {{employee.login.username}}
+                     </div>
+                  </div>
+                  <div class="chart-notes">
+                     <button class="btn btn-default" data-toggle="tooltip"  title=" Edit" (click)="editEmployeeDetail(employee)"><span class="glyphicon glyphicon-pencil "  ></span></button>
+                     <button class="delete btn btn-default" data-toggle="tooltip"  title=" Delete" (click)="deleteEmployee(employee); $event.stopPropagation()"><span class="glyphicon glyphicon-folder-close" > </span></button>
+                     <button  *ngIf="employee.designation!='Manager'" class="btn btn-default" data-toggle="tooltip" title=" Promote to manager" (click)="addManager(employee)"><span class="glyphicon glyphicon-plus"></span></button>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
-    </div>
-    <div class="chart-notes">
-    
-      <button class="btn btn-default" data-toggle="tooltip"  title=" Edit" (click)="editEmployeeDetail(employee)"><span class="glyphicon glyphicon-pencil "  ></span></button>
-      <button class="delete btn btn-default" data-toggle="tooltip"  title=" Delete" (click)="deleteEmployee(employee); $event.stopPropagation()"><span class="glyphicon glyphicon-folder-close" > </span></button>
-      <button  class="btn btn-default" data-toggle="tooltip"  title=" View Details" (click)="getEmployeeDetail(employee)"><span class="glyphicon glyphicon-list-alt"></span></button>
-      <button  *ngIf="employee.designation!='Manager'" class="btn btn-default" data-toggle="tooltip" title=" Promote to manager" (click)="addManager(employee)"><span class="glyphicon glyphicon-plus"></span></button>
-    </div>
-    </div>
-  </div>
+      <div *ngIf="employees.length == 0 " >
+         <div class="container">
+            <div class="row " style="min-height:100%">
+               <div class="main">
+                  <div class="panel-title text-center">
+                     <h1 class="title"><b>NO</b></h1>
+                     <h1><b>MANAGERS WERE ADDED</b></h1>
+                     <hr />
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
-</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
