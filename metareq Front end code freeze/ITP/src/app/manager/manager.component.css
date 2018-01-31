@@ -1,0 +1,74 @@
+.dashboard {
+  margin-top:50px;
+  font-family: 'Gotham Rounded SSm A', 'Gotham Rounded SSm B', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.chart-wrapper {
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  box-shadow: 1px 1px 1px 1px ;
+}
+.dashboard .chart-wrapper .chart-title {
+  border-bottom: 1px solid #d7d7d7;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 7px 10px 4px;
+}
+.dashboard .chart-wrapper .chart-stage {
+  overflow: hidden;
+  padding: 5px 10px;
+  position: relative;
+}
+.dashboard .chart-wrapper .chart-notes {
+  border-top: 1px solid #e2e2e2;
+  color: Black;
+  font-size: 12px;
+  padding: 8px 10px 5px;
+}
+.dashboard .chart-wrapper,
+.dashboard .chart-stage .chart-title {
+  border: medium none;
+}
+a {
+  color: white;
+  cursor: pointer;
+}
+a.hiddenanchor {
+  display: none;
+}
+.container-fluid {
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-top: 10px;
+}
+p {
+  color: red;
+}
+.status {
+  color: #666;
+}
+.chart-title {
+  border-bottom: 1px solid #d7d7d7;
+  text-align: center;
+  color: white;
+  background-color: teal;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 10px;
+}
+.chart-stage {
+  overflow: hidden;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+  background-color: #f2f2f2;
+}
+.chart-notes {
+  border-top: 1px solid #e2e2e2;
+  background-color: #f2f2f2;
+  text-align: center;
+  font-size: 12px;
+  padding: 10px;
+}

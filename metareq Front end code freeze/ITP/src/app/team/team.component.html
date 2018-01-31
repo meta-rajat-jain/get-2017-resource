@@ -1,0 +1,36 @@
+<app-navbar></app-navbar>
+<div class="main-content" *ngIf = 'teamsUnderManager'>
+   <div *ngIf="teamsUnderManager.length >= 1 " class="main-content">
+      <div class="container">
+         <div class="col-sm-6 col-md-4 manager-list" *ngFor="let team of teamsUnderManager| filter : searchText">
+            <div class="chart-wrapper">
+               <div class="chart-title">
+                  {{team.teamName}}
+               </div>
+               <div class="chart-stage">
+                  <div id="grid-1-1">
+                     {{team.teamHeadUsername}}
+                  </div>
+               </div>
+               <div class="chart-notes">
+                  <button class="btn btn-default" data-toggle="tooltip"  title=" Add Team Member" (click)="manageTeam(team,'Add')"><span class="glyphicon glyphicon-plus "  ></span></button>
+                  <button  class="btn btn-default" data-toggle="tooltip"  title=" View Details of the Team" (click)="manageTeam(team,'Detail')"><span class="glyphicon glyphicon-list-alt"></span></button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div *ngIf="teamsUnderManager.length == 0 ">
+      <div class="container">
+         <div class="row " style="min-height:100%">
+            <div class="main">
+               <div class="panel-title text-center">
+                  <h1 class="title"><b>NO</b></h1>
+                  <h1><b>TEAMS WERE ADDED</b></h1>
+                  <hr />
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,51 @@
+<app-navbar></app-navbar>
+<div class="main-content">
+   <div *ngIf="id">
+      <div >
+         <div class="container" style="min-height:100%">
+            <div class="row main" >
+               <div class="main-login main-center">
+                  <div class="panel-title text-center">
+                     <h1 class="title">Update Employee</h1>
+                     <hr />
+                  </div>
+                  <form class="form-horizontal"  [formGroup]="reactiveForm">
+                     <div class="form-group">
+                        <label for="emailId" class="cols-sm-2" class="emailId"> Employee Email </label>
+                        <div class="cols-sm-10">
+                           <div class="input-group">
+                              {{username}}
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="usernameEmp" class="cols-sm-2" class="uname">Name </label>
+                        <div class="cols-sm-10">
+                           <div class="input-group">
+                              <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                              <input #usernameEmp class="form-control" name="usernameEmp" formControlName="empName" required="required" type="text" placeholder="myusername " />
+                           </div>
+                           <h6 class="alert" *ngIf="!reactiveForm.controls['empName'].valid && reactiveForm.controls['empName'].touched">Invalid Enter</h6>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="contactno" class="cols-sm-2" class="contactNumber"> Contact Number </label>
+                        <div class="cols-sm-10">
+                           <div class="input-group">
+                              <span class="input-group-addon"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i></span>
+                              <input #contactnoEmp name="contactnoEmp" class="form-control" required="required" formControlName="empContact" type="text" placeholder="eg. 8888-888888" />
+                           </div>
+                           <h6 class="alert" *ngIf="!reactiveForm.controls['empContact'].valid && reactiveForm.controls['empContact'].touched">"Please fill a valid contact number"</h6>
+                        </div>
+                     </div>
+                     <div class="button-container">
+                        <span><button type="submit"  class="btn btn-default login-button" (click)="goBack()">Go Back</button></span>
+                        <span><button type="submit"  class="btn btn-default login-button"(click)="updateEmployee(usernameEmp.value,contactnoEmp.value)">Update</button></span>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

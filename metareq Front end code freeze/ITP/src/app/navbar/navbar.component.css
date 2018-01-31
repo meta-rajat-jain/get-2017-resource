@@ -1,0 +1,105 @@
+
+  a{
+    color:white;
+    cursor: pointer;
+  }
+  a.hiddenanchor{
+    display: none;
+  }
+  .navbar-default{
+      border: 0px;
+      border-radius:0px;
+      box-shadow: 1px 1px 1px 1px lightgrey;
+    }
+    
+    .navbar{
+      min-height:0px;
+      margin-bottom: 0px;
+      background-color: teal;
+    }
+    .nav-tabs{
+      color:white !important;
+         border-bottom:0px;
+    }
+    
+    .navbar-default .navbar-nav>li>a{
+      color:white !important;
+    }
+    .nav>li>a{
+      padding-bottom: 15px;
+      padding-top: 15px;
+      border: none;
+    }
+    .nav>li>a:hover {
+      text-decoration: none;
+      background-color: none !important;
+  }
+  .nav-tabs>li>a:hover {
+    border-color: none;
+    background-color: none;
+  }
+    .user-image{
+    margin-top: 10px;
+    background: white;
+    padding: 5px;
+    }
+
+    
+
+    .nav>li>a:hover{
+      background: none ;
+      color: black;
+    }
+    .nav>li>a:focus{
+      background: white ;
+      color: black;
+    }
+      .nav-tabs>li>a {
+       border-radius:0px;
+       margin-right:0px;
+      
+      }
+      .dropdown{
+        cursor: pointer;
+      }
+      .dropdown-menu{
+       background-color:antiquewhite;
+      }
+      
+       .alert {
+         padding: 15px;
+         border: white;
+       }
+
+      .glyphicon-user{
+        font-size: 16px;
+        color:teal;
+        padding: 3px;
+        }
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+        background-color: antiquewhite;
+        }
+        .nav>li>a:hover {
+        text-decoration: none;
+        background-color: #efecec;
+        }
+        .nav>li>a:focus{
+        background-color: #efecec;
+        color: black;
+        }
+        @media screen and (max-width: 568px) {
+          .dropdown-toggle{
+          margin-right:180px;
+          }
+        }
+        @media screen and (max-width: 568px) {
+          .img{
+          size: 25%;
+          }
+        }
+        .image{
+          height:22px;
+          vertical-align: middle;
+          margin-left: 10px;
+          margin-top:15px;
+        }

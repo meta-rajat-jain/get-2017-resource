@@ -1,0 +1,169 @@
+<app-navbar></app-navbar>
+<body >
+   
+      <div  class="dashboard">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-12">
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <div class="chart-wrapper">
+                           <div class="chart-title">
+                              Employee Info
+                           </div>
+                           <div class="chart-stage">
+                              <div class ="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                 <img class="img-responsive" src="assets/images/userIcon.png">
+                              </div>
+                              <div class ="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                 <div *ngIf="loggedInUser">
+                                    <div class="chart-stage" >
+                                       <h5><span class="pull-left"><b>Name:</b></span> <span class="pull-left">{{loggedInUser.name}}</span></h5>
+                                       <br>
+                                       <h5><span class="pull-left"><b>EmailID:</b> </span> <span class="pull-left">{{loggedInUser.login.username}}</span></h5>
+                                       <br>
+                                       <h5><span class="pull-left"><b>Designation: </b></span><span class="pull-left">{{loggedInUser.designation}}</span></h5>
+                                       <br>
+                                       <h5><span class="pull-left"><b>Contact Number:</b> </span> <span class="pull-left">{{loggedInUser.contactNumber}}</span></h5>
+                                       <br>
+                                       <h5><span class="pull-left"><b>Organisation Domain:</b> </span><span class="pull-left">{{loggedInUser.orgDomain}}</span></h5>
+                                       <br>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="chart-notes">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-sm-4">
+                                <div class="chart-wrapper">
+                                        
+                                        <div class="chart-stage">
+                                                <a (click)="goToRequestTab('Manager')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="175px" height="175px" >
+                                                <circle cx="100" cy="100" r="90" fill="#F2F2F2"/>
+                                                <polygon points="40,70,80,70,80,30,110,30,110,70,150,70,150,100,110,100,110,140,80,140,80,100,40,100,40,70 " style="fill:teal; "/>
+                                                </svg>
+                                                </a>
+                                        </div>
+                                      
+                                       
+                                     </div>
+                                
+                                            
+        
+                               </div>
+                     <div class="col-sm-4">
+                        <div class="chart-wrapper">
+                           <div class="chart-title">
+                              Open
+                           </div>
+                           <div class="chart-stage">
+                              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                 <img class="img-responsive" src="assets/images/open.png">
+                              </div>
+                              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                               
+                                 <hr>
+                                 <a class="status"  (click)="getRequestsOpen('Team')">Team Request: {{teamOpenCount}}</a>
+                              </div>
+                           </div>
+                           <div class="chart-notes">
+                              Opened Requests
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="chart-wrapper">
+                           <div class="chart-title">
+                              In-Progress
+                           </div>
+                           <div class="chart-stage">
+                              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                 <img class="img-responsive" src="assets/images/Progress.png">
+                              </div>
+                              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                 <a class="status"  (click)="getRequestsInProgress('Manager')">My Request: {{InProgressCount}}</a>
+                                 <hr>
+                                 <a class="status" (click)="getRequestsInProgress('Team')"> Team Request: {{teamInProgressCount}} </a>
+                              </div>
+                           </div>
+                           <div class="chart-notes">
+                              Requests in progress
+                           </div>
+                        </div>
+                     </div>
+                     </div>
+                     <div class="row">
+                     <div class="col-sm-4">
+                        <div class="chart-wrapper">
+                           <div class="chart-title">
+                              Need Additional Information
+                           </div>
+                           <div class="chart-stage">
+                              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                 <img class="img-responsive" src="assets/images/needInformtion.png">
+                              </div>
+                              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                 <a class="status"  (click)="getRequestsNeedInfo('Manager')">My Request: {{NeedInfoCount}}</a>
+                                 <hr>
+                                 <a class="status" (click)="getRequestsNeedInfo('Team')"> Team Request: {{teamNeedInfoCount}} </a>
+                              </div>
+                           </div>
+                           <div class="chart-notes">
+                              Requests which require additional Information
+                           </div>
+                        </div>
+                     </div>
+                 
+                  
+                     <div class="col-sm-4">
+                        <div class="chart-wrapper">
+                           <div class="chart-title">
+                              Approved requests
+                           </div>
+                           <div class="chart-stage">
+                              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                 <img class="img-responsive" src="assets/images/approved.png">
+                              </div>
+                              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                 <a class="status"  (click)="getRequestsApproved('Manager')">My Request: {{ApprovedCount}}</a>
+                                 <hr>
+                                 <a class="status" (click)="getRequestsApproved('Team')"> Team Request: {{teamApprovedCount}} </a>
+                              </div>
+                           </div>
+                           <div class="chart-notes">
+                              Requests which are approvd
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-4">
+                        <div class="chart-wrapper">
+                           <div class="chart-title">
+                              Requests which are closed
+                           </div>
+                           <div class="chart-stage">
+                              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                 <img class="img-responsive" src="assets/images/closed.png">
+                              </div>
+                              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                 <a class="status"  (click)="getRequestsClosed('Manager')">My Request: {{ClosedCount}}</a>
+                                 <hr>
+                                 <a class="status" (click)="getRequestsClosed('Team')"> Team Request: {{teamClosedCount}} </a>
+                              </div>
+                           </div>
+                           <div class="chart-notes">
+                              Closed requests
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+</body>

@@ -1,0 +1,41 @@
+<div class="main-content">
+        <app-navbar></app-navbar>
+      
+           <div class="container">
+              <div class="row main" style="min-height:100%">
+                 <div class="main-login main-center">
+                    <div class="panel-title text-center">
+                       <h1 class="title">Create Team</h1>
+                       <hr />
+                    </div>
+                    <form  id="employee" class="form-horizontal"[formGroup] ="reactiveForm">
+                       <div class="form-group">
+                          <label for="password" class="cols-sm-2 control-label">Team Name</label>
+                          <div class="cols-sm-10">
+                             <div class="input-group">
+                                <span class="input-group-addon"></span>
+                                <input type="text" #teamName name="teamName" formControlName="teamName" class="form-control" id="nme" required />
+                             </div>
+                             <h6 class="error" *ngIf="!reactiveForm.controls['teamName'].valid && reactiveForm.controls['teamName'].touched">Invalid Team Name</h6>
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label for="email" class="cols-sm-2 control-label">Team Head Email</label>
+                          <div class="cols-sm-10">
+                             <div class="input-group">
+                                <span class="input-group-addon"></span>
+                                <input type="text" #headName name="headName" class="form-control" id="nme" required  (change)="checkEmployee(headName.value)" />
+                                <p class="domain_message" *ngIf="title">{{title}}</p>
+                             </div>
+                          </div>
+                       </div>
+                       <div class="form-group ">
+                          <button type="button" class="btn btn-default btn-lg btn-block login-button" (click)="createTeam(teamName.value,headName.value)" >Create</button>
+                       </div>
+                       <p style="color:Red">{{teamMessage}}</p>
+                    </form>
+                 </div>
+              </div>
+           </div>
+        </div>
+     

@@ -1,0 +1,114 @@
+.dashboard {
+    background: #f2f2f2;
+    font-family: 'Gotham Rounded SSm A', 'Gotham Rounded SSm B', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  .chart-wrapper {
+    background: #fff;
+    border: 1px solid #e2e2e2;
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+  .dashboard .chart-wrapper .chart-title {
+    border-bottom: 1px solid #d7d7d7;
+    color: #666;
+    font-size: 14px;
+    font-weight: 200;
+    padding: 7px 10px 15px;
+  }
+  
+  .dashboard .chart-wrapper .chart-stage {
+    overflow: hidden;
+    padding: 5px 10px;
+    position: relative;
+  }
+  
+  .dashboard .chart-wrapper .chart-notes {
+    background: white;
+    border-top: 1px solid #e2e2e2;
+    color: #808080;
+    font-size: 12px;
+    padding: 8px 10px 5px;
+  }
+  
+  
+  .dashboard .chart-wrapper,
+  .dashboard .chart-stage .chart-title {
+    border: medium none;
+  }
+  body{
+    margin:0px;
+    padding:0px;
+    box-sizing:border-box;
+    margin:0px;
+    padding:0px;
+    box-sizing:border-box;
+    background-color: #efecec;
+  }
+  .chart-wrapper {
+    background: #fff;
+    border: 1px solid #e2e2e2;
+    margin-bottom: 10px;
+    box-shadow: 2px 2px 2px 2px lightgrey;
+  }
+ .chart-title {
+    border-bottom: 1px solid #d7d7d7;
+    text-align: center;
+    color:black;
+    background-color: white;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px;
+  }
+
+  
+   .chart-stage {
+    overflow: hidden;
+    text-align: center;
+    font-size: 15px;
+    padding: 5px;
+    position: relative;
+    background-color: white;
+  }
+  
+  .chart-notes {
+    border-top: 1px solid #e2e2e2;
+    background-color: white;
+    text-align: center;
+    font-size: 12px;
+    padding:10px;
+  }
+  
+  .btn{
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+    .main-content{
+      margin-top:50px;
+      min-height:  610px;
+
+      }
+      pagination-controls {
+        text-align: center;
+      }
+
+
+.main{
+  background-color: #fff;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px 2px 2px lightgrey;
+  margin-top: 30px;
+  margin: 0 auto;
+  max-width: 50%;
+  padding: 40px 40px;
+  }
+  .title{
+    font-size: 22px;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }

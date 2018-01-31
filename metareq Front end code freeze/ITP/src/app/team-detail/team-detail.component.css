@@ -1,0 +1,109 @@
+.dashboard {
+  
+      font-family: 'Gotham Rounded SSm A', 'Gotham Rounded SSm B', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    .dashboard .chart-wrapper .chart-title {
+      border-bottom: 1px solid #d7d7d7;
+      color: #666;
+      font-size: 14px;
+      font-weight: 200;
+      padding: 7px 10px 4px;
+    }
+    
+    .dashboard .chart-wrapper .chart-stage {
+      overflow: hidden;
+      padding: 5px 10px;
+      position: relative;
+    }
+    
+    .dashboard .chart-wrapper .chart-notes {
+      background: #fbfbfb;
+      border-top: 1px solid #e2e2e2;
+      color: #808080;
+      font-size: 12px;
+      padding: 8px 10px 5px;
+    }
+    
+    
+    .dashboard .chart-wrapper,
+    .dashboard .chart-stage .chart-title {
+      border: medium none;
+    }
+    .chart-wrapper {
+      background: #fff;
+      border: 1px solid #e2e2e2;
+      margin-bottom: 10px;
+      box-shadow: 2px 2px 2px 2px lightgrey;
+    }
+    .chart-title {
+      border-bottom: 1px solid #d7d7d7;
+      text-align: center;
+      color:white;
+      background-color: teal;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 10px;
+    }
+    
+    
+     .chart-stage {
+      overflow: hidden;
+      text-align: center;
+      font-size: 15px;
+      padding: 5px;
+      position: relative;
+      background-color: #f2f2f2;
+    }
+    
+    .chart-notes {
+      border-top: 1px solid #e2e2e2;
+      background-color: #f2f2f2;
+      text-align: center;
+      font-size: 12px;
+      padding:10px;
+    }
+    
+    pagination-controls {
+      text-align: center;
+    }
+    
+    
+    .main-content{
+      min-height: 645px;
+      margin-top: 50px;
+    }
+    .main{
+      background-color: #fff;
+      -moz-border-radius: 2px;
+      -webkit-border-radius: 2px;
+      border-radius: 2px;
+      -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+      -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+      box-shadow: 2px 2px 2px 2px lightgrey;
+      margin-top: 30px;
+      margin: 0 auto;
+      max-width: 50%;
+      padding: 40px 40px;
+    }
+  
+.btn{
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+input#search-bar {
+  margin: 0 auto;
+  width: 72%;
+  height: 45px;
+  padding: 0 20px;
+  font-size: 12px;
+  border: 1px solid #D0CFCE;
+  outline: none;
+  margin-bottom: 20px;
+}
+.searchBar {
+  margin-top: 20px;
+  text-align: center;
+}
+  
+   
+     

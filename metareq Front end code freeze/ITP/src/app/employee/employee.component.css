@@ -1,0 +1,85 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  background-color: #efecec;
+}
+h6 {
+  height: 0px;
+  margin-top: -10px;
+  margin-bottom: 0px;
+  color: red;
+}
+.chart-wrapper {
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  margin-bottom: 10px;
+  box-shadow: 1px 1px 1px 1px lightgrey;
+}
+.chart-title {
+  border-bottom: 1px solid #d7d7d7;
+  text-align: center;
+  color:white;
+  background-color: teal;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px;
+}
+
+
+ .chart-stage {
+  overflow: hidden;
+  text-align: center;
+  font-size: 15px;
+  padding: 5px;
+  position: relative;
+  background-color: #f2f2f2;
+}
+
+.chart-notes {
+  border-top: 1px solid #e2e2e2;
+  background-color: #f2f2f2;
+  text-align: center;
+  font-size: 12px;
+  padding:10px;
+}
+
+
+.main-content {
+  min-height: 662px;
+}
+
+.btn{
+  color: white;
+  background-color: teal;
+}
+input#search-bar {
+  margin: 0 auto;
+  width: 65%;
+  height: 45px;
+  padding: 0 20px;
+  font-size: 12px;
+  border: 1px solid #D0CFCE;
+  outline: none;
+  margin-bottom: 20px;
+}
+.searchBar {
+  margin-top: 20px;
+  text-align: center;
+}
+pagination-controls {
+  text-align: center;
+}
+@media screen and (max-width: 568px) {
+  .main-content{
+    min-height: 400px;
+  }
+}
+.image{
+  text-align: center;
+  margin-right: 15px;
+  
+}

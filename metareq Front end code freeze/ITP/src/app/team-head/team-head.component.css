@@ -1,0 +1,130 @@
+.dashboard {
+    background: #f2f2f2;
+    font-family: 'Gotham Rounded SSm A', 'Gotham Rounded SSm B', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  .chart-wrapper {
+    background: #fff;
+    border: 1px solid #e2e2e2;
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+  .dashboard .chart-wrapper .chart-title {
+    border-bottom: 1px solid #d7d7d7;
+    color: #666;
+    font-size: 14px;
+    font-weight: 200;
+    padding: 7px 10px 4px;
+  }
+  
+  .dashboard .chart-wrapper .chart-stage {
+    overflow: hidden;
+    padding: 5px 10px;
+    position: relative;
+  }
+  
+  .dashboard .chart-wrapper .chart-notes {
+    background: #fbfbfb;
+    border-top: 1px solid #e2e2e2;
+    color: #808080;
+    font-size: 12px;
+    padding: 8px 10px 5px;
+  }
+  
+  
+  .dashboard .chart-wrapper,
+  .dashboard .chart-stage .chart-title {
+    border: medium none;
+  }
+  body{
+    margin:0px;
+    padding:0px;
+    box-sizing:border-box;
+    margin:0px;
+    padding:0px;
+    box-sizing:border-box;
+    background-color: #efecec;
+  }
+  
+  a{
+    color:white;
+  }
+  a.hiddenanchor{
+    display: none;
+  }
+  .navbar-default{
+      background-color:#739fa5 !important;
+      background-image: none;
+      border: 0px;
+      border-radius:0px;
+    }
+    
+    .navbar{
+      min-height:0px;
+    }
+    .nav-tabs{
+      color:white !important;
+         border-bottom:0px;
+    }
+    
+    .navbar-default .navbar-nav>li>a{
+      color:white !important;
+    }
+    .nav>li>a{
+      padding-bottom: 15px;
+      padding-top: 15px;
+      border: none;
+    }
+    .nav>li>a:hover {
+      text-decoration: none;
+      background-color: none !important;
+  }
+  .nav-tabs>li>a:hover {
+    border-color: none;
+    background-color: none;
+  }
+  
+  div.ui-orderlist-controls{
+    display: none !important;
+  }
+   
+  .glyphicon-user{
+    font-size: 16px;
+    color:#739FA5;
+    padding: 3px;
+    }
+    
+    .user-image{
+    margin-top: 10px;
+    background: white;
+    padding: 5px;
+    }
+
+    .container-fluid{
+      padding-left: 0px;
+    }
+
+    .nav>li>a:hover{
+      background: none ;
+      color: black;
+    }
+    .nav>li>a:focus{
+      background: white ;
+      color: black;
+    }
+    .glyphicon-user{
+      font-size: 16px;
+      color:#df7407;
+      padding: 3px;
+      }
+      .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+      background-color: #efecec;
+      }
+      .nav>li>a:hover {
+      text-decoration: none;
+      background-color: #efecec;
+      }
+      .nav>li>a:focus{
+      background-color: #efecec;
+      color: black;
+      }
+      

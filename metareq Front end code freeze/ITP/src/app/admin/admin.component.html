@@ -1,0 +1,40 @@
+<app-navbar></app-navbar>
+<div class="main-content" *ngIf='managers'>
+   <div *ngIf="managers.length >= 1">
+      <div class="container">
+         <h2>Managers</h2>
+         <br>
+         <div class="row">
+            <div class="col-sm-6 col-md-4 manager-list" *ngFor="let manager of managers | paginate: { itemsPerPage: 6, currentPage: p };">
+               <div class="chart-wrapper">
+                  <div class="chart-title">
+                     {{manager.name}}
+                  </div>
+                  <div class="chart-stage">
+                     <div id="grid-1-1">
+                        {{manager.login.username}}
+                     </div>
+                  </div>
+                  <div class="chart-notes">
+                     {{manager.contactNumber}}
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div *ngIf="managers.length == 0 " >
+      <div class="container">
+         <div class="row " style="min-height:100%">
+            <div class="main">
+               <div class="panel-title text-center">
+                  <h1 class="title"><b>NO</b></h1>
+                  <h1><b>MANAGERS WERE ADDED</b></h1>
+                  <hr />
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>

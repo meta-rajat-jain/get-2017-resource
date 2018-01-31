@@ -1,0 +1,63 @@
+<app-navbar></app-navbar>
+<div class="main-content">
+  <h1 class="title">{{status}}</h1>
+   <div *ngIf='tickets'>
+      <div *ngIf='tickets.length >= 1'>
+         <div class="container-fluid">
+            <div class="col-sm-6 col-md-3 manager-list" *ngFor="let ticket of tickets | paginate: { itemsPerPage: 8, currentPage: p };">
+               <div class="chart-wrapper">
+                  <div class="chart-title">
+                     {{ticket.requesterName}}
+                  </div>
+                  <div class="chart-stage">
+                     <div id="grid-1-1">
+                        {{ticket.requestedFor}}
+                        <hr>
+                        Priority: {{ticket.priority}}
+                        <br>
+                        Comment:{{ticket.comment | slice:0:10}}<span *ngIf="ticket.comment.length > 10">...</span>
+                        <hr>
+                   <div *ngIf="ticket.requestType == 'New' ">     {{ticket.requestedResource.resourceName}} </div>
+                        <hr>
+                        {{ticket.seatLocation}}
+                     </div>
+                  </div>
+                  <div class="chart-notes">
+                     <div *ngIf="status!='Closed'">
+                        <button *ngIf=" type == 'Manager' && status != 'InProgress' && status != 'Approved' " class="btn btn-default" data-toggle="tooltip"  title=" Approve" (click)="approve(ticket,type)"><span class="glyphicon glyphicon-ok "  ></span></button>
+                        <button *ngIf=" type == 'Team' && status != 'InProgress' && status != 'Approved' " class="btn btn-default" data-toggle="tooltip"  title=" Approve" (click)="approve(ticket,type)"><span class="glyphicon glyphicon-ok "  ></span></button>
+                        <button *ngIf=" type == 'Helpdesk' " class="btn btn-default" data-toggle="tooltip"  title=" Approve" (click)="approve(ticket,type)"><span class="glyphicon glyphicon-ok "  ></span></button>
+                        <button  *ngIf=" type =='Helpdesk'" class="delete btn btn-default" data-toggle="tooltip"  title=" Need Info" (click)="needInfo(ticket,'NeedInfo'); $event.stopPropagation()"><span class="glyphicon glyphicon-list-alt" > </span></button>
+                        <button  *ngIf=" type == 'Manager'  && status == 'Approved' " class="delete btn btn-default" data-toggle="tooltip"  title=" Need Info" (click)="needInfo(ticket,'NeedInfo'); $event.stopPropagation()"><span class="glyphicon glyphicon-list-alt" > </span></button>
+                        <button  *ngIf=" type == 'Team'  && status == 'Approved' " class="delete btn btn-default" data-toggle="tooltip"  title=" Need Info" (click)="needInfo(ticket,'NeedInfo'); $event.stopPropagation()"><span class="glyphicon glyphicon-list-alt" > </span></button>
+                        <button *ngIf="type == 'Helpdesk' && status!= 'Approved' " class="btn btn-default" data-toggle="tooltip"  title="Decline" (click)="decline(ticket)"><span class="glyphicon glyphicon-folder-close"></span></button>
+                        <button *ngIf="type == 'Manager' && status!= 'Approved'  && status != 'InProgress'  " class="btn btn-default" data-toggle="tooltip"  title="Decline" (click)="decline(ticket)"><span class="glyphicon glyphicon-folder-close"></span></button> 
+                        <button *ngIf="type == 'Team' && status!= 'Approved'  && status != 'InProgress'  " class="btn btn-default" data-toggle="tooltip"  title="Decline" (click)="decline(ticket)"><span class="glyphicon glyphicon-folder-close"></span></button> 
+                        <button  *ngIf=" type == 'Member' && status!= 'Approved'  && status != 'InProgress'" class="btn btn-default" data-toggle="tooltip"  title="Edit" (click)="needInfo(ticket,'Edit')"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <button  *ngIf=" type == 'Manager'  && status == 'Approved'" class="btn btn-default" data-toggle="tooltip"  title="Edit" (click)="needInfo(ticket,'Edit')"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <button  *ngIf=" type == 'Team'  && status == 'Approved'" class="btn btn-default" data-toggle="tooltip"  title="Edit" (click)="needInfo(ticket,'Edit')"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <button  *ngIf=" type == 'Helpdesk'" class="btn btn-default" data-toggle="tooltip"  title="Edit" (click)="needInfo(ticket,'Edit')"><span class="glyphicon glyphicon-pencil"></span></button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div *ngIf="tickets">
+      <div  *ngIf="tickets.length == 0" >
+         <div class="container">
+            <div class="row" >
+               <div  class="main">
+                  <div class="panel-title text-center">
+                     <h1 class="title"><b>NO</b></h1>
+                     <h1><b>TICKETS ARE AVAILABLE</b></h1>
+                     <hr />
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>

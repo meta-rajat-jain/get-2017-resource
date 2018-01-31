@@ -1,0 +1,60 @@
+<app-navbar></app-navbar>
+<div class="main-content">
+   <div class="container">
+      <div class="row main" >
+         <div class="main-login main-center ">
+            <div class="panel-title text-center cols-sm-10">
+               <h3 class="title">New Employee Account</h3>
+               <hr />
+            </div>
+            <form  id="employee"  [formGroup]="reactiveForm" class="form-horizontal">
+               <div class="form-group">
+                  <label for="usernameEmp"  class="uname cols-sm-2">Employee Name </label>
+                  <div class="cols-sm-10">
+                     <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                        <input #usernameEmp name="usernameEmp" class="form-control" formControlName="empName" required="required" type="text" placeholder="myusername " />
+                     </div>
+                     <h6 class="error" *ngIf="!reactiveForm.controls['empName'].valid && reactiveForm.controls['empName'].touched">Invalid Enter</h6>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label for="emailId"  class="cols-sm-2" class="emailId">Employee Email </label>
+                  <div class="cols-sm-10">
+                     <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                        <input #emailIdEmp name="emailIdEmp" class="form-control" required="required" formControlName="empEmail" type="text" placeholder=" mymail" (change)="checkDomain(emailIdEmp.value)" />
+                     </div>
+                     <h6 class="error" *ngIf="!reactiveForm.controls['empEmail'].valid && reactiveForm.controls['empEmail'].touched ">"Incorrectly specified email"</h6>
+                     <p class="error" *ngIf="title">{{title}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label for="passwordEmp" class="cols-sm-2" class="youpasswd"> Employee Password </label>
+                  <div class="cols-sm-10">
+                     <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                        <input #passwordEmp name="passwordEmp" class="form-control" formControlName="empPassword" required="required" type="password" placeholder="eg. X8df!90EO" />
+                     </div>
+                     <h6 class="error" *ngIf="!reactiveForm.controls['empPassword'].valid && reactiveForm.controls['empPassword'].touched">"Password must have at least a single digit"</h6>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label for="contactno" class="cols-sm-2" class="contactNumber">Employee Contact Number </label>
+                  <div class="cols-sm-10">
+                     <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i></span>
+                        <input #contactnoEmp name="contactnoEmp" class="form-control" required="required" formControlName="empContact" type="text" placeholder="eg. 8888-888888" />
+                     </div>
+                     <h6 class="error" *ngIf="!reactiveForm.controls['empContact'].valid && reactiveForm.controls['empContact'].touched">"Please fill a valid contact number"</h6>
+                  </div>
+               </div>
+               <div class="form-group ">
+                  <button type="button" class="btn btn-lg btn-block login-button cols-sm-7"   (click)="registerEmployee(usernameEmp.value,emailIdEmp.value,passwordEmp.value,contactnoEmp.value)">Register</button>
+                  <h6 class="error" >{{message}}</h6>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>

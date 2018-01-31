@@ -1,0 +1,206 @@
+
+ <app-navbar> </app-navbar>
+ <div  *ngIf="operation=='Edit'">
+   <div *ngIf="ticket">
+       <div class="container" >
+         <div class="row main" >
+             <div class="main-login main-center">
+               <div class="panel-title text-center">
+                   <h1 class="title">New Request</h1>
+                   <hr />
+               </div>
+               <form class="form-horizontal" #memberForm="ngForm" >
+                   <div class="form-group">
+                     <label for="priority" class="cols-sm-2 control-label">Priority</label>
+                     <div class="cols-sm-10">
+                         <div class="input-group">
+                           <span class="input-group-addon"><i class="fa fa-list list"></i></span>
+                           <span>
+                               <select  name="priority" required class="form-control"  required #priority>
+                                 <option value=""  id="first" style="color:#D9D9D9" >Please select your priority</option>
+                                 <option value="Urgent">Urgent</option>
+                                 <option value="High">High</option>
+                                 <option value="Medium">Medium</option>
+                                 <option value="Low">Low</option>
+                               </select>
+                           </span>
+                         </div>
+                     </div>
+                   </div>
+                   <div class="form-group">
+                     <label for="priority" class="cols-sm-2 control-label">Request Type</label>
+                     <div class="cols-sm-10">
+                         <div class="input-group">
+                           <span>
+                              {{ticket.requestType}}
+                           </span>
+                         </div>
+                     </div>
+                   </div>
+
+                   <div *ngIf="requestType == 'New' ">
+                   <div class="form-group">
+                     <label for="priority" class="cols-sm-2 control-label">Resource Type</label>
+                     <div class="cols-sm-10">
+                         <div class="input-group">
+                           <span>
+                              {{ticket.requestedResource.resourceCategory.categoryName}}
+                           </span>
+                         </div>
+                     </div>
+                   </div>
+                   <div class="form-group">
+                     <label for="priority" class="cols-sm-2 control-label">Resource</label>
+                     <div class="cols-sm-10">
+                         <div class="input-group">
+                           <span> {{ticket.requestedResource.resourceName}}</span>
+                         </div>
+                     </div>
+                   </div>
+                   <div class="form-group">
+                     <label for="priority" class="cols-sm-2 control-label">Team</label>
+                     <div class="cols-sm-10">
+                         <div class="input-group">
+                           <span>{{ticket.teamName}}</span>
+                         </div>
+                     </div>
+                   </div>
+                  </div>
+                   <div class="form-group">
+                     <label for="confirm" class="cols-sm-2 control-label">Comment</label>
+                     <div class="cols-sm-10">
+                         <div class="input-group">
+                           <span class="input-group-addon"><i  class="fa fa-pencil comment"  aria-hidden="true" ></i></span>
+                           <textarea name="comment" id="textarea" placeholder="Ticket Description" [(ngModel)]="ticket.comment" required #comment></textarea>
+                         </div>
+                     </div>
+                   </div>
+                   <div class="form-group">
+                     <label for="confirm" class="cols-sm-2 control-label">Location</label>
+                     <div class="cols-sm-10">
+                         <div class="input-group">
+                           <span class="input-group-addon"><i  class="fa fa-pencil comment"  aria-hidden="true" ></i></span>
+                           <textarea name="locn" id="textarea" placeholder="Seat Location" [(ngModel)]="ticket.seatLocation" required #locn></textarea>
+                         </div>
+                     </div>
+                   </div>
+                   <div class="form-group">
+                      <label for="status" class="status cols-sm-2" >Status</label>
+                      <div class="cols-sm-10">
+                          <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-list list"></i></span>
+                            <span>
+                                <select  name="status" required class="form-control"  required #status>
+                                    <option value="Open" [ngValue]="status">Open</option>
+                                    <option *ngIf="type!='Member'" value="Closed" [ngValue]="status">Closed</option>
+                                    <option *ngIf="type!='Member'" value="Approved" [ngValue]="status">Approved</option>
+                                    <option *ngIf="type=='Helpdesk'"value="In-Progress" [ngValue]="status">In-Progress</option>
+                                    <option *ngIf="type=='Helpdesk'"value="Need Information" [ngValue]="status">Need Information</option>
+                                </select>
+                            </span>
+                          </div>
+                      </div>
+                    </div>
+                   <div class="button-container">
+                     <span><button type="submit" class="btn btn-default login-button" (click)="goBack()">Go Back</button></span>
+                     <span><button id="button" class="btn btn-default login-button" (click)="editRequest(priority.value,comment.value,locn.value,status.value)">Register</button></span>
+                   </div>
+               </form>
+             </div>
+         </div>
+       </div>
+   </div>
+ </div>
+
+
+ <div  *ngIf="operation=='NeedInfo'">
+    <div *ngIf="ticket">
+        <div class="container" style="min-height:100%">
+          <div class="row main" >
+              <div class="main-login main-center">
+                <div class="panel-title text-center">
+                    <h1 class="title">New Request</h1>
+                    <hr />
+                </div>
+                <form class="form-horizontal" #memberForm="ngForm">
+                    <div class="form-group">
+                      <label for="priority" class="cols-sm-2 control-label">Priority</label>
+                      <div class="cols-sm-10">
+                          <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-list list"></i></span>
+                            <span>
+                                <select  name="priority" required class="form-control"  required #priority>
+                                  <option value=""  id="first" style="color:#D9D9D9" >Please select your priority</option>
+                                  <option value="Urgent">Urgent</option>
+                                  <option value="High">High</option>
+                                  <option value="Medium">Medium</option>
+                                  <option value="Low">Low</option>
+                                </select>
+                            </span>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="priority" class="cols-sm-2 control-label">Request Type</label>
+                      <div class="cols-sm-10">
+                          <div class="input-group">
+                            <span>
+                               {{ticket.requestType}}
+                            </span>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="priority" class="cols-sm-2 control-label">Resource Type</label>
+                      <div class="cols-sm-10">
+                          <div class="input-group">
+                            <span>
+                               {{ticket.requestedResource.resourceCategory.categoryName}}
+                            </span>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="priority" class="cols-sm-2 control-label">Resource</label>
+                      <div class="cols-sm-10">
+                          <div class="input-group">
+                            <span> {{ticket.requestedResource.resourceName}}</span>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="priority" class="cols-sm-2 control-label">Team</label>
+                      <div class="cols-sm-10">
+                          <div class="input-group">
+                            <span>{{ticket.teamName}}</span>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="confirm" class="cols-sm-2 control-label">Comment</label>
+                      <div class="cols-sm-10">
+                          <div class="input-group">
+                            <span class="input-group-addon"><i  class="fa fa-pencil comment"  aria-hidden="true" ></i></span>
+                            <textarea name="comment" id="textarea" placeholder="Ticket Description" [(ngModel)] ="ticket.comment" required #comment></textarea>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="confirm" class="cols-sm-2 control-label">Location</label>
+                      <div class="cols-sm-10">
+                          <div class="input-group">
+                            {{ticket.seatLocation}}
+                          </div>
+                      </div>
+                    </div>
+                    <div class="button-container">
+                      <span><button type="submit" class="btn btn-default login-button" (click)="goBack()">Go Back</button></span>
+                      <span> <button id="button" class="btn btn-primary" (click)="NeedInformation(comment.value)">Register</button></span>
+                    </div>
+                </form>
+              </div>
+          </div>
+        </div>
+    </div>
+  </div>
+ 

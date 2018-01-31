@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+   <session-factory>
+   
+      <property name = "hibernate.dialect">
+         org.hibernate.dialect.MySQLDialect
+      </property>
+      
+      
+      <property name = "hibernate.hbm2ddl.auto">
+         update
+      </property>
+      
+      <property name = "hibernate.show_sql">
+         false
+      </property>
+      
+      <property name = "hibernate.format_sql">
+         false
+      </property>
+      
+      <mapping class="com.metacube.helpdesk.model.LogIn"/>
+     
+      
+   </session-factory>
+</hibernate-configuration>

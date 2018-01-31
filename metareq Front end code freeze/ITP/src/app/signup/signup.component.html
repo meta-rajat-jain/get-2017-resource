@@ -1,0 +1,128 @@
+<div >
+	<div class="container-fluid" style="min-height:100%">
+		<div class="row main" >
+			<div class="main-login main-center">
+				<div class="panel-title text-center">
+					<h1 class="title">Create an account</h1>
+					<hr />
+					<p>
+						<label for="type" class="type"> Register as </label>
+						<span style="display:grid">
+						<span><b>Organisation </b><input type="radio" value="Organisation"  name="generation" (click)="displayForm('organisation')"></span>
+						<span><b>Employee </b><input type="radio" value="Employee" checked="checked"  name="generation" (click)="displayForm('employee')"></span>
+						</span>
+					</p>
+				</div>
+				<form  id="employee"  [formGroup]="reactiveForm" class="form-horizontal">
+					<div class="form-group">
+						<label for="name" class="cols-sm-2 control-label">Employee Name</label>
+						<div class="cols-sm-10">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+								<input #usernameEmp name="usernameEmp" class="form-control" formControlName="empName" required="required" type="text" placeholder="myusername " />
+							</div>
+							<h6 class="error" *ngIf="!reactiveForm.controls['empName'].valid && reactiveForm.controls['empName'].touched">Invalid User Name</h6>
+						</div>
+					</div>
+					<div class="form-group" >
+						<label for="email" class="cols-sm-2 control-label">Your Email</label>
+						<div class="cols-sm-10">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+								<input #emailIdEmp name="emailIdEmp" class="form-control" required="required" formControlName="empEmail" type="text" (blur)='checkOrganisation(emailIdEmp.value)'placeholder=" mymail" />
+							</div>
+							<h6 class="error" *ngIf="!reactiveForm.controls['empEmail'].valid && reactiveForm.controls['empEmail'].touched ">"Incorrectly specified email"</h6>
+							<h6 class="error" *ngIf="domainTitle">{{domainTitle}}</h6>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" class="cols-sm-2 control-label">Password</label>
+						<div class="cols-sm-10">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+								<input #passwordEmp name="passwordEmp" class="form-control" formControlName="empPassword" required="required" type="password" placeholder="eg. X8df!90EO" />
+							</div>
+							<h6 class="error" *ngIf="!reactiveForm.controls['empPassword'].valid && reactiveForm.controls['empPassword'].touched">"Password must have at least eight characters"</h6>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="confirm" class="cols-sm-2 control-label">Contact Number</label>
+						<div class="cols-sm-10">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i></span>
+								<input #contactnoEmp name="contactnoEmp" class="form-control" required="required" formControlName="empContact" type="text" placeholder="eg. 8888-888888" />
+							</div>
+							<h6 class="error" *ngIf="!reactiveForm.controls['empContact'].valid && reactiveForm.controls['empContact'].touched">"Please fill a valid contact number"</h6>
+						</div>
+					</div>
+					<div class="form-group ">
+						<button type="button" class="btn btn-default btn-lg btn-block login-button"  (click)="signUpEmp(usernameEmp.value,passwordEmp.value,emailIdEmp.value,contactnoEmp.value)" >Register</button>
+					</div>
+					<div class="login-register">
+						<a class="login-navigate"  routerLink="/login" routerLinkActive="active" >Login</a>
+					</div>
+					<p class="error"  *ngIf="errorMessage">{{errorMessage}}</p>
+				</form>
+				<form  id="organisation" style="display:none" class="form-horizontal" [formGroup]="reactiveFormOrganisation">
+					<div class="form-group">
+						<label for="name" class="cols-sm-2 control-label">Organisation Name</label>
+						<div class="cols-sm-10">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+								<input #usernameOrg name="usernameOrg" class="form-control" formControlName="orgName" required="required" type="text" placeholder="myusername " />
+							</div>
+							<h6 class="error" *ngIf="!reactiveFormOrganisation.controls['orgName'].valid && reactiveFormOrganisation.controls['orgName'].touched">{{Title}}</h6>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="email" class="cols-sm-2 control-label">Your Email</label>
+						<div class="cols-sm-10">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+								<input #emailIdOrg name="emailIdOrg" class="form-control" formControlName="orgEmail" required="required" type="text" placeholder=" mymail@mail.com" />
+							</div>
+							<h6 class="error" *ngIf="!reactiveFormOrganisation.controls['orgEmail'].valid && reactiveFormOrganisation.controls['orgEmail'].touched">"Incorrectly specified email"</h6>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="password" class="cols-sm-2 control-label">Password</label>
+						<div class="cols-sm-10">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+								<input #passwordOrg name="passwordOrg" class="form-control" formControlName="orgPassword" required="required" type="password" placeholder="eg. X8df!90EO" />
+							</div>
+							<h6 class="error" *ngIf="!reactiveFormOrganisation.controls['orgPassword'].valid && reactiveFormOrganisation.controls['orgPassword'].touched">"Password must have at least a single digit"</h6>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="username" class="cols-sm-2 control-label">Domain Name</label>
+						<div class="cols-sm-10">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+								<input #domainname name="domainname" class="form-control" formControlName="orgDomainName" required="required" type="text" placeholder="mail.com" />
+							</div>
+							<h6 class="error" *ngIf="!reactiveFormOrganisation.controls['orgDomainName'].valid && reactiveFormOrganisation.controls['orgDomainName'].touched">"Incorrectly specified domain"</h6>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="confirm" class="cols-sm-2 control-label">Contact Number</label>
+						<div class="cols-sm-10">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-mobile fa-lg" aria-hidden="true"></i></span>
+								<input #contactnoOrg name="contactnoOrg" class="form-control" formControlName="orgContactNo" required="required" type="text" placeholder="eg. 8888-888888" />
+							</div>
+							<h6 class="error" *ngIf="!reactiveFormOrganisation.controls['orgContactNo'].valid && reactiveFormOrganisation.controls['orgContactNo'].touched">"Please fill a valid contact number"</h6>
+						</div>
+					</div>
+					<div class="form-group ">
+						<button type="button" class="btn btn-primary btn-lg btn-block login-button" [disabled]="reactiveFormOrganisation.invalid" (click)="signUpOrganisation(usernameOrg.value,emailIdOrg.value,domainname.value, passwordOrg.value,contactnoOrg.value)" >Register</button>
+					</div>
+					<div class="login-register"  routerLink="/login" routerLinkActive="active">
+						<a>Login</a>
+					</div>
+					<p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

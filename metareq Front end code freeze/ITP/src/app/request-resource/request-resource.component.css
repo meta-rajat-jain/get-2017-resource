@@ -1,0 +1,75 @@
+.main {
+  margin-top: 5%;
+  
+}
+h1.title {
+  font-size: 50px;
+  font-weight: 400;
+}
+hr {
+  width: 10%;
+  color: #fff;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+label {
+  margin-bottom: 15px;
+}
+input,
+input::-webkit-input-placeholder {
+  font-size: 11px;
+  padding-top: 3px;
+}
+.main-login {
+  background-color: #fff;
+  /* shadows and rounded borders */
+  
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 2px 2px 2px 2px lightgrey;
+  -webkit-box-shadow:  2px 2px 2px 2px lightgrey;
+  box-shadow: 2px 2px 2px 2px lightgrey;
+}
+.main-center {
+  margin-top: 30px;
+  margin: 0 auto;
+  max-width: 50%;
+  padding: 8px 35px;
+}
+.login-button {
+  background: teal;
+  color: white;
+  margin-top: 5px;
+}
+.login-register {
+  font-size: 11px;
+  text-align: center;
+}
+.login-navigate {
+  font-size: 15px;
+}
+textarea {
+  width: 100%;
+  resize: none;
+}
+.button-container {
+  text-align: center;
+}
+@media screen and (max-width: 568px) {
+  .main-center {
+      margin-top: 20px;
+      max-width: 80%;
+      padding: 20px 20px;
+  }
+}
+@media screen and (max-width: 568px) {
+  h1.title {
+      font-size: 25px;
+      font-weight: 300;
+  }
+}
+.errors{
+  color:Red;
+}

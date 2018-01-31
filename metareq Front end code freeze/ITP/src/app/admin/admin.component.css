@@ -1,0 +1,72 @@
+.card {
+  border: 1px solid;
+  border-radius: 10px;
+  padding-bottom: 20px;
+}
+.chart-wrapper {
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  margin-bottom: 10px;
+  box-shadow: 1px 1px 1px 1px;
+}
+.chart-title {
+  border-bottom: 1px solid #d7d7d7;
+  text-align: center;
+  color:white;
+  background-color: teal;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px;
+}
+
+
+ .chart-stage {
+  overflow: hidden;
+  text-align: center;
+  font-size: 15px;
+  padding: 5px;
+  position: relative;
+  background-color: white;
+}
+
+.chart-notes {
+  border-top: 1px solid #e2e2e2;
+  background-color: white;
+  text-align: center;
+  font-size: 12px;
+  padding:10px;
+}
+
+pagination-controls {
+  background: teal;
+  text-align: center;
+}
+.ngx-pagination .current {
+  padding: 0.1875rem 0.625rem;
+  background: teal;
+  color: #fefefe;
+  cursor: default;
+}
+
+
+.main-content{
+  min-height: 662px;
+}
+.main{
+  background-color: #fff;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 2px 2px 2px 2px lightgrey;
+  -webkit-box-shadow:  2px 2px 2px 2px lightgrey;
+  box-shadow:  2px 2px 2px 2px lightgrey;
+  margin-top: 30px;
+  margin: 0 auto;
+  max-width: 50%;
+  padding: 40px 40px;
+}
+@media screen and (max-width: 568px) {
+  .main-content{
+    min-height: 400px;
+  }
+}
